@@ -23,7 +23,7 @@
 
 
   
-    <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
   
 
 
@@ -68,7 +68,7 @@
   <title> yl.lu Blog - 记录生活点滴 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
@@ -117,13 +117,29 @@
   
 
   
-    <ul id="menu" class="menu ">
+    <ul id="menu" class="menu menu-left">
       
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
           </a>
         </li>
       
@@ -131,7 +147,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            归档
           </a>
         </li>
       
@@ -139,7 +155,15 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-            Tags
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+            公益404
           </a>
         </li>
       
@@ -149,6 +173,27 @@
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'GnNsRG1nR57vezMsPQ-W','2.0.0');
+</script>
+
+
+
+    </div>
   
 </nav>
 
@@ -177,7 +222,7 @@
             
               
                 <a class="post-title-link" href="/2016/03/16/one/" itemprop="url">
-                  one
+                  冒泡排序算法
                 </a>
               
             
@@ -186,7 +231,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            Veröffentlicht am
+            发表于
             <time itemprop="dateCreated" datetime="2016-03-16T14:07:14+08:00" content="2016-03-16">
               2016-03-16
             </time>
@@ -196,80 +241,12 @@
 
           
             
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/03/16/NexT主题与Hexo基础篇/" itemprop="url">
-                  Unbenannt
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/16/one/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/16/one/" itemprop="commentsCount"></span>
                 </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            Veröffentlicht am
-            <time itemprop="dateCreated" datetime="2016-03-16T13:59:59+08:00" content="2016-03-16">
-              2016-03-16
-            </time>
-          </span>
-
-          
-
-          
+              </span>
             
           
 
@@ -289,8 +266,19 @@
         
           <span itemprop="articleBody">
             
-              <p>NexT主题特色：精于心，简于形</p>
-<p>NexT主题是我接触Hexo的第一款主题，一见钟情的一款Hexo主题。<br>虽然NexT主题简约却并不简单，功能特性多样；响应式设计，电脑手机访问体验好，超级nice，你值得拥有！<br>如果结合你自己网站的实际增删改其中一些细节，那更加prefect了。</p>
+              <p> 冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。<br>     排序流程：<br>     1）对数组中的各个数据，一次比较相邻的二个元素的大小<br>     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好<br>     3）再用同样的方法依次进行比较 </p>
+<pre><code>例如以下数据 
+
+初始数据  118   101  105  127  112 
+
+一次排序  101   118  105  112  127 
+
+二次排序  101   105  118  112  127 
+
+三次排序  101   105  112  118  127 
+
+四次排序  101   105  112  118  127 
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;  </span><br><span class="line">    public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;  </span><br><span class="line">        int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;  </span><br><span class="line">        System.out.println(<span class="string">"排序之前："</span>);  </span><br><span class="line">        <span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;  </span><br><span class="line">            System.out.print(a[i] + <span class="string">" "</span>);  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="comment">// 冒泡排序  </span></span><br><span class="line">        <span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;  </span><br><span class="line">            <span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; a.length - i - <span class="number">1</span>; j++) &#123;  </span><br><span class="line">            <span class="comment">// 这里-i主要是每遍历一次都把最大的i个数沉到最底下去了，没有必要再替换了  </span></span><br><span class="line">                <span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>]) &#123;  </span><br><span class="line">                    int temp = a[j];  </span><br><span class="line">                    a[j] = a[j + <span class="number">1</span>];  </span><br><span class="line">                    a[j + <span class="number">1</span>] = temp;  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">        System.out.println();  </span><br><span class="line">        System.out.println(<span class="string">"排序之后："</span>);  </span><br><span class="line">        <span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;  </span><br><span class="line">            System.out.print(a[i] + <span class="string">" "</span>);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
             
           </span>
@@ -329,7 +317,7 @@
             
               
                 <a class="post-title-link" href="/2016/03/16/hello/" itemprop="url">
-                  hello
+                  未命名
                 </a>
               
             
@@ -338,7 +326,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            Veröffentlicht am
+            发表于
             <time itemprop="dateCreated" datetime="2016-03-16T10:39:45+08:00" content="2016-03-16">
               2016-03-16
             </time>
@@ -347,6 +335,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/16/hello/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/16/hello/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -366,7 +361,7 @@
         
           <span itemprop="articleBody">
             
-              <center> <iframe name="iframe_canvas" src="http://douban.fm/partner/baidu/doubanradio" scrolling="no" frameborder="0" width="400" height="200"></iframe> </center>
+              <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="http://music.163.com/outchain/player?type=2&id=28947001&auto=1&height=66"></iframe>
             
           </span>
         
@@ -418,29 +413,29 @@
 
       <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="yl.lu" itemprop="image"/>
+          <img class="site-author-image" src="/uploads/avatar.jpg" alt="yl.lu" itemprop="image"/>
           <p class="site-author-name" itemprop="name">yl.lu</p>
         </div>
         <p class="site-description motion-element" itemprop="description">记录生活点滴</p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">0</span>
-              <span class="site-state-item-name">Kategorien</span>
-              
+              <span class="site-state-item-name">分类</span>
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
               <span class="site-state-item-count">0</span>
-              <span class="site-state-item-name">Tags</span>
+              <span class="site-state-item-name">标签</span>
               </a>
           </div>
 
@@ -450,12 +445,141 @@
 
         <div class="links-of-author motion-element">
           
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/luyulong" target="_blank">
+                  <i class="fa fa-github"></i> GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/" target="_blank">
+                  <i class="fa fa-新浪微博"></i> 新浪微博
+                </a>
+              </span>
+            
+          
         </div>
 
         
         
 
         <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="l" target="_blank">0</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="i" target="_blank">1</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="n" target="_blank">2</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="k" target="_blank">3</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="1" target="_blank">4</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href=":" target="_blank">5</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank">6</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="s" target="_blank">7</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href=" " target="_blank">8</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="l" target="_blank">9</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="i" target="_blank">10</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="n" target="_blank">11</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="k" target="_blank">12</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="2" target="_blank">13</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href=":" target="_blank">14</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank">15</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="s" target="_blank">16</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="d" target="_blank">17</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href=" " target="_blank">18</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="l" target="_blank">19</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="i" target="_blank">20</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="n" target="_blank">21</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="k" target="_blank">22</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="3" target="_blank">23</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href=":" target="_blank">24</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank">25</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank">26</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank">27</a>
+              </span>
+            
           
         </div>
 
@@ -471,7 +595,9 @@
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright" >
+      <div class="footer-inner"> <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
   
   &copy; 
   <span itemprop="copyrightYear">2016</span>
@@ -482,15 +608,18 @@
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  Theme -
+  主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
 
 
  </div>
@@ -505,11 +634,32 @@
   
   
     
-    
 
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"luyulong"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
   
 
 
+    
   
   
   <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
