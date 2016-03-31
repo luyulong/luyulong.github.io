@@ -45,22 +45,28 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="技术交流QQ群：534368042
-起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B">
+<meta name="description" content="最近从原先公司那里接手了一个比较老的项目，因为开发和本地运行一直都是在eclipse下进行的，并没有发现有关启动内存的问题，然而在上周五准备部署到测试环境下的时候，OOM发生了。（PS：本项目是内置jetty6容器，部署使用的是ant）
+本文截图是现场截图，而描述因为个别原因隔了4、5天才加上，也遗漏了部分截图，且用文字补充下。首先发现预先定义的最大持久区内存和启动的ant脚本中定义的JVM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dubbo在多机房多注册中心的方案">
-<meta property="og:url" content="http://luyulong.github.io/2016/03/18/dubbo/index.html">
+<meta property="og:title" content="一个fork引发的惨事">
+<meta property="og:url" content="http://luyulong.github.io/2016/03/31/fork/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="技术交流QQ群：534368042
-起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B">
-<meta property="og:image" content="http://luyulong.github.io/uploads/1756347-ee6a7da058906d5d.png">
-<meta property="og:image" content="http://luyulong.github.io/uploads/1756347-7f6deb8c0830f666.png">
-<meta property="og:updated_time" content="2016-03-23T00:36:41.833Z">
+<meta property="og:description" content="最近从原先公司那里接手了一个比较老的项目，因为开发和本地运行一直都是在eclipse下进行的，并没有发现有关启动内存的问题，然而在上周五准备部署到测试环境下的时候，OOM发生了。（PS：本项目是内置jetty6容器，部署使用的是ant）
+本文截图是现场截图，而描述因为个别原因隔了4、5天才加上，也遗漏了部分截图，且用文字补充下。首先发现预先定义的最大持久区内存和启动的ant脚本中定义的JVM">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/981B6D6060D4430694A9809E8E662E1A">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/EE52F56BA0104F46ACEAACB7E29F2B0F">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/2921572130FD4D89BD77EBEB5A83EA7E">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/6D4BF360FEE0464280B337983BB72365">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/BF7A5F1510944DE1A3F0F67E52861337">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/E9EBE2AFFD304463851724451BCEE177">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/7BA2954F3A1F4825B7ECD4BE3C7F4508">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/5C949F7B99A54D5F9CE3F5F9756FF9B7">
+<meta property="og:updated_time" content="2016-03-31T06:42:30.789Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dubbo在多机房多注册中心的方案">
-<meta name="twitter:description" content="技术交流QQ群：534368042
-起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B">
-<meta name="twitter:image" content="http://luyulong.github.io/uploads/1756347-ee6a7da058906d5d.png">
+<meta name="twitter:title" content="一个fork引发的惨事">
+<meta name="twitter:description" content="最近从原先公司那里接手了一个比较老的项目，因为开发和本地运行一直都是在eclipse下进行的，并没有发现有关启动内存的问题，然而在上周五准备部署到测试环境下的时候，OOM发生了。（PS：本项目是内置jetty6容器，部署使用的是ant）
+本文截图是现场截图，而描述因为个别原因隔了4、5天才加上，也遗漏了部分截图，且用文字补充下。首先发现预先定义的最大持久区内存和启动的ant脚本中定义的JVM">
+<meta name="twitter:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/981B6D6060D4430694A9809E8E662E1A">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -72,7 +78,7 @@
 
 
 
-  <title> dubbo在多机房多注册中心的方案 | yl.lu Blog </title>
+  <title> 一个fork引发的惨事 | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -226,7 +232,7 @@
             
             
               
-                dubbo在多机房多注册中心的方案
+                一个fork引发的惨事
               
             
           </h1>
@@ -235,8 +241,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-03-18T16:13:33+08:00" content="2016-03-18">
-              2016-03-18
+            <time itemprop="dateCreated" datetime="2016-03-31T14:37:23+08:00" content="2016-03-31">
+              2016-03-31
             </time>
           </span>
 
@@ -246,8 +252,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/18/dubbo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/18/dubbo/" itemprop="commentsCount"></span>
+                <a href="/2016/03/31/fork/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/31/fork/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -266,13 +272,32 @@
       
 
       
-        <span itemprop="articleBody"><p>技术交流QQ群：534368042</p>
-<p>起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B的服务。</p>
-<p>方案：通过dubbo的双注册中心的模式，A机房访问B机房服务通过修改A机房机器的hosts<br>例如B机房服务内网地址192.168.1.120 机器名app1  这在A机房机器消费者hosts配置app1 192.168.1.120服务注册是dubbo://app1:20880/XXX/XXX,B机房消费者保持不变，网络架构如下：</p>
-<p><img src="/uploads/1756347-ee6a7da058906d5d.png" alt="Paste_Image.png"></p>
-<p>1.dubbo在A机房zookeeper注册中心通过app1模式，在B机房192.168.1.X 配置如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 多注册中心配置 --&gt;</span><br><span class="line">   &lt;dubbo:registry id="hangzhouRegistry" address="192.168.1.110:20880" /&gt;</span><br><span class="line">   &lt;dubbo:registry id="qingdaoRegistry" address="app1:20880" default="false" /&gt;</span><br><span class="line"></span><br><span class="line">   &lt;!-- 向多个注册中心注册 --&gt;</span><br><span class="line">   &lt;dubbo:service interface="com.alibaba.hello.api.HelloService" version="1.0.0" ref="helloService" registry="hangzhouRegistry,qingdaoRegistry" /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>2.修改dubbo包的的AbstractServer类构造函数</p>
-<p><img src="/uploads/1756347-7f6deb8c0830f666.png" alt="Paste_Image.png"></p>
+        <span itemprop="articleBody"><p>   最近从原先公司那里接手了一个比较老的项目，因为开发和本地运行一直都是在eclipse下进行的，并没有发现有关启动内存的问题，然而在上周五准备部署到测试环境下的时候，OOM发生了。（PS：本项目是内置jetty6容器，部署使用的是ant）</p>
+<pre><code>本文截图是现场截图，而描述因为个别原因隔了4、5天才加上，也遗漏了部分截图，且用文字补充下。首先发现预先定义的最大持久区内存和启动的ant脚本中定义的JVM参数不符。
+
+在这里，先提供一张关于ant项目启动配置的截图，最小 /最大持久区内存分配的都是512M。
+</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/981B6D6060D4430694A9809E8E662E1A" alt=""></p>
+<pre><code>以下是跟踪java进程号，通过jmap -heap输出的内存分配信息，不难发现，它并没有使用ant中的JVM参数。
+</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/EE52F56BA0104F46ACEAACB7E29F2B0F" alt=""></p>
+<pre><code>JVM只有82M，也就是JVM在64bitOS的默认内存大小，在第二遍尝试启动时，通过jstat -gc 观察内存使用情况，发现在一分钟不到的时间内执行了20000多次fullGC，然后就才发生了OOM，之后也重新改了ant中的JVM参数，并没有生效。下图为已经被占满的持久区。![](http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/3C2B59841A844CCB89AF6D8E00C4C3E9)    下面是日志的一张截图，提示ant脚本在执行的时候，JVM参数已经在JVM中使用并且忽略当前参数。![](http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/CB3B22D1231746BC9443E15CB4E6DBF1)
+
+排查了系统中其他可能用到JVM的任何地方，没有发现有预先定义了JVM内存大小的配置，疑问再一次转移到了ant上，和其他项目对比发现，该脚本少了如下两个参数，第一个是spawn，另一个是fork。
+</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/2921572130FD4D89BD77EBEB5A83EA7E" alt=""></p>
+<p>ps：</p>
+<p>spawn属性：用于指定是否在执行命令时产生输出信息。默认为false代表输出日志信息。如果指定了spawn属性为true，Ant将不会产生这个命令的日志输出。</p>
+<p>并且spawn只能在fork=’true’的前提下执行。</p>
+<p>fork属性：表示在一个新的虚拟机中运行该类。</p>
+<p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/6D4BF360FEE0464280B337983BB72365" alt=""></p>
+<pre><code>我们加上fork和spawn后，重新执行ant脚本，发现JVM参数被忽略的提示消失了。
+</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/BF7A5F1510944DE1A3F0F67E52861337" alt=""></p>
+<pre><code>紧接着，重新查看一下java进程，会发现原先只有一个，现在多了一个，说明在有fork参数的情况下，ant和我们启动的项目，分别会占用一个JVM。
+</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/E9EBE2AFFD304463851724451BCEE177" alt=""></p>
+<pre><code>再次通过jmap -heap来观察两个进程，首先是我们实际需要启动的项目，PermSize/MaxPermSize都是512M，和ant中定义的JVM参数一致，配置生效，项目正常启动。
+</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/7BA2954F3A1F4825B7ECD4BE3C7F4508" alt=""></p>
+<pre><code>最后，顺便再观察一下ant的JVM进程，持久区申请的内存依然为82M，不过它的使用率不在是99.999999%，而是只有34.3309%
+</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/5C949F7B99A54D5F9CE3F5F9756FF9B7" alt=""></p>
+<pre><code>本文仅分享一个问题的解决过程，并没有详细分享ant的各类参数。
+</code></pre><p>技术交流QQ群：534368042</p>
 </span>
       
     </div>
@@ -284,16 +309,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/17/hello/" rel="next" title="轻松一刻">
-                <i class="fa fa-chevron-left"></i> 轻松一刻
+              <a href="/2016/03/18/dubbo/" rel="next" title="dubbo在多机房多注册中心的方案">
+                <i class="fa fa-chevron-left"></i> dubbo在多机房多注册中心的方案
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/31/fork/" rel="prev" title="一个fork引发的惨事">
-                一个fork引发的惨事 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/03/31/SOA/" rel="prev" title="服务化之后本地和远程缓存的应用">
+                服务化之后本地和远程缓存的应用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -309,10 +334,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/03/18/dubbo/"
-     data-title="dubbo在多机房多注册中心的方案"
+        <div class="ds-share flat" data-thread-key="2016/03/31/fork/"
+     data-title="一个fork引发的惨事"
      data-content=""
-     data-url="http://luyulong.github.io/2016/03/18/dubbo/">
+     data-url="http://luyulong.github.io/2016/03/31/fork/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -342,8 +367,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/03/18/dubbo/"
-                   data-title="dubbo在多机房多注册中心的方案" data-url="http://luyulong.github.io/2016/03/18/dubbo/">
+              <div class="ds-thread" data-thread-key="2016/03/31/fork/"
+                   data-title="一个fork引发的惨事" data-url="http://luyulong.github.io/2016/03/31/fork/">
               </div>
             
           </div>

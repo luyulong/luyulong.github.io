@@ -45,22 +45,16 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="技术交流QQ群：534368042
-起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B">
+<meta name="description" content="经过服务化之后，拆分出的用户中心，经过一段时间的监控，发现几个问题：                       1.每天的调用次数大约在2-3亿之间                       2.60%的调用集中在TOP100个接口之中                       3.用户中心的memcached压力在用户中心的线程排在第一个                       4.个">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dubbo在多机房多注册中心的方案">
-<meta property="og:url" content="http://luyulong.github.io/2016/03/18/dubbo/index.html">
+<meta property="og:title" content="服务化之后本地和远程缓存的应用">
+<meta property="og:url" content="http://luyulong.github.io/2016/03/31/SOA/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="技术交流QQ群：534368042
-起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B">
-<meta property="og:image" content="http://luyulong.github.io/uploads/1756347-ee6a7da058906d5d.png">
-<meta property="og:image" content="http://luyulong.github.io/uploads/1756347-7f6deb8c0830f666.png">
-<meta property="og:updated_time" content="2016-03-23T00:36:41.833Z">
+<meta property="og:description" content="经过服务化之后，拆分出的用户中心，经过一段时间的监控，发现几个问题：                       1.每天的调用次数大约在2-3亿之间                       2.60%的调用集中在TOP100个接口之中                       3.用户中心的memcached压力在用户中心的线程排在第一个                       4.个">
+<meta property="og:updated_time" content="2016-03-31T06:49:20.994Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dubbo在多机房多注册中心的方案">
-<meta name="twitter:description" content="技术交流QQ群：534368042
-起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B">
-<meta name="twitter:image" content="http://luyulong.github.io/uploads/1756347-ee6a7da058906d5d.png">
+<meta name="twitter:title" content="服务化之后本地和远程缓存的应用">
+<meta name="twitter:description" content="经过服务化之后，拆分出的用户中心，经过一段时间的监控，发现几个问题：                       1.每天的调用次数大约在2-3亿之间                       2.60%的调用集中在TOP100个接口之中                       3.用户中心的memcached压力在用户中心的线程排在第一个                       4.个">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -72,7 +66,7 @@
 
 
 
-  <title> dubbo在多机房多注册中心的方案 | yl.lu Blog </title>
+  <title> 服务化之后本地和远程缓存的应用 | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -226,7 +220,7 @@
             
             
               
-                dubbo在多机房多注册中心的方案
+                服务化之后本地和远程缓存的应用
               
             
           </h1>
@@ -235,8 +229,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-03-18T16:13:33+08:00" content="2016-03-18">
-              2016-03-18
+            <time itemprop="dateCreated" datetime="2016-03-31T14:44:23+08:00" content="2016-03-31">
+              2016-03-31
             </time>
           </span>
 
@@ -246,8 +240,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/18/dubbo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/18/dubbo/" itemprop="commentsCount"></span>
+                <a href="/2016/03/31/SOA/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/31/SOA/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -266,13 +260,10 @@
       
 
       
-        <span itemprop="articleBody"><p>技术交流QQ群：534368042</p>
-<p>起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B的服务。</p>
-<p>方案：通过dubbo的双注册中心的模式，A机房访问B机房服务通过修改A机房机器的hosts<br>例如B机房服务内网地址192.168.1.120 机器名app1  这在A机房机器消费者hosts配置app1 192.168.1.120服务注册是dubbo://app1:20880/XXX/XXX,B机房消费者保持不变，网络架构如下：</p>
-<p><img src="/uploads/1756347-ee6a7da058906d5d.png" alt="Paste_Image.png"></p>
-<p>1.dubbo在A机房zookeeper注册中心通过app1模式，在B机房192.168.1.X 配置如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 多注册中心配置 --&gt;</span><br><span class="line">   &lt;dubbo:registry id="hangzhouRegistry" address="192.168.1.110:20880" /&gt;</span><br><span class="line">   &lt;dubbo:registry id="qingdaoRegistry" address="app1:20880" default="false" /&gt;</span><br><span class="line"></span><br><span class="line">   &lt;!-- 向多个注册中心注册 --&gt;</span><br><span class="line">   &lt;dubbo:service interface="com.alibaba.hello.api.HelloService" version="1.0.0" ref="helloService" registry="hangzhouRegistry,qingdaoRegistry" /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>2.修改dubbo包的的AbstractServer类构造函数</p>
-<p><img src="/uploads/1756347-7f6deb8c0830f666.png" alt="Paste_Image.png"></p>
+        <span itemprop="articleBody"><p>经过服务化之后，拆分出的用户中心，经过一段时间的监控，发现几个问题：<br>                       1.每天的调用次数大约在2-3亿之间<br>                       2.60%的调用集中在TOP100个接口之中<br>                       3.用户中心的memcached压力在用户中心的线程排在第一个<br>                       4.个别接口成为了服务化过程中的瓶颈<br>                       5.memcached使用过程中监控到数据每天有几千次的超时调用，导致服务最大单次耗时被拉长<br>                       6.网络开销<br>                       7.序列化与反序列化，在缓存中的开销</p>
+<p>通过分析针对现有缓存模型进行了重构，加入一层本地缓存<br>解决思路：减少dubbo请求，把一些不易改变且访问量巨大的数据缓存在本地，通过多级缓存的模式，从而提升系统性能。</p>
+<p>在分布式集群的环境下，要解决上述的问题把问题拆分成：<br>                  1）如何管理本地缓存数据<br>                  2）如何同步各节点间的数据<br>                  3）如何监控本地缓存使用情况，最终反应的数据我们需要重新采集和分析。      1.引用本地缓存Ehcahe，简单快速，很好的继承现有的spring，速度比memcached快非常的多。<br>    2.改造现有应用，由于现有接口都是保持不变，只要增加新的模板即可解决，对于省平台的重构将会非常小，并且是可控的<br>    3.为了解决节点间的同步：<br>                     1）刚开始我们采取的策略是通过zookeeper的特性，进行节点监听，然后master做分发，但是使用后发现问题（什么问题 你懂的）<br>                     2）为此我们引入了activemq，省平台已经集成了这个中间件，所以基本上增加一些配置就能为我们所有，这里最重要的也是本次改造的一个关键，通过mq的订阅模式（区别于我们一直使用队列模式），来解决节点的分发      4.最后我们需要动态的对线上的节点进行监控，我们选择zookeeper的特性，通过写入监控数据，然后统一采集，来分析我们线上缓存的一个使用情况，比如：命中率，调用次数，缓存堆大小等</p>
+<p>   <strong>  技术交流QQ群： 534368042</strong></p>
 </span>
       
     </div>
@@ -284,16 +275,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/17/hello/" rel="next" title="轻松一刻">
-                <i class="fa fa-chevron-left"></i> 轻松一刻
+              <a href="/2016/03/31/fork/" rel="next" title="一个fork引发的惨事">
+                <i class="fa fa-chevron-left"></i> 一个fork引发的惨事
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/31/fork/" rel="prev" title="一个fork引发的惨事">
-                一个fork引发的惨事 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/03/31/LinkedList/" rel="prev" title="letcode Reverse LinkedList">
+                letcode Reverse LinkedList <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -309,10 +300,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/03/18/dubbo/"
-     data-title="dubbo在多机房多注册中心的方案"
+        <div class="ds-share flat" data-thread-key="2016/03/31/SOA/"
+     data-title="服务化之后本地和远程缓存的应用"
      data-content=""
-     data-url="http://luyulong.github.io/2016/03/18/dubbo/">
+     data-url="http://luyulong.github.io/2016/03/31/SOA/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -342,8 +333,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/03/18/dubbo/"
-                   data-title="dubbo在多机房多注册中心的方案" data-url="http://luyulong.github.io/2016/03/18/dubbo/">
+              <div class="ds-thread" data-thread-key="2016/03/31/SOA/"
+                   data-title="服务化之后本地和远程缓存的应用" data-url="http://luyulong.github.io/2016/03/31/SOA/">
               </div>
             
           </div>

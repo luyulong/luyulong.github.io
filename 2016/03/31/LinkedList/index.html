@@ -45,22 +45,16 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="技术交流QQ群：534368042
-起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B">
+<meta name="description" content="12345678910public class ReverseLinkedList &amp;#123;        public ListNode reverseList(ListNode head) &amp;#123;               if (head == null) return null;                 if (head.next == null) return hea">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dubbo在多机房多注册中心的方案">
-<meta property="og:url" content="http://luyulong.github.io/2016/03/18/dubbo/index.html">
+<meta property="og:title" content="letcode Reverse LinkedList">
+<meta property="og:url" content="http://luyulong.github.io/2016/03/31/LinkedList/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="技术交流QQ群：534368042
-起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B">
-<meta property="og:image" content="http://luyulong.github.io/uploads/1756347-ee6a7da058906d5d.png">
-<meta property="og:image" content="http://luyulong.github.io/uploads/1756347-7f6deb8c0830f666.png">
-<meta property="og:updated_time" content="2016-03-23T00:36:41.833Z">
+<meta property="og:description" content="12345678910public class ReverseLinkedList &amp;#123;        public ListNode reverseList(ListNode head) &amp;#123;               if (head == null) return null;                 if (head.next == null) return hea">
+<meta property="og:updated_time" content="2016-03-31T07:03:51.668Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dubbo在多机房多注册中心的方案">
-<meta name="twitter:description" content="技术交流QQ群：534368042
-起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B">
-<meta name="twitter:image" content="http://luyulong.github.io/uploads/1756347-ee6a7da058906d5d.png">
+<meta name="twitter:title" content="letcode Reverse LinkedList">
+<meta name="twitter:description" content="12345678910public class ReverseLinkedList &amp;#123;        public ListNode reverseList(ListNode head) &amp;#123;               if (head == null) return null;                 if (head.next == null) return hea">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -72,7 +66,7 @@
 
 
 
-  <title> dubbo在多机房多注册中心的方案 | yl.lu Blog </title>
+  <title> letcode Reverse LinkedList | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -226,7 +220,7 @@
             
             
               
-                dubbo在多机房多注册中心的方案
+                letcode Reverse LinkedList
               
             
           </h1>
@@ -235,8 +229,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-03-18T16:13:33+08:00" content="2016-03-18">
-              2016-03-18
+            <time itemprop="dateCreated" datetime="2016-03-31T14:55:17+08:00" content="2016-03-31">
+              2016-03-31
             </time>
           </span>
 
@@ -246,8 +240,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/18/dubbo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/18/dubbo/" itemprop="commentsCount"></span>
+                <a href="/2016/03/31/LinkedList/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/31/LinkedList/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -266,14 +260,7 @@
       
 
       
-        <span itemprop="articleBody"><p>技术交流QQ群：534368042</p>
-<p>起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B的服务。</p>
-<p>方案：通过dubbo的双注册中心的模式，A机房访问B机房服务通过修改A机房机器的hosts<br>例如B机房服务内网地址192.168.1.120 机器名app1  这在A机房机器消费者hosts配置app1 192.168.1.120服务注册是dubbo://app1:20880/XXX/XXX,B机房消费者保持不变，网络架构如下：</p>
-<p><img src="/uploads/1756347-ee6a7da058906d5d.png" alt="Paste_Image.png"></p>
-<p>1.dubbo在A机房zookeeper注册中心通过app1模式，在B机房192.168.1.X 配置如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 多注册中心配置 --&gt;</span><br><span class="line">   &lt;dubbo:registry id="hangzhouRegistry" address="192.168.1.110:20880" /&gt;</span><br><span class="line">   &lt;dubbo:registry id="qingdaoRegistry" address="app1:20880" default="false" /&gt;</span><br><span class="line"></span><br><span class="line">   &lt;!-- 向多个注册中心注册 --&gt;</span><br><span class="line">   &lt;dubbo:service interface="com.alibaba.hello.api.HelloService" version="1.0.0" ref="helloService" registry="hangzhouRegistry,qingdaoRegistry" /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>2.修改dubbo包的的AbstractServer类构造函数</p>
-<p><img src="/uploads/1756347-7f6deb8c0830f666.png" alt="Paste_Image.png"></p>
-</span>
+        <span itemprop="articleBody"><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ReverseLinkedList</span> </span>&#123;    </span><br><span class="line">    public ListNode reverseList(ListNode head) &#123;     </span><br><span class="line">          <span class="keyword">if</span> (head == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;       </span><br><span class="line">          <span class="keyword">if</span> (head.next == <span class="literal">null</span>) <span class="keyword">return</span> head;       </span><br><span class="line">          ListNode p = head.next;       </span><br><span class="line">          ListNode n = reverseList(p);        </span><br><span class="line">          head.next = <span class="literal">null</span>;        </span><br><span class="line">          p.next = head;        </span><br><span class="line">          <span class="keyword">return</span> n;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
       
     </div>
 
@@ -284,17 +271,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/17/hello/" rel="next" title="轻松一刻">
-                <i class="fa fa-chevron-left"></i> 轻松一刻
+              <a href="/2016/03/31/SOA/" rel="next" title="服务化之后本地和远程缓存的应用">
+                <i class="fa fa-chevron-left"></i> 服务化之后本地和远程缓存的应用
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/31/fork/" rel="prev" title="一个fork引发的惨事">
-                一个fork引发的惨事 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -309,10 +292,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/03/18/dubbo/"
-     data-title="dubbo在多机房多注册中心的方案"
+        <div class="ds-share flat" data-thread-key="2016/03/31/LinkedList/"
+     data-title="letcode Reverse LinkedList"
      data-content=""
-     data-url="http://luyulong.github.io/2016/03/18/dubbo/">
+     data-url="http://luyulong.github.io/2016/03/31/LinkedList/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -342,8 +325,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/03/18/dubbo/"
-                   data-title="dubbo在多机房多注册中心的方案" data-url="http://luyulong.github.io/2016/03/18/dubbo/">
+              <div class="ds-thread" data-thread-key="2016/03/31/LinkedList/"
+                   data-title="letcode Reverse LinkedList" data-url="http://luyulong.github.io/2016/03/31/LinkedList/">
               </div>
             
           </div>
