@@ -45,28 +45,25 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="最近从原先公司那里接手了一个比较老的项目，因为开发和本地运行一直都是在eclipse下进行的，并没有发现有关启动内存的问题，然而在上周五准备部署到测试环境下的时候，OOM发生了。（PS：本项目是内置jetty6容器，部署使用的是ant）
-本文截图是现场截图，而描述因为个别原因隔了4、5天才加上，也遗漏了部分截图，且用文字补充下。首先发现预先定义的最大持久区内存和启动的ant脚本中定义的JVM">
+<meta name="description" content="冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。     排序流程：     1）对数组中的各个数据，一次比较相邻的二个元素的大小     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好     3）再用同样的方法依次进行比较 
+例如以下数据 
+
+初始数据  118">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一个fork引发的惨事">
-<meta property="og:url" content="http://luyulong.github.io/2016/03/31/fork/index.html">
+<meta property="og:title" content="冒泡排序算法">
+<meta property="og:url" content="http://luyulong.github.io/2016/04/20/冒泡排序算法/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="最近从原先公司那里接手了一个比较老的项目，因为开发和本地运行一直都是在eclipse下进行的，并没有发现有关启动内存的问题，然而在上周五准备部署到测试环境下的时候，OOM发生了。（PS：本项目是内置jetty6容器，部署使用的是ant）
-本文截图是现场截图，而描述因为个别原因隔了4、5天才加上，也遗漏了部分截图，且用文字补充下。首先发现预先定义的最大持久区内存和启动的ant脚本中定义的JVM">
-<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/981B6D6060D4430694A9809E8E662E1A">
-<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/EE52F56BA0104F46ACEAACB7E29F2B0F">
-<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/2921572130FD4D89BD77EBEB5A83EA7E">
-<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/6D4BF360FEE0464280B337983BB72365">
-<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/BF7A5F1510944DE1A3F0F67E52861337">
-<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/E9EBE2AFFD304463851724451BCEE177">
-<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/7BA2954F3A1F4825B7ECD4BE3C7F4508">
-<meta property="og:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/5C949F7B99A54D5F9CE3F5F9756FF9B7">
-<meta property="og:updated_time" content="2016-03-31T06:42:30.789Z">
+<meta property="og:description" content="冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。     排序流程：     1）对数组中的各个数据，一次比较相邻的二个元素的大小     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好     3）再用同样的方法依次进行比较 
+例如以下数据 
+
+初始数据  118">
+<meta property="og:updated_time" content="2016-04-20T00:40:54.130Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一个fork引发的惨事">
-<meta name="twitter:description" content="最近从原先公司那里接手了一个比较老的项目，因为开发和本地运行一直都是在eclipse下进行的，并没有发现有关启动内存的问题，然而在上周五准备部署到测试环境下的时候，OOM发生了。（PS：本项目是内置jetty6容器，部署使用的是ant）
-本文截图是现场截图，而描述因为个别原因隔了4、5天才加上，也遗漏了部分截图，且用文字补充下。首先发现预先定义的最大持久区内存和启动的ant脚本中定义的JVM">
-<meta name="twitter:image" content="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/981B6D6060D4430694A9809E8E662E1A">
+<meta name="twitter:title" content="冒泡排序算法">
+<meta name="twitter:description" content="冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。     排序流程：     1）对数组中的各个数据，一次比较相邻的二个元素的大小     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好     3）再用同样的方法依次进行比较 
+例如以下数据 
+
+初始数据  118">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -78,7 +75,7 @@
 
 
 
-  <title> 一个fork引发的惨事 | yl.lu Blog </title>
+  <title> 冒泡排序算法 | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -232,7 +229,7 @@
             
             
               
-                一个fork引发的惨事
+                冒泡排序算法
               
             
           </h1>
@@ -241,8 +238,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-03-31T14:37:23+08:00" content="2016-03-31">
-              2016-03-31
+            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
+              2016-04-20
             </time>
           </span>
 
@@ -252,8 +249,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/31/fork/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/31/fork/" itemprop="commentsCount"></span>
+                <a href="/2016/04/20/冒泡排序算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/冒泡排序算法/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -272,33 +269,19 @@
       
 
       
-        <span itemprop="articleBody"><p>   最近从原先公司那里接手了一个比较老的项目，因为开发和本地运行一直都是在eclipse下进行的，并没有发现有关启动内存的问题，然而在上周五准备部署到测试环境下的时候，OOM发生了。（PS：本项目是内置jetty6容器，部署使用的是ant）</p>
-<pre><code>本文截图是现场截图，而描述因为个别原因隔了4、5天才加上，也遗漏了部分截图，且用文字补充下。首先发现预先定义的最大持久区内存和启动的ant脚本中定义的JVM参数不符。
+        <span itemprop="articleBody"><p>  冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。<br>     排序流程：<br>     1）对数组中的各个数据，一次比较相邻的二个元素的大小<br>     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好<br>     3）再用同样的方法依次进行比较 </p>
+<pre><code>例如以下数据 
 
-在这里，先提供一张关于ant项目启动配置的截图，最小 /最大持久区内存分配的都是512M。
-</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/981B6D6060D4430694A9809E8E662E1A" alt=""></p>
-<pre><code>以下是跟踪java进程号，通过jmap -heap输出的内存分配信息，不难发现，它并没有使用ant中的JVM参数。
-</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/EE52F56BA0104F46ACEAACB7E29F2B0F" alt=""></p>
-<pre><code>JVM只有82M，也就是JVM在64bitOS的默认内存大小，在第二遍尝试启动时，通过jstat -gc 观察内存使用情况，发现在一分钟不到的时间内执行了20000多次fullGC，然后就才发生了OOM，之后也重新改了ant中的JVM参数，并没有生效。下图为已经被占满的持久区。![](http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/3C2B59841A844CCB89AF6D8E00C4C3E9)    下面是日志的一张截图，提示ant脚本在执行的时候，JVM参数已经在JVM中使用并且忽略当前参数。![](http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/CB3B22D1231746BC9443E15CB4E6DBF1)
+初始数据  118   101  105  127  112 
 
-排查了系统中其他可能用到JVM的任何地方，没有发现有预先定义了JVM内存大小的配置，疑问再一次转移到了ant上，和其他项目对比发现，该脚本少了如下两个参数，第一个是spawn，另一个是fork。
-</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/2921572130FD4D89BD77EBEB5A83EA7E" alt=""></p>
-<p>ps：</p>
-<p>spawn属性：用于指定是否在执行命令时产生输出信息。默认为false代表输出日志信息。如果指定了spawn属性为true，Ant将不会产生这个命令的日志输出。</p>
-<p>并且spawn只能在fork=’true’的前提下执行。</p>
-<p>fork属性：表示在一个新的虚拟机中运行该类。</p>
-<p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/6D4BF360FEE0464280B337983BB72365" alt=""></p>
-<pre><code>我们加上fork和spawn后，重新执行ant脚本，发现JVM参数被忽略的提示消失了。
-</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/BF7A5F1510944DE1A3F0F67E52861337" alt=""></p>
-<pre><code>紧接着，重新查看一下java进程，会发现原先只有一个，现在多了一个，说明在有fork参数的情况下，ant和我们启动的项目，分别会占用一个JVM。
-</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/E9EBE2AFFD304463851724451BCEE177" alt=""></p>
-<pre><code>再次通过jmap -heap来观察两个进程，首先是我们实际需要启动的项目，PermSize/MaxPermSize都是512M，和ant中定义的JVM参数一致，配置生效，项目正常启动。
-</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/7BA2954F3A1F4825B7ECD4BE3C7F4508" alt=""></p>
-<pre><code>最后，顺便再观察一下ant的JVM进程，持久区申请的内存依然为82M，不过它的使用率不在是99.999999%，而是只有34.3309%
-</code></pre><p><img src="http://note.youdao.com/yws/public/resource/f5f63c5b5d51754131c4b0c940fa1c3e/5C949F7B99A54D5F9CE3F5F9756FF9B7" alt=""></p>
-<pre><code>本文仅分享一个问题的解决过程，并没有详细分享ant的各类参数。
-</code></pre><p>技术交流QQ群：534368042</p>
-</span>
+一次排序  101   118  105  112  127 
+
+二次排序  101   105  118  112  127 
+
+三次排序  101   105  112  118  127 
+
+四次排序  101   105  112  118  127 
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</span><br><span class="line">		System.out.println(<span class="string">"排序之前："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 冒泡排序</span></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; a.length - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">	        <span class="comment">// 这里-i主要是每遍历一次都把最大的i个数沉到最底下去了，没有必要再替换了</span></span><br><span class="line">				<span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>]) &#123;</span><br><span class="line">					int temp = a[j];</span><br><span class="line">					a[j] = a[j + <span class="number">1</span>];</span><br><span class="line">					a[j + <span class="number">1</span>] = temp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(<span class="string">"排序之后："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
       
     </div>
 
@@ -309,16 +292,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/18/dubbo/" rel="next" title="dubbo在多机房多注册中心的方案">
-                <i class="fa fa-chevron-left"></i> dubbo在多机房多注册中心的方案
+              <a href="/2016/04/20/mysql-5-6-25-winx64免安装配置/" rel="next" title="mysql-5.6.25-winx64免安装配置">
+                <i class="fa fa-chevron-left"></i> mysql-5.6.25-winx64免安装配置
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/31/SOA/" rel="prev" title="服务化之后本地和远程缓存的应用">
-                服务化之后本地和远程缓存的应用 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/04/20/shell排序算法/" rel="prev" title="shell排序算法">
+                shell排序算法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -334,10 +317,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/03/31/fork/"
-     data-title="一个fork引发的惨事"
+        <div class="ds-share flat" data-thread-key="2016/04/20/冒泡排序算法/"
+     data-title="冒泡排序算法"
      data-content=""
-     data-url="http://luyulong.github.io/2016/03/31/fork/">
+     data-url="http://luyulong.github.io/2016/04/20/冒泡排序算法/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -367,8 +350,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/03/31/fork/"
-                   data-title="一个fork引发的惨事" data-url="http://luyulong.github.io/2016/03/31/fork/">
+              <div class="ds-thread" data-thread-key="2016/04/20/冒泡排序算法/"
+                   data-title="冒泡排序算法" data-url="http://luyulong.github.io/2016/04/20/冒泡排序算法/">
               </div>
             
           </div>
