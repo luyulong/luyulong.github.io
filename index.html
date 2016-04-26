@@ -221,6 +221,101 @@
             
             
               
+                <a class="post-title-link" href="/2016/04/26/java序列化测试性能比对/" itemprop="url">
+                  java序列化测试性能比对
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-26T08:16:11+08:00" content="2016-04-26">
+              2016-04-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/26/java序列化测试性能比对/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/26/java序列化测试性能比对/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>最近在做redis封装的过程中，需要使用序列化进行数据的传输，索性就把各种序列化方案都拿出来做了一个对比。<br>        序列化有两种用途：<br>                    1)把对象的字节序列永久的保存在硬盘中<br>                    2)在网络上传输对象的字节序列</p>
+<pre><code>场景：通过模拟一个普通的POJO类进行序列化和反序列化的过程
+      每种情况进行1000万次的循环
+      不同版本JDK的模拟
+序列化方案：
+         1.fst
+         2.jdk
+         3.kryo
+         4.hession
+         5.protostuff
+         6.jackson
+         7.fastjson
+</code></pre><p>测试结果：<br><img src="/uploads/序列化.png" alt="Paste_Image.png"><br>         总结：<br>                1.java版本升级到1.8后 JDK版本越高性能越好<br>                2.protostuff序列化的神器，除了kryo，远远超过了其他的序列化方式<br>                3.hession序列化性能应该是超越JDK的。但是测试结果却不尽然，目前还没发现问题所在。<br>                4.从空间上看，protostuff也远远低于其他几种序列化方案</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
                 <a class="post-title-link" href="/2016/04/20/选择排序算法/" itemprop="url">
                   选择排序算法
                 </a>
@@ -405,99 +500,6 @@
             
             
               
-                <a class="post-title-link" href="/2016/04/20/shell排序算法/" itemprop="url">
-                  shell排序算法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/20/shell排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/shell排序算法/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p> shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：<br>    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对<br>    2）一次循环使每一个序列对应排好顺序<br>    3）然后，再变为n/4个序列，再次排序<br>    4）不断重复上述过程 </p>
-<pre><code>例如如下数据排序 
-
-初始数据  127   118  105  101  112   100 
-
-一次排序  101   112  100  127  118   105 
-
-二次排序  100   101  105  112  118   127 
-
-第一次排序 首先数组分为6/2=3 3个元素一组 
-第二次排序 6/4=1(取整数) 每个逐个数据比较，采用插入算法进行 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"></span><br><span class="line">		int[] data = <span class="keyword">new</span> int[] &#123; <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span> &#125;;</span><br><span class="line">		print(data);</span><br><span class="line">		shellSort(data);</span><br><span class="line">		print(data);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> shellSort(int[] data) &#123;</span><br><span class="line">		<span class="comment">// 计算出最大的h值</span></span><br><span class="line">		int h = <span class="number">1</span>;</span><br><span class="line">		System.out.println(data.length / <span class="number">3</span>); </span><br><span class="line">		<span class="keyword">while</span> (h &lt;= data.length / <span class="number">3</span>) &#123;</span><br><span class="line">			h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (h &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int i = h; i &lt; data.length; i += h) &#123;</span><br><span class="line">				<span class="keyword">if</span> (data[i] &lt; data[i - h]) &#123;</span><br><span class="line">					int tmp = data[i];</span><br><span class="line">					int j = i - h;</span><br><span class="line">					<span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; data[j] &gt; tmp) &#123;</span><br><span class="line">						data[j + h] = data[j];</span><br><span class="line">						j -= h;</span><br><span class="line">					&#125;</span><br><span class="line">					data[j + h] = tmp;</span><br><span class="line">					print(data);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 计算出下一个h值</span></span><br><span class="line">			h = (h - <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> print(int[] data) &#123;</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">			System.out.print(data[i] + <span class="string">"\t"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 <a class="post-title-link" href="/2016/04/20/冒泡排序算法/" itemprop="url">
                   冒泡排序算法
                 </a>
@@ -556,6 +558,99 @@
 
 四次排序  101   105  112  118  127 
 </code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</span><br><span class="line">		System.out.println(<span class="string">"排序之前："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 冒泡排序</span></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; a.length - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">	        <span class="comment">// 这里-i主要是每遍历一次都把最大的i个数沉到最底下去了，没有必要再替换了</span></span><br><span class="line">				<span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>]) &#123;</span><br><span class="line">					int temp = a[j];</span><br><span class="line">					a[j] = a[j + <span class="number">1</span>];</span><br><span class="line">					a[j + <span class="number">1</span>] = temp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(<span class="string">"排序之后："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                <a class="post-title-link" href="/2016/04/20/shell排序算法/" itemprop="url">
+                  shell排序算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
+              2016-04-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/20/shell排序算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/shell排序算法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p> shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：<br>    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对<br>    2）一次循环使每一个序列对应排好顺序<br>    3）然后，再变为n/4个序列，再次排序<br>    4）不断重复上述过程 </p>
+<pre><code>例如如下数据排序 
+
+初始数据  127   118  105  101  112   100 
+
+一次排序  101   112  100  127  118   105 
+
+二次排序  100   101  105  112  118   127 
+
+第一次排序 首先数组分为6/2=3 3个元素一组 
+第二次排序 6/4=1(取整数) 每个逐个数据比较，采用插入算法进行 
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"></span><br><span class="line">		int[] data = <span class="keyword">new</span> int[] &#123; <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span> &#125;;</span><br><span class="line">		print(data);</span><br><span class="line">		shellSort(data);</span><br><span class="line">		print(data);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> shellSort(int[] data) &#123;</span><br><span class="line">		<span class="comment">// 计算出最大的h值</span></span><br><span class="line">		int h = <span class="number">1</span>;</span><br><span class="line">		System.out.println(data.length / <span class="number">3</span>); </span><br><span class="line">		<span class="keyword">while</span> (h &lt;= data.length / <span class="number">3</span>) &#123;</span><br><span class="line">			h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (h &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int i = h; i &lt; data.length; i += h) &#123;</span><br><span class="line">				<span class="keyword">if</span> (data[i] &lt; data[i - h]) &#123;</span><br><span class="line">					int tmp = data[i];</span><br><span class="line">					int j = i - h;</span><br><span class="line">					<span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; data[j] &gt; tmp) &#123;</span><br><span class="line">						data[j + h] = data[j];</span><br><span class="line">						j -= h;</span><br><span class="line">					&#125;</span><br><span class="line">					data[j + h] = tmp;</span><br><span class="line">					print(data);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 计算出下一个h值</span></span><br><span class="line">			h = (h - <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> print(int[] data) &#123;</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">			System.out.print(data[i] + <span class="string">"\t"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
             
           </span>
         
@@ -1056,95 +1151,6 @@
 
 
     
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/03/18/dubbo/" itemprop="url">
-                  dubbo在多机房多注册中心的方案
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-03-18T16:13:33+08:00" content="2016-03-18">
-              2016-03-18
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/03/18/dubbo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/18/dubbo/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>技术交流QQ群：534368042</p>
-<p>起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B的服务。</p>
-<p>方案：通过dubbo的双注册中心的模式，A机房访问B机房服务通过修改A机房机器的hosts<br>例如B机房服务内网地址192.168.1.120 机器名app1  这在A机房机器消费者hosts配置app1 192.168.1.120服务注册是dubbo://app1:20880/XXX/XXX,B机房消费者保持不变，网络架构如下：</p>
-<p><img src="/uploads/1756347-ee6a7da058906d5d.png" alt="Paste_Image.png"></p>
-<p>1.dubbo在A机房zookeeper注册中心通过app1模式，在B机房192.168.1.X 配置如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 多注册中心配置 --&gt;</span><br><span class="line">   &lt;dubbo:registry id="hangzhouRegistry" address="192.168.1.110:20880" /&gt;</span><br><span class="line">   &lt;dubbo:registry id="qingdaoRegistry" address="app1:20880" default="false" /&gt;</span><br><span class="line"></span><br><span class="line">   &lt;!-- 向多个注册中心注册 --&gt;</span><br><span class="line">   &lt;dubbo:service interface="com.alibaba.hello.api.HelloService" version="1.0.0" ref="helloService" registry="hangzhouRegistry,qingdaoRegistry" /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>2.修改dubbo包的的AbstractServer类构造函数</p>
-<p><img src="/uploads/1756347-7f6deb8c0830f666.png" alt="Paste_Image.png"></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1187,7 +1193,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -221,6 +221,95 @@
             
             
               
+                <a class="post-title-link" href="/2016/03/18/dubbo/" itemprop="url">
+                  dubbo在多机房多注册中心的方案
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-18T16:13:33+08:00" content="2016-03-18">
+              2016-03-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/18/dubbo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/18/dubbo/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>技术交流QQ群：534368042</p>
+<p>起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B的服务。</p>
+<p>方案：通过dubbo的双注册中心的模式，A机房访问B机房服务通过修改A机房机器的hosts<br>例如B机房服务内网地址192.168.1.120 机器名app1  这在A机房机器消费者hosts配置app1 192.168.1.120服务注册是dubbo://app1:20880/XXX/XXX,B机房消费者保持不变，网络架构如下：</p>
+<p><img src="/uploads/1756347-ee6a7da058906d5d.png" alt="Paste_Image.png"></p>
+<p>1.dubbo在A机房zookeeper注册中心通过app1模式，在B机房192.168.1.X 配置如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 多注册中心配置 --&gt;</span><br><span class="line">   &lt;dubbo:registry id="hangzhouRegistry" address="192.168.1.110:20880" /&gt;</span><br><span class="line">   &lt;dubbo:registry id="qingdaoRegistry" address="app1:20880" default="false" /&gt;</span><br><span class="line"></span><br><span class="line">   &lt;!-- 向多个注册中心注册 --&gt;</span><br><span class="line">   &lt;dubbo:service interface="com.alibaba.hello.api.HelloService" version="1.0.0" ref="helloService" registry="hangzhouRegistry,qingdaoRegistry" /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>2.修改dubbo包的的AbstractServer类构造函数</p>
+<p><img src="/uploads/1756347-7f6deb8c0830f666.png" alt="Paste_Image.png"></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
                 <a class="post-title-link" href="/2016/03/17/hello/" itemprop="url">
                   轻松一刻
                 </a>
@@ -425,7 +514,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
