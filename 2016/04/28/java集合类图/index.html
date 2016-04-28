@@ -45,25 +45,18 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。     排序流程：     1）对数组中的各个数据，一次比较相邻的二个元素的大小     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好     3）再用同样的方法依次进行比较 
-例如以下数据 
-
-初始数据  118">
+<meta name="description">
 <meta property="og:type" content="article">
-<meta property="og:title" content="冒泡排序算法">
-<meta property="og:url" content="http://luyulong.github.io/2016/04/20/冒泡排序算法/index.html">
+<meta property="og:title" content="java集合类图">
+<meta property="og:url" content="http://luyulong.github.io/2016/04/28/java集合类图/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。     排序流程：     1）对数组中的各个数据，一次比较相邻的二个元素的大小     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好     3）再用同样的方法依次进行比较 
-例如以下数据 
-
-初始数据  118">
-<meta property="og:updated_time" content="2016-04-20T00:40:54.130Z">
+<meta property="og:description">
+<meta property="og:image" content="http://luyulong.github.io/uploads/java集合类图.png">
+<meta property="og:updated_time" content="2016-04-28T02:37:51.730Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="冒泡排序算法">
-<meta name="twitter:description" content="冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。     排序流程：     1）对数组中的各个数据，一次比较相邻的二个元素的大小     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好     3）再用同样的方法依次进行比较 
-例如以下数据 
-
-初始数据  118">
+<meta name="twitter:title" content="java集合类图">
+<meta name="twitter:description">
+<meta name="twitter:image" content="http://luyulong.github.io/uploads/java集合类图.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -75,7 +68,7 @@
 
 
 
-  <title> 冒泡排序算法 | yl.lu Blog </title>
+  <title> java集合类图 | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -229,7 +222,7 @@
             
             
               
-                冒泡排序算法
+                java集合类图
               
             
           </h1>
@@ -238,8 +231,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
+            <time itemprop="dateCreated" datetime="2016-04-28T10:37:05+08:00" content="2016-04-28">
+              2016-04-28
             </time>
           </span>
 
@@ -249,8 +242,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/冒泡排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/冒泡排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/04/28/java集合类图/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/28/java集合类图/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -269,19 +262,8 @@
       
 
       
-        <span itemprop="articleBody"><p>  冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。<br>     排序流程：<br>     1）对数组中的各个数据，一次比较相邻的二个元素的大小<br>     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好<br>     3）再用同样的方法依次进行比较 </p>
-<pre><code>例如以下数据 
-
-初始数据  118   101  105  127  112 
-
-一次排序  101   118  105  112  127 
-
-二次排序  101   105  118  112  127 
-
-三次排序  101   105  112  118  127 
-
-四次排序  101   105  112  118  127 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</span><br><span class="line">		System.out.println(<span class="string">"排序之前："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 冒泡排序</span></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; a.length - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">	        <span class="comment">// 这里-i主要是每遍历一次都把最大的i个数沉到最底下去了，没有必要再替换了</span></span><br><span class="line">				<span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>]) &#123;</span><br><span class="line">					int temp = a[j];</span><br><span class="line">					a[j] = a[j + <span class="number">1</span>];</span><br><span class="line">					a[j + <span class="number">1</span>] = temp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(<span class="string">"排序之后："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
+        <span itemprop="articleBody"><p><img src="/uploads/java集合类图.png" alt="Paste_Image.png"></p>
+</span>
       
     </div>
 
@@ -292,17 +274,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/20/选择排序算法/" rel="next" title="选择排序算法">
-                <i class="fa fa-chevron-left"></i> 选择排序算法
+              <a href="/2016/04/26/java序列化测试性能比对/" rel="next" title="java序列化测试性能比对">
+                <i class="fa fa-chevron-left"></i> java序列化测试性能比对
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/26/java序列化测试性能比对/" rel="prev" title="java序列化测试性能比对">
-                java序列化测试性能比对 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -317,10 +295,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/04/20/冒泡排序算法/"
-     data-title="冒泡排序算法"
+        <div class="ds-share flat" data-thread-key="2016/04/28/java集合类图/"
+     data-title="java集合类图"
      data-content=""
-     data-url="http://luyulong.github.io/2016/04/20/冒泡排序算法/">
+     data-url="http://luyulong.github.io/2016/04/28/java集合类图/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -350,8 +328,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/04/20/冒泡排序算法/"
-                   data-title="冒泡排序算法" data-url="http://luyulong.github.io/2016/04/20/冒泡排序算法/">
+              <div class="ds-thread" data-thread-key="2016/04/28/java集合类图/"
+                   data-title="java集合类图" data-url="http://luyulong.github.io/2016/04/28/java集合类图/">
               </div>
             
           </div>
