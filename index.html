@@ -221,6 +221,119 @@
             
             
               
+                <a class="post-title-link" href="/2016/04/29/业务层面缓存穿透的方案/" itemprop="url">
+                  业务层面缓存穿透的方案
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-29T14:29:10+08:00" content="2016-04-29">
+              2016-04-29
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/29/业务层面缓存穿透的方案/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/29/业务层面缓存穿透的方案/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>网上有一些关于缓存穿透和缓存雪崩的解决方案，无非是：</p>
+<pre><code>1.如果查询数据为null，则把null进行缓存
+
+2.使用布隆过滤器
+</code></pre><p>先来说说缓存穿透的概念：我们在项目中使用缓存通常都是APP先检查缓存中是否存在，如果存在直接返回缓存内容，如果不存在就直接查询数据库然后再缓存查询结果返回。这个时候如果我们查询的某一个数据在缓存中一直不存在，就会造成每一次请求都查询DB，这样缓存就失去了意义，在流量大时，可能DB就挂掉了。</p>
+<p>再来讲讲我们的业务场景：</p>
+<pre><code> 1.通常我们是首页，或是统计页，用户请求较多，首页进入系统必定会加载，统计页（针对一些准实时的统计结果）查询的SQL或是结果比较复杂。
+
+ 2.时效性一般，基本上小时级别
+
+ 3.数据量较大，一般是亿级或是千万级别
+
+ 4.业务逻辑比较复杂，可能需要进行各种表的关联
+
+ 5.如果请求过多，有可能数据库奔溃，即使在进行分库分表之后还是有可能占用一大部分的数据库IO和CPU资源
+
+ 6.统计的维度较多，每个用户请求的维度可能是不一样的。
+
+ 针对上述情况我们一般的做法，就是加一层缓存，请求过来先去访问缓存，可以使用memcached或是redis，如果缓存不存在或是缓存失效的情况下，再去load DB。大部分的情况下，这是非常好的，但是某一天如果你需要重启缓存，或是缓存在某一时刻失效很大一部分，这就会导致我们之前所说的缓存穿透。
+
+ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来解释
+</code></pre><p><img src="/uploads/缓存穿透.png" alt="Paste_Image.png"></p>
+<pre><code>1.更具业务统计的维度或是场景，建立一张以JSON格式为模板的表
+
+2.通过调度平台，定时的把任务统计完成并保存至模板表中和缓存集群中
+
+3.不断对2进行轮询，保持数据的热度
+
+4.用户请求过来，先访问我们的缓存，一旦缓存失效或是重启，直接从数据库模板表中获取最新的热度数据并缓存，这样我们就能有效的减轻数据库的压力。
+
+5.这也是一种缓存预热的方案
+</code></pre>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
                 <a class="post-title-link" href="/2016/04/28/JUC/" itemprop="url">
                   JUC
                 </a>
@@ -565,8 +678,8 @@
             
             
               
-                <a class="post-title-link" href="/2016/04/20/冒泡排序算法/" itemprop="url">
-                  冒泡排序算法
+                <a class="post-title-link" href="/2016/04/20/shell排序算法/" itemprop="url">
+                  shell排序算法
                 </a>
               
             
@@ -587,8 +700,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/冒泡排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/冒泡排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/04/20/shell排序算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/shell排序算法/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -610,19 +723,18 @@
         
           <span itemprop="articleBody">
             
-              <p>  冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。<br>     排序流程：<br>     1）对数组中的各个数据，一次比较相邻的二个元素的大小<br>     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好<br>     3）再用同样的方法依次进行比较 </p>
-<pre><code>例如以下数据 
+              <p> shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：<br>    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对<br>    2）一次循环使每一个序列对应排好顺序<br>    3）然后，再变为n/4个序列，再次排序<br>    4）不断重复上述过程 </p>
+<pre><code>例如如下数据排序 
 
-初始数据  118   101  105  127  112 
+初始数据  127   118  105  101  112   100 
 
-一次排序  101   118  105  112  127 
+一次排序  101   112  100  127  118   105 
 
-二次排序  101   105  118  112  127 
+二次排序  100   101  105  112  118   127 
 
-三次排序  101   105  112  118  127 
-
-四次排序  101   105  112  118  127 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</span><br><span class="line">		System.out.println(<span class="string">"排序之前："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 冒泡排序</span></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; a.length - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">	        <span class="comment">// 这里-i主要是每遍历一次都把最大的i个数沉到最底下去了，没有必要再替换了</span></span><br><span class="line">				<span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>]) &#123;</span><br><span class="line">					int temp = a[j];</span><br><span class="line">					a[j] = a[j + <span class="number">1</span>];</span><br><span class="line">					a[j + <span class="number">1</span>] = temp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(<span class="string">"排序之后："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+第一次排序 首先数组分为6/2=3 3个元素一组 
+第二次排序 6/4=1(取整数) 每个逐个数据比较，采用插入算法进行 
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"></span><br><span class="line">		int[] data = <span class="keyword">new</span> int[] &#123; <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span> &#125;;</span><br><span class="line">		print(data);</span><br><span class="line">		shellSort(data);</span><br><span class="line">		print(data);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> shellSort(int[] data) &#123;</span><br><span class="line">		<span class="comment">// 计算出最大的h值</span></span><br><span class="line">		int h = <span class="number">1</span>;</span><br><span class="line">		System.out.println(data.length / <span class="number">3</span>); </span><br><span class="line">		<span class="keyword">while</span> (h &lt;= data.length / <span class="number">3</span>) &#123;</span><br><span class="line">			h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (h &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int i = h; i &lt; data.length; i += h) &#123;</span><br><span class="line">				<span class="keyword">if</span> (data[i] &lt; data[i - h]) &#123;</span><br><span class="line">					int tmp = data[i];</span><br><span class="line">					int j = i - h;</span><br><span class="line">					<span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; data[j] &gt; tmp) &#123;</span><br><span class="line">						data[j + h] = data[j];</span><br><span class="line">						j -= h;</span><br><span class="line">					&#125;</span><br><span class="line">					data[j + h] = tmp;</span><br><span class="line">					print(data);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 计算出下一个h值</span></span><br><span class="line">			h = (h - <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> print(int[] data) &#123;</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">			System.out.print(data[i] + <span class="string">"\t"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
             
           </span>
         
@@ -843,8 +955,8 @@
             
             
               
-                <a class="post-title-link" href="/2016/04/20/shell排序算法/" itemprop="url">
-                  shell排序算法
+                <a class="post-title-link" href="/2016/04/20/冒泡排序算法/" itemprop="url">
+                  冒泡排序算法
                 </a>
               
             
@@ -865,8 +977,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/shell排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/shell排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/04/20/冒泡排序算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/冒泡排序算法/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -888,18 +1000,19 @@
         
           <span itemprop="articleBody">
             
-              <p> shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：<br>    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对<br>    2）一次循环使每一个序列对应排好顺序<br>    3）然后，再变为n/4个序列，再次排序<br>    4）不断重复上述过程 </p>
-<pre><code>例如如下数据排序 
+              <p>  冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。<br>     排序流程：<br>     1）对数组中的各个数据，一次比较相邻的二个元素的大小<br>     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好<br>     3）再用同样的方法依次进行比较 </p>
+<pre><code>例如以下数据 
 
-初始数据  127   118  105  101  112   100 
+初始数据  118   101  105  127  112 
 
-一次排序  101   112  100  127  118   105 
+一次排序  101   118  105  112  127 
 
-二次排序  100   101  105  112  118   127 
+二次排序  101   105  118  112  127 
 
-第一次排序 首先数组分为6/2=3 3个元素一组 
-第二次排序 6/4=1(取整数) 每个逐个数据比较，采用插入算法进行 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"></span><br><span class="line">		int[] data = <span class="keyword">new</span> int[] &#123; <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span> &#125;;</span><br><span class="line">		print(data);</span><br><span class="line">		shellSort(data);</span><br><span class="line">		print(data);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> shellSort(int[] data) &#123;</span><br><span class="line">		<span class="comment">// 计算出最大的h值</span></span><br><span class="line">		int h = <span class="number">1</span>;</span><br><span class="line">		System.out.println(data.length / <span class="number">3</span>); </span><br><span class="line">		<span class="keyword">while</span> (h &lt;= data.length / <span class="number">3</span>) &#123;</span><br><span class="line">			h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (h &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int i = h; i &lt; data.length; i += h) &#123;</span><br><span class="line">				<span class="keyword">if</span> (data[i] &lt; data[i - h]) &#123;</span><br><span class="line">					int tmp = data[i];</span><br><span class="line">					int j = i - h;</span><br><span class="line">					<span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; data[j] &gt; tmp) &#123;</span><br><span class="line">						data[j + h] = data[j];</span><br><span class="line">						j -= h;</span><br><span class="line">					&#125;</span><br><span class="line">					data[j + h] = tmp;</span><br><span class="line">					print(data);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 计算出下一个h值</span></span><br><span class="line">			h = (h - <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> print(int[] data) &#123;</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">			System.out.print(data[i] + <span class="string">"\t"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+三次排序  101   105  112  118  127 
+
+四次排序  101   105  112  118  127 
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</span><br><span class="line">		System.out.println(<span class="string">"排序之前："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 冒泡排序</span></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; a.length - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">	        <span class="comment">// 这里-i主要是每遍历一次都把最大的i个数沉到最底下去了，没有必要再替换了</span></span><br><span class="line">				<span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>]) &#123;</span><br><span class="line">					int temp = a[j];</span><br><span class="line">					a[j] = a[j + <span class="number">1</span>];</span><br><span class="line">					a[j + <span class="number">1</span>] = temp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(<span class="string">"排序之后："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
             
           </span>
         
@@ -1027,103 +1140,6 @@
 
 
     
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/04/20/oracle监控参数/" itemprop="url">
-                  oracle监控参数
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:35:24+08:00" content="2016-04-20">
-              2016-04-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/20/oracle监控参数/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/oracle监控参数/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>Sar –u 检查CPU的繁忙程度<br>列<br>说明<br>Usr<br>用户模式下cpu运行所占的百分比<br>Sys<br>系统模式下cpu运行所占的百分比<br>Wio<br>因为有进程等待块I/O而使cpu处于闲置状态所占百分比<br>Idle<br>Cpu为闲置状态所占百分比 </p>
-<p>sar –u 10 8 第一个数字展示二次相邻的sar读取之间隔了多少秒，第二数字是打算好了让sar运行的次数。 </p>
-<p>较低的idel时间可能说明有些进程正消耗大量的cpu时间，或是说明cpu的处理能力不足。请使用ps或是top命令去找出cpu密集型的作业吧 写得很差，需要大量磁盘访问的查询，同样能够消耗大量的cpu资源<br>值得关注wio返回的高额数值与cpu的沉重负荷<br>展示的高额wio，即io等待时间，表明有磁盘争用的问题。可以用iostate命令来准确定位磁盘争用究竟发生在哪里 </p>
-<p>需要检查输出结果<br>较低的cpu空闲时间值<br>高比例的io等待时间 或是用wio&gt;10来判断<br>Sys&gt;15的瓶颈，这表明交换，调页或备份可能造成了瓶颈<br>异常高的usr 这可能是由于没有好好的给应用程序调过优，或是由于过度使用了cpu </p>
-<p>Sar –d命令找出io问题 </p>
-<p>需要注意<br>Busy大于50%的设备<br>如果avwait大于avserv<br>不均衡的磁盘io负载 </p>
-<p>Busy和avque取值高表明存在着磁盘io瓶颈。 </p>
-<p>Sar –d 5 2<br>第一个相邻二次sar运行间所隔的秒数 第二个是运行sar的总次数（5是5秒的时间间隔 2表示重复二次） </p>
-<p>Sar –b命令 检查缓冲区高速缓存 </p>
-<p>读缓存：rcache》90 表明有糟糕磁盘的io可能<br>写缓存：wcache《70，同样表明有糟糕磁盘io的可能 </p>
-<p>Sar –q命令检查运行队列和交换队列的长度<br>如果发现有runq-sz大于4或是swpocc大于5之处，就可能有问题 </p>
-<p>使用uptime’命令监控cpu负载<br>平均队列长度为2-3的系统是尚可接受的 </p>
-<p>使用mpstat命令辨认cpu瓶颈<br>如果在mpstat的输出结果中smtx列的值大于200，系统就正在朝cpu瓶颈问题的方向蛮近着 </p>
-<p>Ps  -e –o pcpu,pid,user,args | sort –k 3 –r | tail 使用top命令找出系统上最差的用户<br>把从ps命令获得的系统pid传进下面的程序里：<br>–ps_view.sql </p>
-<p>使用iostat命令辨认磁盘io瓶颈<br>Iostat –d sd15 sd16 5 5<br>-d 选项报告每秒内读的次数，写的次数以及磁盘使用的百分比</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1166,7 +1182,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">16</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

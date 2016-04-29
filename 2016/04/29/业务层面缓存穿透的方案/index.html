@@ -45,16 +45,30 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="快速排序算法和冒泡排序算法类似，都是基于交换排序思想的，快速排序算法对冒泡排序算法进行了改进，从而具有更高的执行效率    通过多次比较和交换来实现排序，流程如下：    1）首先设定一个分界值，通过该分界值将数组分成左右两部分    2）将大于等于分界值得数据集中到数组右边，小于分界值得数据集中到数组的左边。此时，左边部分中各元素都小于等于分界值，而右边部分中各元素都大于等于分界值    3）然">
+<meta name="description" content="网上有一些关于缓存穿透和缓存雪崩的解决方案，无非是：
+1.如果查询数据为null，则把null进行缓存
+
+2.使用布隆过滤器
+先来说说缓存穿透的概念：我们在项目中使用缓存通常都是APP先检查缓存中是否存在，如果存在直接返回缓存内容，如果不存在就直接查询数据库然后再缓存查询结果返回。这个时候如果我们查询的某一个数据在缓存中一直不存在，就会造成每一次请求都查询DB，这样缓存就失去了意义，在流量大时，可">
 <meta property="og:type" content="article">
-<meta property="og:title" content="快速排序算法">
-<meta property="og:url" content="http://luyulong.github.io/2016/04/20/快速排序算法/index.html">
+<meta property="og:title" content="业务层面缓存穿透的方案">
+<meta property="og:url" content="http://luyulong.github.io/2016/04/29/业务层面缓存穿透的方案/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="快速排序算法和冒泡排序算法类似，都是基于交换排序思想的，快速排序算法对冒泡排序算法进行了改进，从而具有更高的执行效率    通过多次比较和交换来实现排序，流程如下：    1）首先设定一个分界值，通过该分界值将数组分成左右两部分    2）将大于等于分界值得数据集中到数组右边，小于分界值得数据集中到数组的左边。此时，左边部分中各元素都小于等于分界值，而右边部分中各元素都大于等于分界值    3）然">
-<meta property="og:updated_time" content="2016-04-20T00:45:39.770Z">
+<meta property="og:description" content="网上有一些关于缓存穿透和缓存雪崩的解决方案，无非是：
+1.如果查询数据为null，则把null进行缓存
+
+2.使用布隆过滤器
+先来说说缓存穿透的概念：我们在项目中使用缓存通常都是APP先检查缓存中是否存在，如果存在直接返回缓存内容，如果不存在就直接查询数据库然后再缓存查询结果返回。这个时候如果我们查询的某一个数据在缓存中一直不存在，就会造成每一次请求都查询DB，这样缓存就失去了意义，在流量大时，可">
+<meta property="og:image" content="http://luyulong.github.io/uploads/缓存穿透.png">
+<meta property="og:updated_time" content="2016-04-29T06:32:22.387Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="快速排序算法">
-<meta name="twitter:description" content="快速排序算法和冒泡排序算法类似，都是基于交换排序思想的，快速排序算法对冒泡排序算法进行了改进，从而具有更高的执行效率    通过多次比较和交换来实现排序，流程如下：    1）首先设定一个分界值，通过该分界值将数组分成左右两部分    2）将大于等于分界值得数据集中到数组右边，小于分界值得数据集中到数组的左边。此时，左边部分中各元素都小于等于分界值，而右边部分中各元素都大于等于分界值    3）然">
+<meta name="twitter:title" content="业务层面缓存穿透的方案">
+<meta name="twitter:description" content="网上有一些关于缓存穿透和缓存雪崩的解决方案，无非是：
+1.如果查询数据为null，则把null进行缓存
+
+2.使用布隆过滤器
+先来说说缓存穿透的概念：我们在项目中使用缓存通常都是APP先检查缓存中是否存在，如果存在直接返回缓存内容，如果不存在就直接查询数据库然后再缓存查询结果返回。这个时候如果我们查询的某一个数据在缓存中一直不存在，就会造成每一次请求都查询DB，这样缓存就失去了意义，在流量大时，可">
+<meta name="twitter:image" content="http://luyulong.github.io/uploads/缓存穿透.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -66,7 +80,7 @@
 
 
 
-  <title> 快速排序算法 | yl.lu Blog </title>
+  <title> 业务层面缓存穿透的方案 | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -220,7 +234,7 @@
             
             
               
-                快速排序算法
+                业务层面缓存穿透的方案
               
             
           </h1>
@@ -229,8 +243,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
+            <time itemprop="dateCreated" datetime="2016-04-29T14:29:10+08:00" content="2016-04-29">
+              2016-04-29
             </time>
           </span>
 
@@ -240,8 +254,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/快速排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/快速排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/04/29/业务层面缓存穿透的方案/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/29/业务层面缓存穿透的方案/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -260,15 +274,38 @@
       
 
       
-        <span itemprop="articleBody"><p>快速排序算法和冒泡排序算法类似，都是基于交换排序思想的，快速排序算法对冒泡排序算法进行了改进，从而具有更高的执行效率<br>    通过多次比较和交换来实现排序，流程如下：<br>    1）首先设定一个分界值，通过该分界值将数组分成左右两部分<br>    2）将大于等于分界值得数据集中到数组右边，小于分界值得数据集中到数组的左边。此时，左边部分中各元素都小于等于分界值，而右边部分中各元素都大于等于分界值<br>    3）然后，左边和右边的数据可以独立排序。对于左侧的数组数据，又可以取一个分界值，将该部分数据分成左右两部分，同样将左边放置较小值，右边放置较大值。右侧的数组数据也可以做类似处理<br>    4）重复上述过程，可以看出，这是一个递归定义。 </p>
-<pre><code>例如：选择8个整型数据69、62、89、37、97、17、28、49是一组无序数据 
-1）首先选取一个分界值，这里选择第一个数据69作为分界值。在变量left中保存数组的最小的序号0，在变量right中保存数据的最大序号7，在变量base中保存分界值69 
-2）从数组右侧开始，逐个取出数据与分界值69比较，直到找到比base小的数据为止，数组最右侧的元素A[right]的值49比base变量保存的值69小。 
-3）将右侧比基准base小的数保存到A[left]元素中。 
-4）接下来，从数组左侧开始，逐个取出元素与分界值69比较，直到找到比分界值69大的数据为止。数组最左侧的元素A[left]的值为49，比base的值小，将left自增1再取A[left]的值62与base的值69比较，62小于69，继续将left自增1.再取A[left]的值89与base比较，89大于69，结束查找 
-5）将左侧比分界值69大的数保存到A[right]元素中。 
-6）将分界值69中的值保存到A[left]中，最后得到结果 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> final int SIZE=<span class="number">18</span>;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">void</span> quickSort(int[] arr,int left,int right)			<span class="comment">//快速排序算法</span></span><br><span class="line">	&#123;</span><br><span class="line">	    int f,t;</span><br><span class="line">		int rtemp,ltemp;</span><br><span class="line"></span><br><span class="line">	    ltemp=left;</span><br><span class="line">	    rtemp=right;</span><br><span class="line">	    f=arr[(left+right)/<span class="number">2</span>];						<span class="comment">//分界值</span></span><br><span class="line">		<span class="keyword">while</span>(ltemp&lt;rtemp)</span><br><span class="line">		&#123;</span><br><span class="line">	        <span class="keyword">while</span>(arr[ltemp]&lt;f)</span><br><span class="line">			&#123;</span><br><span class="line">				++ltemp;</span><br><span class="line">			&#125;</span><br><span class="line">	        <span class="keyword">while</span>(arr[rtemp]&gt;f) </span><br><span class="line">			&#123;</span><br><span class="line">				--rtemp;</span><br><span class="line">			&#125;</span><br><span class="line">	        <span class="keyword">if</span>(ltemp&lt;=rtemp)</span><br><span class="line">	        &#123;</span><br><span class="line">				t=arr[ltemp];</span><br><span class="line">		        arr[ltemp]=arr[rtemp];</span><br><span class="line">	    	    arr[rtemp]=t;</span><br><span class="line">				--rtemp;</span><br><span class="line">	        	++ltemp;</span><br><span class="line">			&#125;</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="keyword">if</span>(ltemp==rtemp) </span><br><span class="line">		&#123;</span><br><span class="line">			ltemp++;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	    <span class="keyword">if</span>(left&lt;rtemp) </span><br><span class="line">		&#123;</span><br><span class="line">			quickSort(arr,left,ltemp<span class="number">-1</span>);			<span class="comment">//递归调用</span></span><br><span class="line">		&#125;</span><br><span class="line">	    <span class="keyword">if</span>(ltemp&lt;right) </span><br><span class="line">		&#123;</span><br><span class="line">			quickSort(arr,rtemp+<span class="number">1</span>,right);			<span class="comment">//递归调用</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) </span><br><span class="line">	&#123;</span><br><span class="line">		int[] shuzu=<span class="keyword">new</span> int[SIZE];</span><br><span class="line">		int i;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			shuzu[i]=(int)(<span class="number">100</span>+<span class="built_in">Math</span>.random()*(<span class="number">100</span>+<span class="number">1</span>));			<span class="comment">//初始化数组</span></span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		System.out.print(<span class="string">"排序前的数组为：\n"</span>);				<span class="comment">//输出排序前的数组</span></span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			System.out.print(shuzu[i]+<span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.print(<span class="string">"\n"</span>);</span><br><span class="line">		</span><br><span class="line">		quickSort(shuzu,<span class="number">0</span>,SIZE<span class="number">-1</span>);					<span class="comment">//排序操作</span></span><br><span class="line">		</span><br><span class="line">		System.out.print(<span class="string">"排序后的数组为：\n"</span>);</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			System.out.print(shuzu[i]+<span class="string">" "</span>);					<span class="comment">//输出排序后的数组</span></span><br><span class="line">		&#125;</span><br><span class="line">		System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
+        <span itemprop="articleBody"><p>网上有一些关于缓存穿透和缓存雪崩的解决方案，无非是：</p>
+<pre><code>1.如果查询数据为null，则把null进行缓存
+
+2.使用布隆过滤器
+</code></pre><p>先来说说缓存穿透的概念：我们在项目中使用缓存通常都是APP先检查缓存中是否存在，如果存在直接返回缓存内容，如果不存在就直接查询数据库然后再缓存查询结果返回。这个时候如果我们查询的某一个数据在缓存中一直不存在，就会造成每一次请求都查询DB，这样缓存就失去了意义，在流量大时，可能DB就挂掉了。</p>
+<p>再来讲讲我们的业务场景：</p>
+<pre><code> 1.通常我们是首页，或是统计页，用户请求较多，首页进入系统必定会加载，统计页（针对一些准实时的统计结果）查询的SQL或是结果比较复杂。
+
+ 2.时效性一般，基本上小时级别
+
+ 3.数据量较大，一般是亿级或是千万级别
+
+ 4.业务逻辑比较复杂，可能需要进行各种表的关联
+
+ 5.如果请求过多，有可能数据库奔溃，即使在进行分库分表之后还是有可能占用一大部分的数据库IO和CPU资源
+
+ 6.统计的维度较多，每个用户请求的维度可能是不一样的。
+
+ 针对上述情况我们一般的做法，就是加一层缓存，请求过来先去访问缓存，可以使用memcached或是redis，如果缓存不存在或是缓存失效的情况下，再去load DB。大部分的情况下，这是非常好的，但是某一天如果你需要重启缓存，或是缓存在某一时刻失效很大一部分，这就会导致我们之前所说的缓存穿透。
+
+ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来解释
+</code></pre><p><img src="/uploads/缓存穿透.png" alt="Paste_Image.png"></p>
+<pre><code>1.更具业务统计的维度或是场景，建立一张以JSON格式为模板的表
+
+2.通过调度平台，定时的把任务统计完成并保存至模板表中和缓存集群中
+
+3.不断对2进行轮询，保持数据的热度
+
+4.用户请求过来，先访问我们的缓存，一旦缓存失效或是重启，直接从数据库模板表中获取最新的热度数据并缓存，这样我们就能有效的减轻数据库的压力。
+
+5.这也是一种缓存预热的方案
+</code></pre></span>
       
     </div>
 
@@ -279,17 +316,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/20/冒泡排序算法/" rel="next" title="冒泡排序算法">
-                <i class="fa fa-chevron-left"></i> 冒泡排序算法
+              <a href="/2016/04/28/JUC/" rel="next" title="JUC">
+                <i class="fa fa-chevron-left"></i> JUC
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/20/选择排序算法/" rel="prev" title="选择排序算法">
-                选择排序算法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -304,10 +337,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/04/20/快速排序算法/"
-     data-title="快速排序算法"
+        <div class="ds-share flat" data-thread-key="2016/04/29/业务层面缓存穿透的方案/"
+     data-title="业务层面缓存穿透的方案"
      data-content=""
-     data-url="http://luyulong.github.io/2016/04/20/快速排序算法/">
+     data-url="http://luyulong.github.io/2016/04/29/业务层面缓存穿透的方案/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -337,8 +370,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/04/20/快速排序算法/"
-                   data-title="快速排序算法" data-url="http://luyulong.github.io/2016/04/20/快速排序算法/">
+              <div class="ds-thread" data-thread-key="2016/04/29/业务层面缓存穿透的方案/"
+                   data-title="业务层面缓存穿透的方案" data-url="http://luyulong.github.io/2016/04/29/业务层面缓存穿透的方案/">
               </div>
             
           </div>
