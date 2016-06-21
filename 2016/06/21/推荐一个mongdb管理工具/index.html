@@ -45,25 +45,19 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
+<meta name="description" content="Robomongo 是一个基于 Shell 的跨平台开源 MongoDB 管理工具。嵌入了 JavaScript 引擎和 MongoDB mogo 。只要你会使用 mongo shell ，你就会使用 Robomongo。提供语法高亮、自动完成、差别视图等。
+https://robomongo.org">
 <meta property="og:type" content="article">
-<meta property="og:title" content="shell排序算法">
-<meta property="og:url" content="http://luyulong.github.io/2016/04/20/shell排序算法/index.html">
+<meta property="og:title" content="推荐一个mongdb管理工具">
+<meta property="og:url" content="http://luyulong.github.io/2016/06/21/推荐一个mongdb管理工具/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
-<meta property="og:updated_time" content="2016-04-20T00:45:33.430Z">
+<meta property="og:description" content="Robomongo 是一个基于 Shell 的跨平台开源 MongoDB 管理工具。嵌入了 JavaScript 引擎和 MongoDB mogo 。只要你会使用 mongo shell ，你就会使用 Robomongo。提供语法高亮、自动完成、差别视图等。
+https://robomongo.org">
+<meta property="og:updated_time" content="2016-06-21T05:57:11.622Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="shell排序算法">
-<meta name="twitter:description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
+<meta name="twitter:title" content="推荐一个mongdb管理工具">
+<meta name="twitter:description" content="Robomongo 是一个基于 Shell 的跨平台开源 MongoDB 管理工具。嵌入了 JavaScript 引擎和 MongoDB mogo 。只要你会使用 mongo shell ，你就会使用 Robomongo。提供语法高亮、自动完成、差别视图等。
+https://robomongo.org">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -75,7 +69,7 @@
 
 
 
-  <title> shell排序算法 | yl.lu Blog </title>
+  <title> 推荐一个mongdb管理工具 | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -229,7 +223,7 @@
             
             
               
-                shell排序算法
+                推荐一个mongdb管理工具
               
             
           </h1>
@@ -238,8 +232,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
+            <time itemprop="dateCreated" datetime="2016-06-21T13:53:53+08:00" content="2016-06-21">
+              2016-06-21
             </time>
           </span>
 
@@ -249,8 +243,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/shell排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/shell排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/06/21/推荐一个mongdb管理工具/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/21/推荐一个mongdb管理工具/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -269,18 +263,9 @@
       
 
       
-        <span itemprop="articleBody"><p> shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：<br>    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对<br>    2）一次循环使每一个序列对应排好顺序<br>    3）然后，再变为n/4个序列，再次排序<br>    4）不断重复上述过程 </p>
-<pre><code>例如如下数据排序 
-
-初始数据  127   118  105  101  112   100 
-
-一次排序  101   112  100  127  118   105 
-
-二次排序  100   101  105  112  118   127 
-
-第一次排序 首先数组分为6/2=3 3个元素一组 
-第二次排序 6/4=1(取整数) 每个逐个数据比较，采用插入算法进行 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"></span><br><span class="line">		int[] data = <span class="keyword">new</span> int[] &#123; <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span> &#125;;</span><br><span class="line">		print(data);</span><br><span class="line">		shellSort(data);</span><br><span class="line">		print(data);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> shellSort(int[] data) &#123;</span><br><span class="line">		<span class="comment">// 计算出最大的h值</span></span><br><span class="line">		int h = <span class="number">1</span>;</span><br><span class="line">		System.out.println(data.length / <span class="number">3</span>); </span><br><span class="line">		<span class="keyword">while</span> (h &lt;= data.length / <span class="number">3</span>) &#123;</span><br><span class="line">			h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (h &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int i = h; i &lt; data.length; i += h) &#123;</span><br><span class="line">				<span class="keyword">if</span> (data[i] &lt; data[i - h]) &#123;</span><br><span class="line">					int tmp = data[i];</span><br><span class="line">					int j = i - h;</span><br><span class="line">					<span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; data[j] &gt; tmp) &#123;</span><br><span class="line">						data[j + h] = data[j];</span><br><span class="line">						j -= h;</span><br><span class="line">					&#125;</span><br><span class="line">					data[j + h] = tmp;</span><br><span class="line">					print(data);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 计算出下一个h值</span></span><br><span class="line">			h = (h - <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> print(int[] data) &#123;</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">			System.out.print(data[i] + <span class="string">"\t"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
+        <span itemprop="articleBody"><pre><code>Robomongo 是一个基于 Shell 的跨平台开源 MongoDB 管理工具。嵌入了 JavaScript 引擎和 MongoDB mogo 。只要你会使用 mongo shell ，你就会使用 Robomongo。提供语法高亮、自动完成、差别视图等。
+https://robomongo.org
+</code></pre></span>
       
     </div>
 
@@ -291,17 +276,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/20/选择排序算法/" rel="next" title="选择排序算法">
-                <i class="fa fa-chevron-left"></i> 选择排序算法
+              <a href="/2016/06/21/spring-4-3新特性/" rel="next" title="spring 4.3新特性">
+                <i class="fa fa-chevron-left"></i> spring 4.3新特性
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/26/java序列化测试性能比对/" rel="prev" title="java序列化测试性能比对">
-                java序列化测试性能比对 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -316,10 +297,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/04/20/shell排序算法/"
-     data-title="shell排序算法"
+        <div class="ds-share flat" data-thread-key="2016/06/21/推荐一个mongdb管理工具/"
+     data-title="推荐一个mongdb管理工具"
      data-content=""
-     data-url="http://luyulong.github.io/2016/04/20/shell排序算法/">
+     data-url="http://luyulong.github.io/2016/06/21/推荐一个mongdb管理工具/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -349,8 +330,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/04/20/shell排序算法/"
-                   data-title="shell排序算法" data-url="http://luyulong.github.io/2016/04/20/shell排序算法/">
+              <div class="ds-thread" data-thread-key="2016/06/21/推荐一个mongdb管理工具/"
+                   data-title="推荐一个mongdb管理工具" data-url="http://luyulong.github.io/2016/06/21/推荐一个mongdb管理工具/">
               </div>
             
           </div>
