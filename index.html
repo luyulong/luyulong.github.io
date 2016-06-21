@@ -221,6 +221,104 @@
             
             
               
+                <a class="post-title-link" href="/2016/06/21/spring-4-3新特性/" itemprop="url">
+                  spring 4.3新特性
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-06-21T13:38:48+08:00" content="2016-06-21">
+              2016-06-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/21/spring-4-3新特性/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/21/spring-4-3新特性/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>核心容器改进</p>
+<p>   1.核心容器额外提供了更丰富的元数据来改进编程。<br>   2.默认 Java 8 的方法检测为 bean 属性的 getter/setter 方法。<br>   3.如果目标 bean 只定义了一个构造函数,则它无需要指定@Autowired注解<br>   4.@Configuration类支持构造函数注入。<br>   5.任何 SpEL 表达式用于指定@EventListener的 condition 引用到 bean（例如@beanName.method()）。<br>   6.组成注解现在可以用一个包含元注解中的数组属性的数组组件类型的元素来覆盖。例如，@RequestMapping的的String[] path 可以在组成注解用 String path 覆盖。<br>   7.@Scheduled和@Schedules现在是作为元注解用来通过属性覆盖来创建自定义的组成注解。<br>   8.@Scheduled适当支持任何范围内的 bean。<br>数据访问改进</p>
+<p>   1.jdbc:initialize-database 和 jdbc:embedded-database 支持可配置的分离器被应用到每个脚本。</p>
+<p>缓存改进</p>
+<p>   1.Spring 4.3 允许在一个给定的 key 并发调用时实现要同步，使得相应的值只计算一次。这是一个可选的功能，通过设置@Cacheable的新的 sync 属性来启用。此功能引入了Cache接口的一个重大更改，即get(Object key, Callable<t> valueLoader)方法已添加。</t></p>
+<p>Spring 4.3 还改进了缓存抽象如下：</p>
+<p>   2.SpEL 表达式对于缓存相关的注解，现在可以引用 bean（即@beanName.method())）。<br>   3.ConcurrentMapCacheManager和ConcurrentMapCache现在通过一个新的storeByValue属性支持缓存实体的序列化。 @Cacheable，@CacheEvict，@CachePut和@Caching现在是作为元注解用来通过属性覆盖来创建自定义的组成注解。<br>JMS 改进</p>
+<p>   1.@SendTo现在可以在类级别指定一个共同回复目标。<br>   2.@JmsListener 和 @JmsListeners现在是作为元注解用来通过属性覆盖来创建自定义的组成注解。<br>Web 改进</p>
+<p>   1.内建支持 HTTP HEAD 和 HTTP OPTIONS.<br>   2.新的组合注解 @GetMapping, @PostMapping, @PutMapping, @DeleteMapping, 和 @PatchMapping 用于 @RequestMapping。<br>     详见 @RequestMapping 组合变种<br>   3.新的@RequestScope, @SessionScope, 和 @ApplicationScope用于 web 范围的组合注解<br>   4.Request scope, Session scope, 和 Application scope<br>   5.新的 @RestControllerAdvice 注解是 @ControllerAdvice 和 @ResponseBody 的语义结合<br>   6.@ResponseStatus现在在类级别被支持，并被所有方法继承<br>   7.新的 @SessionAttribute 注解用于访问 session 属性 (见例子)<br>   8.新的 @RequestAttribute 注解用于访问请求属性 (见例子)<br>   9.@ModelAttribute 允许通过 binding=false 来避免数据绑定(见引用)<br>   10.错误和自定义抛出，将被统一到 MVC 异常处理器中处理<br>   11.HTTP 消息转换编码一致处理，包括默认 UTF-8 用于多部分文本内容<br>   12.静态资源处理使用配置的ContentNegotiationManager用于媒体类型计算<br>   13.RestTemplate 和 AsyncRestTemplate 支持通过DefaultUriTemplateHandler 来实现严格的URI变量编码<br>   14.AsyncRestTemplate支持请求拦截</p>
+<p>WebSocket 消息改进</p>
+<p>   1.@SendTo和@SendToUser现在可以在类级被指定为共享共同的目的地。</p>
+<p>测试改进</p>
+<p>   1.为了支持 Spring TestContext Framework ，现在需要 JUnit 4.12 或者更高的版本<br>   2.新的SpringRunner 关联于 SpringJUnit4ClassRunner<br>   3.测试相关的注解，现在可以在接口上声明了。例如，基于 Java 8 的接口上使用测试接口<br>   4.空声明的 @ContextConfiguration 现在将会完全忽略，如果检测到默认的 XML 文件, Groovy 脚本, 或 @Configuration 类型<br>   5.@Transactional 测试方法不再需要public (如, 在 TestNG 和 JUnit 5)<br>   6.@BeforeTransaction 和 @AfterTransaction不再需要public，并且在 基于 Java 8 的接口的默认方法上声明<br>   7.在Spring TestContext Framework 的ApplicationContext的缓存现在有界为32默认最大规模和最近最少使用驱逐策略。最大的大小可以通过设置称为spring.test.context.cache.maxSize 一个 JVM 系统属性或 Spring 配置。<br>   8.ContextCustomizer API 用于自定义测试 ApplicationContext 在 bean 定义加载到上下文后但在上下文被刷新前。定制工具可以在全球范围由第三方进行注册，而无需要实现一个自定义的 ContextLoader。<br>   9.@Sql 和 @SqlGroup 现在作为元注解通过覆盖属性来创建自定义组合注解10.<br>   10.ReflectionTestUtils现在在 set 或 get 一个字段时，会自动解开代理。<br>   11.服务器端的 Spring MVC 测试支持具有多个值的响应头。<br>   12.服务器端的 Spring MVC 测试解析表单数据的请求内容和填充请求参数。<br>   13.服务器端的 Spring MVC 测试支持 mock 式的断言来调用处理程序方法。<br>   14.客户端 REST 测试支持允许指定多少次预期的请求以及期望的声明顺序是否应该被忽略（参见15.6.3，“客户端REST测试”）。<br>   15.客户端 REST 测试支持请求主体表单数据的预期。</p>
+<p>支持新的类库和服务器</p>
+<p>   1.Hibernate ORM 5.2 (同样很好的支持 4.2/4.3 和 5.0/5.1，不推荐 3.6 )<br>   2.Jackson 2.8 (在Spring 4.3，最低至 Jackson 2.6+ )<br>   3.OkHttp 3.x (仍然并行支持 OkHttp 2.x)<br>   4.Netty 4.1<br>   5.Undertow 1.4<br>   6.Tomcat 8.5.2 以及 9.0 M6</p>
+<p>参考引用<br>中文的 《Spring Framework 4.x参考文档》</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
                 <a class="post-title-link" href="/2016/04/29/业务层面缓存穿透的方案/" itemprop="url">
                   业务层面缓存穿透的方案
                 </a>
@@ -679,8 +777,8 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
             
             
               
-                <a class="post-title-link" href="/2016/04/20/shell排序算法/" itemprop="url">
-                  shell排序算法
+                <a class="post-title-link" href="/2016/04/20/快速排序算法/" itemprop="url">
+                  快速排序算法
                 </a>
               
             
@@ -701,8 +799,8 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/shell排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/shell排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/04/20/快速排序算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/快速排序算法/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -724,18 +822,15 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
         
           <span itemprop="articleBody">
             
-              <p> shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：<br>    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对<br>    2）一次循环使每一个序列对应排好顺序<br>    3）然后，再变为n/4个序列，再次排序<br>    4）不断重复上述过程 </p>
-<pre><code>例如如下数据排序 
-
-初始数据  127   118  105  101  112   100 
-
-一次排序  101   112  100  127  118   105 
-
-二次排序  100   101  105  112  118   127 
-
-第一次排序 首先数组分为6/2=3 3个元素一组 
-第二次排序 6/4=1(取整数) 每个逐个数据比较，采用插入算法进行 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"></span><br><span class="line">		int[] data = <span class="keyword">new</span> int[] &#123; <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span> &#125;;</span><br><span class="line">		print(data);</span><br><span class="line">		shellSort(data);</span><br><span class="line">		print(data);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> shellSort(int[] data) &#123;</span><br><span class="line">		<span class="comment">// 计算出最大的h值</span></span><br><span class="line">		int h = <span class="number">1</span>;</span><br><span class="line">		System.out.println(data.length / <span class="number">3</span>); </span><br><span class="line">		<span class="keyword">while</span> (h &lt;= data.length / <span class="number">3</span>) &#123;</span><br><span class="line">			h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (h &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int i = h; i &lt; data.length; i += h) &#123;</span><br><span class="line">				<span class="keyword">if</span> (data[i] &lt; data[i - h]) &#123;</span><br><span class="line">					int tmp = data[i];</span><br><span class="line">					int j = i - h;</span><br><span class="line">					<span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; data[j] &gt; tmp) &#123;</span><br><span class="line">						data[j + h] = data[j];</span><br><span class="line">						j -= h;</span><br><span class="line">					&#125;</span><br><span class="line">					data[j + h] = tmp;</span><br><span class="line">					print(data);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 计算出下一个h值</span></span><br><span class="line">			h = (h - <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> print(int[] data) &#123;</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">			System.out.print(data[i] + <span class="string">"\t"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+              <p>快速排序算法和冒泡排序算法类似，都是基于交换排序思想的，快速排序算法对冒泡排序算法进行了改进，从而具有更高的执行效率<br>    通过多次比较和交换来实现排序，流程如下：<br>    1）首先设定一个分界值，通过该分界值将数组分成左右两部分<br>    2）将大于等于分界值得数据集中到数组右边，小于分界值得数据集中到数组的左边。此时，左边部分中各元素都小于等于分界值，而右边部分中各元素都大于等于分界值<br>    3）然后，左边和右边的数据可以独立排序。对于左侧的数组数据，又可以取一个分界值，将该部分数据分成左右两部分，同样将左边放置较小值，右边放置较大值。右侧的数组数据也可以做类似处理<br>    4）重复上述过程，可以看出，这是一个递归定义。 </p>
+<pre><code>例如：选择8个整型数据69、62、89、37、97、17、28、49是一组无序数据 
+1）首先选取一个分界值，这里选择第一个数据69作为分界值。在变量left中保存数组的最小的序号0，在变量right中保存数据的最大序号7，在变量base中保存分界值69 
+2）从数组右侧开始，逐个取出数据与分界值69比较，直到找到比base小的数据为止，数组最右侧的元素A[right]的值49比base变量保存的值69小。 
+3）将右侧比基准base小的数保存到A[left]元素中。 
+4）接下来，从数组左侧开始，逐个取出元素与分界值69比较，直到找到比分界值69大的数据为止。数组最左侧的元素A[left]的值为49，比base的值小，将left自增1再取A[left]的值62与base的值69比较，62小于69，继续将left自增1.再取A[left]的值89与base比较，89大于69，结束查找 
+5）将左侧比分界值69大的数保存到A[right]元素中。 
+6）将分界值69中的值保存到A[left]中，最后得到结果 
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> final int SIZE=<span class="number">18</span>;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">void</span> quickSort(int[] arr,int left,int right)			<span class="comment">//快速排序算法</span></span><br><span class="line">	&#123;</span><br><span class="line">	    int f,t;</span><br><span class="line">		int rtemp,ltemp;</span><br><span class="line"></span><br><span class="line">	    ltemp=left;</span><br><span class="line">	    rtemp=right;</span><br><span class="line">	    f=arr[(left+right)/<span class="number">2</span>];						<span class="comment">//分界值</span></span><br><span class="line">		<span class="keyword">while</span>(ltemp&lt;rtemp)</span><br><span class="line">		&#123;</span><br><span class="line">	        <span class="keyword">while</span>(arr[ltemp]&lt;f)</span><br><span class="line">			&#123;</span><br><span class="line">				++ltemp;</span><br><span class="line">			&#125;</span><br><span class="line">	        <span class="keyword">while</span>(arr[rtemp]&gt;f) </span><br><span class="line">			&#123;</span><br><span class="line">				--rtemp;</span><br><span class="line">			&#125;</span><br><span class="line">	        <span class="keyword">if</span>(ltemp&lt;=rtemp)</span><br><span class="line">	        &#123;</span><br><span class="line">				t=arr[ltemp];</span><br><span class="line">		        arr[ltemp]=arr[rtemp];</span><br><span class="line">	    	    arr[rtemp]=t;</span><br><span class="line">				--rtemp;</span><br><span class="line">	        	++ltemp;</span><br><span class="line">			&#125;</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="keyword">if</span>(ltemp==rtemp) </span><br><span class="line">		&#123;</span><br><span class="line">			ltemp++;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	    <span class="keyword">if</span>(left&lt;rtemp) </span><br><span class="line">		&#123;</span><br><span class="line">			quickSort(arr,left,ltemp<span class="number">-1</span>);			<span class="comment">//递归调用</span></span><br><span class="line">		&#125;</span><br><span class="line">	    <span class="keyword">if</span>(ltemp&lt;right) </span><br><span class="line">		&#123;</span><br><span class="line">			quickSort(arr,rtemp+<span class="number">1</span>,right);			<span class="comment">//递归调用</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) </span><br><span class="line">	&#123;</span><br><span class="line">		int[] shuzu=<span class="keyword">new</span> int[SIZE];</span><br><span class="line">		int i;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			shuzu[i]=(int)(<span class="number">100</span>+<span class="built_in">Math</span>.random()*(<span class="number">100</span>+<span class="number">1</span>));			<span class="comment">//初始化数组</span></span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		System.out.print(<span class="string">"排序前的数组为：\n"</span>);				<span class="comment">//输出排序前的数组</span></span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			System.out.print(shuzu[i]+<span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.print(<span class="string">"\n"</span>);</span><br><span class="line">		</span><br><span class="line">		quickSort(shuzu,<span class="number">0</span>,SIZE<span class="number">-1</span>);					<span class="comment">//排序操作</span></span><br><span class="line">		</span><br><span class="line">		System.out.print(<span class="string">"排序后的数组为：\n"</span>);</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			System.out.print(shuzu[i]+<span class="string">" "</span>);					<span class="comment">//输出排序后的数组</span></span><br><span class="line">		&#125;</span><br><span class="line">		System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
             
           </span>
         
@@ -866,96 +961,6 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
             
             
               
-                <a class="post-title-link" href="/2016/04/20/快速排序算法/" itemprop="url">
-                  快速排序算法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/20/快速排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/快速排序算法/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>快速排序算法和冒泡排序算法类似，都是基于交换排序思想的，快速排序算法对冒泡排序算法进行了改进，从而具有更高的执行效率<br>    通过多次比较和交换来实现排序，流程如下：<br>    1）首先设定一个分界值，通过该分界值将数组分成左右两部分<br>    2）将大于等于分界值得数据集中到数组右边，小于分界值得数据集中到数组的左边。此时，左边部分中各元素都小于等于分界值，而右边部分中各元素都大于等于分界值<br>    3）然后，左边和右边的数据可以独立排序。对于左侧的数组数据，又可以取一个分界值，将该部分数据分成左右两部分，同样将左边放置较小值，右边放置较大值。右侧的数组数据也可以做类似处理<br>    4）重复上述过程，可以看出，这是一个递归定义。 </p>
-<pre><code>例如：选择8个整型数据69、62、89、37、97、17、28、49是一组无序数据 
-1）首先选取一个分界值，这里选择第一个数据69作为分界值。在变量left中保存数组的最小的序号0，在变量right中保存数据的最大序号7，在变量base中保存分界值69 
-2）从数组右侧开始，逐个取出数据与分界值69比较，直到找到比base小的数据为止，数组最右侧的元素A[right]的值49比base变量保存的值69小。 
-3）将右侧比基准base小的数保存到A[left]元素中。 
-4）接下来，从数组左侧开始，逐个取出元素与分界值69比较，直到找到比分界值69大的数据为止。数组最左侧的元素A[left]的值为49，比base的值小，将left自增1再取A[left]的值62与base的值69比较，62小于69，继续将left自增1.再取A[left]的值89与base比较，89大于69，结束查找 
-5）将左侧比分界值69大的数保存到A[right]元素中。 
-6）将分界值69中的值保存到A[left]中，最后得到结果 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> final int SIZE=<span class="number">18</span>;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">void</span> quickSort(int[] arr,int left,int right)			<span class="comment">//快速排序算法</span></span><br><span class="line">	&#123;</span><br><span class="line">	    int f,t;</span><br><span class="line">		int rtemp,ltemp;</span><br><span class="line"></span><br><span class="line">	    ltemp=left;</span><br><span class="line">	    rtemp=right;</span><br><span class="line">	    f=arr[(left+right)/<span class="number">2</span>];						<span class="comment">//分界值</span></span><br><span class="line">		<span class="keyword">while</span>(ltemp&lt;rtemp)</span><br><span class="line">		&#123;</span><br><span class="line">	        <span class="keyword">while</span>(arr[ltemp]&lt;f)</span><br><span class="line">			&#123;</span><br><span class="line">				++ltemp;</span><br><span class="line">			&#125;</span><br><span class="line">	        <span class="keyword">while</span>(arr[rtemp]&gt;f) </span><br><span class="line">			&#123;</span><br><span class="line">				--rtemp;</span><br><span class="line">			&#125;</span><br><span class="line">	        <span class="keyword">if</span>(ltemp&lt;=rtemp)</span><br><span class="line">	        &#123;</span><br><span class="line">				t=arr[ltemp];</span><br><span class="line">		        arr[ltemp]=arr[rtemp];</span><br><span class="line">	    	    arr[rtemp]=t;</span><br><span class="line">				--rtemp;</span><br><span class="line">	        	++ltemp;</span><br><span class="line">			&#125;</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="keyword">if</span>(ltemp==rtemp) </span><br><span class="line">		&#123;</span><br><span class="line">			ltemp++;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	    <span class="keyword">if</span>(left&lt;rtemp) </span><br><span class="line">		&#123;</span><br><span class="line">			quickSort(arr,left,ltemp<span class="number">-1</span>);			<span class="comment">//递归调用</span></span><br><span class="line">		&#125;</span><br><span class="line">	    <span class="keyword">if</span>(ltemp&lt;right) </span><br><span class="line">		&#123;</span><br><span class="line">			quickSort(arr,rtemp+<span class="number">1</span>,right);			<span class="comment">//递归调用</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) </span><br><span class="line">	&#123;</span><br><span class="line">		int[] shuzu=<span class="keyword">new</span> int[SIZE];</span><br><span class="line">		int i;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			shuzu[i]=(int)(<span class="number">100</span>+<span class="built_in">Math</span>.random()*(<span class="number">100</span>+<span class="number">1</span>));			<span class="comment">//初始化数组</span></span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		System.out.print(<span class="string">"排序前的数组为：\n"</span>);				<span class="comment">//输出排序前的数组</span></span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			System.out.print(shuzu[i]+<span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.print(<span class="string">"\n"</span>);</span><br><span class="line">		</span><br><span class="line">		quickSort(shuzu,<span class="number">0</span>,SIZE<span class="number">-1</span>);					<span class="comment">//排序操作</span></span><br><span class="line">		</span><br><span class="line">		System.out.print(<span class="string">"排序后的数组为：\n"</span>);</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			System.out.print(shuzu[i]+<span class="string">" "</span>);					<span class="comment">//输出排序后的数组</span></span><br><span class="line">		&#125;</span><br><span class="line">		System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 <a class="post-title-link" href="/2016/04/20/冒泡排序算法/" itemprop="url">
                   冒泡排序算法
                 </a>
@@ -1050,8 +1055,8 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
             
             
               
-                <a class="post-title-link" href="/2016/04/20/mysql-5-6-25-winx64免安装配置/" itemprop="url">
-                  mysql-5.6.25-winx64免安装配置
+                <a class="post-title-link" href="/2016/04/20/shell排序算法/" itemprop="url">
+                  shell排序算法
                 </a>
               
             
@@ -1061,7 +1066,7 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:36:58+08:00" content="2016-04-20">
+            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
               2016-04-20
             </time>
           </span>
@@ -1072,8 +1077,8 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/mysql-5-6-25-winx64免安装配置/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/mysql-5-6-25-winx64免安装配置/" itemprop="commentsCount"></span>
+                <a href="/2016/04/20/shell排序算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/shell排序算法/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -1095,32 +1100,18 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
         
           <span itemprop="articleBody">
             
-              <p>1.下载mysql免安装包 </p>
-<ol>
-<li>解压MySQL压缩包 </li>
-</ol>
-<p>将以下载的MySQL压缩包解压到自定义目录下。 </p>
-<ol>
-<li>添加环境变量 </li>
-</ol>
-<p>变量名：MYSQL_HOME<br>变量值：D:\Program Files\mysql-5.6.25-winx64<br>即为mysql的自定义解压目录。<br>再在Path中添加  %MYSQL_HOME%\bin </p>
-<ol>
-<li>注册windows系统服务 </li>
-</ol>
-<p>将mysql注册为windows系统服务<br>操作如下：<br>1）新建一个my.ini文件并把my.ini文件拷贝到c:\windows目录下，my.ini内容如下：<br>[client]<br>port=3306<br>default-character-set=utf8 </p>
-<p>[mysqld] </p>
-<h1 id="设置为MYSQL的安装目录"><a href="#设置为MYSQL的安装目录" class="headerlink" title="设置为MYSQL的安装目录"></a>设置为MYSQL的安装目录</h1><p>basedir=D:\Program Files\mysql-5.6.25-winx64 </p>
-<h1 id="设置为MYSQL的数据目录"><a href="#设置为MYSQL的数据目录" class="headerlink" title="设置为MYSQL的数据目录"></a>设置为MYSQL的数据目录</h1><p>datadir=D:\Program Files\mysql-5.6.25-winx64/data<br>port=3306<br>character_set_server=utf8<br>sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES<br>2）从控制台进入到MySQL解压目录下的 bin 目录下。<br>3）输入服务安装命令：<br>mysqld.exe -install<br>如果出现Install/Remove of the Service Denied!<br>是因为WINDOW 7 跟 vista 的权限更严格<br>进入 C:\Window\System32  找到CMD.EXE 右键选择 以管理员身份 进行，再进入相应目录执行命令，一切就OK了。 </p>
-<p>安装成功后会提示服务安装成功。<br>注：my-default.ini文件在MySQL解压后的根目录下，如果没有，可从其他地方中获取。<br>移除服务命令为：mysqld remove </p>
-<ol>
-<li>启动MySQL服务 </li>
-</ol>
-<p>方法一：<br>启动服务命令为：net start mysql<br>方法二：<br>打开管理工具 服务，找到MySQL服务。<br>通过右键选择启动或者直接点击左边的启动来启动服务。 </p>
-<ol>
-<li>修改 root 账号的密码 </li>
-</ol>
-<p>刚安装完成时root账号默认密码为空，此时可以将密码修改为指定的密码。如：root<br>方法一：<br>c:&gt;mysql –uroot<br>mysql&gt;show databases;<br>mysql&gt;use mysql;<br>mysql&gt;UPDATE user SET password=PASSWORD(“root”) WHERE user=’root’;<br>mysql&gt;FLUSH PRIVILEGES;<br>mysql&gt;QUIT</p>
+              <p> shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：<br>    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对<br>    2）一次循环使每一个序列对应排好顺序<br>    3）然后，再变为n/4个序列，再次排序<br>    4）不断重复上述过程 </p>
+<pre><code>例如如下数据排序 
 
+初始数据  127   118  105  101  112   100 
+
+一次排序  101   112  100  127  118   105 
+
+二次排序  100   101  105  112  118   127 
+
+第一次排序 首先数组分为6/2=3 3个元素一组 
+第二次排序 6/4=1(取整数) 每个逐个数据比较，采用插入算法进行 
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"></span><br><span class="line">		int[] data = <span class="keyword">new</span> int[] &#123; <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span> &#125;;</span><br><span class="line">		print(data);</span><br><span class="line">		shellSort(data);</span><br><span class="line">		print(data);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> shellSort(int[] data) &#123;</span><br><span class="line">		<span class="comment">// 计算出最大的h值</span></span><br><span class="line">		int h = <span class="number">1</span>;</span><br><span class="line">		System.out.println(data.length / <span class="number">3</span>); </span><br><span class="line">		<span class="keyword">while</span> (h &lt;= data.length / <span class="number">3</span>) &#123;</span><br><span class="line">			h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (h &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int i = h; i &lt; data.length; i += h) &#123;</span><br><span class="line">				<span class="keyword">if</span> (data[i] &lt; data[i - h]) &#123;</span><br><span class="line">					int tmp = data[i];</span><br><span class="line">					int j = i - h;</span><br><span class="line">					<span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; data[j] &gt; tmp) &#123;</span><br><span class="line">						data[j + h] = data[j];</span><br><span class="line">						j -= h;</span><br><span class="line">					&#125;</span><br><span class="line">					data[j + h] = tmp;</span><br><span class="line">					print(data);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 计算出下一个h值</span></span><br><span class="line">			h = (h - <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> print(int[] data) &#123;</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">			System.out.print(data[i] + <span class="string">"\t"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
             
           </span>
         
@@ -1183,7 +1174,7 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -45,25 +45,19 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="选择排序算法是比较简单的排序算法，其思路比较直观，选择排序算法在每一步中选取最小值来重新判断，从而达到排序的目的。    排序流程如下：    1）首先从原始数组中选择最小的一个数据，将其和位于第一个位置的数据交换    2）接着从剩下的n-1个数据中选词次小的一个数据，将其和第二个位置的数据交换    3）然后不断重复上述过程，直到最后二个数据完成交换 
-例如下数据 
-
-初始数据  118">
+<meta name="description" content="核心容器改进
+   1.核心容器额外提供了更丰富的元数据来改进编程。   2.默认 Java 8 的方法检测为 bean 属性的 getter/setter 方法。   3.如果目标 bean 只定义了一个构造函数,则它无需要指定@Autowired注解   4.@Configuration类支持构造函数注入。   5.任何 SpEL 表达式用于指定@EventListener的 conditio">
 <meta property="og:type" content="article">
-<meta property="og:title" content="选择排序算法">
-<meta property="og:url" content="http://luyulong.github.io/2016/04/20/选择排序算法/index.html">
+<meta property="og:title" content="spring 4.3新特性">
+<meta property="og:url" content="http://luyulong.github.io/2016/06/21/spring-4-3新特性/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="选择排序算法是比较简单的排序算法，其思路比较直观，选择排序算法在每一步中选取最小值来重新判断，从而达到排序的目的。    排序流程如下：    1）首先从原始数组中选择最小的一个数据，将其和位于第一个位置的数据交换    2）接着从剩下的n-1个数据中选词次小的一个数据，将其和第二个位置的数据交换    3）然后不断重复上述过程，直到最后二个数据完成交换 
-例如下数据 
-
-初始数据  118">
-<meta property="og:updated_time" content="2016-04-20T00:45:46.102Z">
+<meta property="og:description" content="核心容器改进
+   1.核心容器额外提供了更丰富的元数据来改进编程。   2.默认 Java 8 的方法检测为 bean 属性的 getter/setter 方法。   3.如果目标 bean 只定义了一个构造函数,则它无需要指定@Autowired注解   4.@Configuration类支持构造函数注入。   5.任何 SpEL 表达式用于指定@EventListener的 conditio">
+<meta property="og:updated_time" content="2016-06-21T05:47:29.301Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="选择排序算法">
-<meta name="twitter:description" content="选择排序算法是比较简单的排序算法，其思路比较直观，选择排序算法在每一步中选取最小值来重新判断，从而达到排序的目的。    排序流程如下：    1）首先从原始数组中选择最小的一个数据，将其和位于第一个位置的数据交换    2）接着从剩下的n-1个数据中选词次小的一个数据，将其和第二个位置的数据交换    3）然后不断重复上述过程，直到最后二个数据完成交换 
-例如下数据 
-
-初始数据  118">
+<meta name="twitter:title" content="spring 4.3新特性">
+<meta name="twitter:description" content="核心容器改进
+   1.核心容器额外提供了更丰富的元数据来改进编程。   2.默认 Java 8 的方法检测为 bean 属性的 getter/setter 方法。   3.如果目标 bean 只定义了一个构造函数,则它无需要指定@Autowired注解   4.@Configuration类支持构造函数注入。   5.任何 SpEL 表达式用于指定@EventListener的 conditio">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -75,7 +69,7 @@
 
 
 
-  <title> 选择排序算法 | yl.lu Blog </title>
+  <title> spring 4.3新特性 | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -229,7 +223,7 @@
             
             
               
-                选择排序算法
+                spring 4.3新特性
               
             
           </h1>
@@ -238,8 +232,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
+            <time itemprop="dateCreated" datetime="2016-06-21T13:38:48+08:00" content="2016-06-21">
+              2016-06-21
             </time>
           </span>
 
@@ -249,8 +243,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/选择排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/选择排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/06/21/spring-4-3新特性/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/21/spring-4-3新特性/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -269,19 +263,23 @@
       
 
       
-        <span itemprop="articleBody"><p>选择排序算法是比较简单的排序算法，其思路比较直观，选择排序算法在每一步中选取最小值来重新判断，从而达到排序的目的。<br>    排序流程如下：<br>    1）首先从原始数组中选择最小的一个数据，将其和位于第一个位置的数据交换<br>    2）接着从剩下的n-1个数据中选词次小的一个数据，将其和第二个位置的数据交换<br>    3）然后不断重复上述过程，直到最后二个数据完成交换 </p>
-<pre><code>例如下数据 
-
-初始数据  118   101  105  127  112 
-
-一次排序  101   118  105  127  112 
-
-二次排序  101   105  118  127  112 
-
-三次排序  101   105  112  127  118 
-
-四次排序  101   105  112  118  127 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">SelectSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</span><br><span class="line">		System.out.println(<span class="string">"排序之前："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 简单的选择排序</span></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			int min = a[i];</span><br><span class="line">			int n = i; <span class="comment">// 最小数的索引</span></span><br><span class="line">			<span class="keyword">for</span> (int j = i + <span class="number">1</span>; j &lt; a.length; j++) &#123;</span><br><span class="line">				<span class="keyword">if</span> (a[j] &lt; min) &#123; <span class="comment">// 找出最小的数</span></span><br><span class="line">					min = a[j];</span><br><span class="line">					n = j;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			a[n] = a[i];</span><br><span class="line">			a[i] = min;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(<span class="string">"排序之后："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
+        <span itemprop="articleBody"><p>核心容器改进</p>
+<p>   1.核心容器额外提供了更丰富的元数据来改进编程。<br>   2.默认 Java 8 的方法检测为 bean 属性的 getter/setter 方法。<br>   3.如果目标 bean 只定义了一个构造函数,则它无需要指定@Autowired注解<br>   4.@Configuration类支持构造函数注入。<br>   5.任何 SpEL 表达式用于指定@EventListener的 condition 引用到 bean（例如@beanName.method()）。<br>   6.组成注解现在可以用一个包含元注解中的数组属性的数组组件类型的元素来覆盖。例如，@RequestMapping的的String[] path 可以在组成注解用 String path 覆盖。<br>   7.@Scheduled和@Schedules现在是作为元注解用来通过属性覆盖来创建自定义的组成注解。<br>   8.@Scheduled适当支持任何范围内的 bean。<br>数据访问改进</p>
+<p>   1.jdbc:initialize-database 和 jdbc:embedded-database 支持可配置的分离器被应用到每个脚本。</p>
+<p>缓存改进</p>
+<p>   1.Spring 4.3 允许在一个给定的 key 并发调用时实现要同步，使得相应的值只计算一次。这是一个可选的功能，通过设置@Cacheable的新的 sync 属性来启用。此功能引入了Cache接口的一个重大更改，即get(Object key, Callable<t> valueLoader)方法已添加。</t></p>
+<p>Spring 4.3 还改进了缓存抽象如下：</p>
+<p>   2.SpEL 表达式对于缓存相关的注解，现在可以引用 bean（即@beanName.method())）。<br>   3.ConcurrentMapCacheManager和ConcurrentMapCache现在通过一个新的storeByValue属性支持缓存实体的序列化。 @Cacheable，@CacheEvict，@CachePut和@Caching现在是作为元注解用来通过属性覆盖来创建自定义的组成注解。<br>JMS 改进</p>
+<p>   1.@SendTo现在可以在类级别指定一个共同回复目标。<br>   2.@JmsListener 和 @JmsListeners现在是作为元注解用来通过属性覆盖来创建自定义的组成注解。<br>Web 改进</p>
+<p>   1.内建支持 HTTP HEAD 和 HTTP OPTIONS.<br>   2.新的组合注解 @GetMapping, @PostMapping, @PutMapping, @DeleteMapping, 和 @PatchMapping 用于 @RequestMapping。<br>     详见 @RequestMapping 组合变种<br>   3.新的@RequestScope, @SessionScope, 和 @ApplicationScope用于 web 范围的组合注解<br>   4.Request scope, Session scope, 和 Application scope<br>   5.新的 @RestControllerAdvice 注解是 @ControllerAdvice 和 @ResponseBody 的语义结合<br>   6.@ResponseStatus现在在类级别被支持，并被所有方法继承<br>   7.新的 @SessionAttribute 注解用于访问 session 属性 (见例子)<br>   8.新的 @RequestAttribute 注解用于访问请求属性 (见例子)<br>   9.@ModelAttribute 允许通过 binding=false 来避免数据绑定(见引用)<br>   10.错误和自定义抛出，将被统一到 MVC 异常处理器中处理<br>   11.HTTP 消息转换编码一致处理，包括默认 UTF-8 用于多部分文本内容<br>   12.静态资源处理使用配置的ContentNegotiationManager用于媒体类型计算<br>   13.RestTemplate 和 AsyncRestTemplate 支持通过DefaultUriTemplateHandler 来实现严格的URI变量编码<br>   14.AsyncRestTemplate支持请求拦截</p>
+<p>WebSocket 消息改进</p>
+<p>   1.@SendTo和@SendToUser现在可以在类级被指定为共享共同的目的地。</p>
+<p>测试改进</p>
+<p>   1.为了支持 Spring TestContext Framework ，现在需要 JUnit 4.12 或者更高的版本<br>   2.新的SpringRunner 关联于 SpringJUnit4ClassRunner<br>   3.测试相关的注解，现在可以在接口上声明了。例如，基于 Java 8 的接口上使用测试接口<br>   4.空声明的 @ContextConfiguration 现在将会完全忽略，如果检测到默认的 XML 文件, Groovy 脚本, 或 @Configuration 类型<br>   5.@Transactional 测试方法不再需要public (如, 在 TestNG 和 JUnit 5)<br>   6.@BeforeTransaction 和 @AfterTransaction不再需要public，并且在 基于 Java 8 的接口的默认方法上声明<br>   7.在Spring TestContext Framework 的ApplicationContext的缓存现在有界为32默认最大规模和最近最少使用驱逐策略。最大的大小可以通过设置称为spring.test.context.cache.maxSize 一个 JVM 系统属性或 Spring 配置。<br>   8.ContextCustomizer API 用于自定义测试 ApplicationContext 在 bean 定义加载到上下文后但在上下文被刷新前。定制工具可以在全球范围由第三方进行注册，而无需要实现一个自定义的 ContextLoader。<br>   9.@Sql 和 @SqlGroup 现在作为元注解通过覆盖属性来创建自定义组合注解10.<br>   10.ReflectionTestUtils现在在 set 或 get 一个字段时，会自动解开代理。<br>   11.服务器端的 Spring MVC 测试支持具有多个值的响应头。<br>   12.服务器端的 Spring MVC 测试解析表单数据的请求内容和填充请求参数。<br>   13.服务器端的 Spring MVC 测试支持 mock 式的断言来调用处理程序方法。<br>   14.客户端 REST 测试支持允许指定多少次预期的请求以及期望的声明顺序是否应该被忽略（参见15.6.3，“客户端REST测试”）。<br>   15.客户端 REST 测试支持请求主体表单数据的预期。</p>
+<p>支持新的类库和服务器</p>
+<p>   1.Hibernate ORM 5.2 (同样很好的支持 4.2/4.3 和 5.0/5.1，不推荐 3.6 )<br>   2.Jackson 2.8 (在Spring 4.3，最低至 Jackson 2.6+ )<br>   3.OkHttp 3.x (仍然并行支持 OkHttp 2.x)<br>   4.Netty 4.1<br>   5.Undertow 1.4<br>   6.Tomcat 8.5.2 以及 9.0 M6</p>
+<p>参考引用<br>中文的 《Spring Framework 4.x参考文档》</p>
+</span>
       
     </div>
 
@@ -292,17 +290,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/20/冒泡排序算法/" rel="next" title="冒泡排序算法">
-                <i class="fa fa-chevron-left"></i> 冒泡排序算法
+              <a href="/2016/04/29/业务层面缓存穿透的方案/" rel="next" title="业务层面缓存穿透的方案">
+                <i class="fa fa-chevron-left"></i> 业务层面缓存穿透的方案
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/20/快速排序算法/" rel="prev" title="快速排序算法">
-                快速排序算法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -317,10 +311,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/04/20/选择排序算法/"
-     data-title="选择排序算法"
+        <div class="ds-share flat" data-thread-key="2016/06/21/spring-4-3新特性/"
+     data-title="spring 4.3新特性"
      data-content=""
-     data-url="http://luyulong.github.io/2016/04/20/选择排序算法/">
+     data-url="http://luyulong.github.io/2016/06/21/spring-4-3新特性/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -350,8 +344,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/04/20/选择排序算法/"
-                   data-title="选择排序算法" data-url="http://luyulong.github.io/2016/04/20/选择排序算法/">
+              <div class="ds-thread" data-thread-key="2016/06/21/spring-4-3新特性/"
+                   data-title="spring 4.3新特性" data-url="http://luyulong.github.io/2016/06/21/spring-4-3新特性/">
               </div>
             
           </div>
