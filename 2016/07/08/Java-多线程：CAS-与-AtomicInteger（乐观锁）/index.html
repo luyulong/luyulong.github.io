@@ -45,25 +45,19 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
+<meta name="description" content="Java 多线程：CAS 与 AtomicInteger（乐观锁）
+悲观锁与乐观锁我们都知道，cpu是时分复用的，也就是把cpu的时间片，分配给不同的thread/process轮流执行，时间片与时间片之间，需要进行cpu切换，也就是会发生进程的切换。切换涉及到清空寄存器，缓存数据。然后重新加载新的thread所需数据。当一个线程被挂起时，加入到阻塞队列，在一定的时间或条件下，在通过notify(">
 <meta property="og:type" content="article">
-<meta property="og:title" content="shell排序算法">
-<meta property="og:url" content="http://luyulong.github.io/2016/04/20/shell排序算法/index.html">
+<meta property="og:title" content="Java 多线程：CAS 与 AtomicInteger（乐观锁）">
+<meta property="og:url" content="http://luyulong.github.io/2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
-<meta property="og:updated_time" content="2016-04-20T00:45:33.430Z">
+<meta property="og:description" content="Java 多线程：CAS 与 AtomicInteger（乐观锁）
+悲观锁与乐观锁我们都知道，cpu是时分复用的，也就是把cpu的时间片，分配给不同的thread/process轮流执行，时间片与时间片之间，需要进行cpu切换，也就是会发生进程的切换。切换涉及到清空寄存器，缓存数据。然后重新加载新的thread所需数据。当一个线程被挂起时，加入到阻塞队列，在一定的时间或条件下，在通过notify(">
+<meta property="og:updated_time" content="2016-07-08T01:51:03.791Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="shell排序算法">
-<meta name="twitter:description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
+<meta name="twitter:title" content="Java 多线程：CAS 与 AtomicInteger（乐观锁）">
+<meta name="twitter:description" content="Java 多线程：CAS 与 AtomicInteger（乐观锁）
+悲观锁与乐观锁我们都知道，cpu是时分复用的，也就是把cpu的时间片，分配给不同的thread/process轮流执行，时间片与时间片之间，需要进行cpu切换，也就是会发生进程的切换。切换涉及到清空寄存器，缓存数据。然后重新加载新的thread所需数据。当一个线程被挂起时，加入到阻塞队列，在一定的时间或条件下，在通过notify(">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -75,7 +69,7 @@
 
 
 
-  <title> shell排序算法 | yl.lu Blog </title>
+  <title> Java 多线程：CAS 与 AtomicInteger（乐观锁） | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -229,7 +223,7 @@
             
             
               
-                shell排序算法
+                Java 多线程：CAS 与 AtomicInteger（乐观锁）
               
             
           </h1>
@@ -238,8 +232,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
+            <time itemprop="dateCreated" datetime="2016-07-08T08:51:33+08:00" content="2016-07-08">
+              2016-07-08
             </time>
           </span>
 
@@ -249,8 +243,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/shell排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/shell排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -269,18 +263,16 @@
       
 
       
-        <span itemprop="articleBody"><p> shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：<br>    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对<br>    2）一次循环使每一个序列对应排好顺序<br>    3）然后，再变为n/4个序列，再次排序<br>    4）不断重复上述过程 </p>
-<pre><code>例如如下数据排序 
-
-初始数据  127   118  105  101  112   100 
-
-一次排序  101   112  100  127  118   105 
-
-二次排序  100   101  105  112  118   127 
-
-第一次排序 首先数组分为6/2=3 3个元素一组 
-第二次排序 6/4=1(取整数) 每个逐个数据比较，采用插入算法进行 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"></span><br><span class="line">		int[] data = <span class="keyword">new</span> int[] &#123; <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span> &#125;;</span><br><span class="line">		print(data);</span><br><span class="line">		shellSort(data);</span><br><span class="line">		print(data);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> shellSort(int[] data) &#123;</span><br><span class="line">		<span class="comment">// 计算出最大的h值</span></span><br><span class="line">		int h = <span class="number">1</span>;</span><br><span class="line">		System.out.println(data.length / <span class="number">3</span>); </span><br><span class="line">		<span class="keyword">while</span> (h &lt;= data.length / <span class="number">3</span>) &#123;</span><br><span class="line">			h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (h &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int i = h; i &lt; data.length; i += h) &#123;</span><br><span class="line">				<span class="keyword">if</span> (data[i] &lt; data[i - h]) &#123;</span><br><span class="line">					int tmp = data[i];</span><br><span class="line">					int j = i - h;</span><br><span class="line">					<span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; data[j] &gt; tmp) &#123;</span><br><span class="line">						data[j + h] = data[j];</span><br><span class="line">						j -= h;</span><br><span class="line">					&#125;</span><br><span class="line">					data[j + h] = tmp;</span><br><span class="line">					print(data);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 计算出下一个h值</span></span><br><span class="line">			h = (h - <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> print(int[] data) &#123;</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">			System.out.print(data[i] + <span class="string">"\t"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
+        <span itemprop="articleBody"><p>Java 多线程：CAS 与 AtomicInteger（乐观锁）</p>
+<h6 id="悲观锁与乐观锁"><a href="#悲观锁与乐观锁" class="headerlink" title="悲观锁与乐观锁"></a>悲观锁与乐观锁</h6><p>我们都知道，cpu是时分复用的，也就是把cpu的时间片，分配给不同的thread/process轮流执行，时间片与时间片之间，需要进行cpu切换，也就是会发生进程的切换。切换涉及到清空寄存器，缓存数据。然后重新加载新的thread所需数据。当一个线程被挂起时，加入到阻塞队列，在一定的时间或条件下，在通过notify()，notifyAll()唤醒回来。<br>在某个资源不可用的时候，就将cpu让出，把当前等待线程切换为阻塞状态。等到资源(比如一个共享数据）可用了，那么就将线程唤醒，让他进入runnable状态等待cpu调度。这就是典型的悲观锁的实现。独占锁是一种悲观锁，synchronized就是一种独占锁，它假设最坏的情况，并且只有在确保其它线程不会造成干扰的情况下执行，会导致其它所有需要锁的线程挂起，等待持有锁的线程释放锁。<br>但是，由于在进程挂起和恢复执行过程中存在着很大的开销。当一个线程正在等待锁时，它不能做任何事，所以悲观锁有很大的缺点。举个例子，如果一个线程需要某个资源，但是这个资源的占用时间很短，当线程第一次抢占这个资源时，可能这个资源被占用，如果此时挂起这个线程，可能立刻就发现资源可用，然后又需要花费很长的时间重新抢占锁，时间代价就会非常的高。<br>所以就有了乐观锁的概念，他的核心思路就是，每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。在上面的例子中，某个线程可以不让出cpu,而是一直while循环，如果失败就重试，直到成功为止。所以，当数据争用不严重时，乐观锁效果更好。比如CAS就是一种乐观锁思想的应用。</p>
+<h6 id="Java中CAS的实现"><a href="#Java中CAS的实现" class="headerlink" title="Java中CAS的实现"></a>Java中CAS的实现</h6><p>CAS就是Compare and Swap的意思，比较并操作。很多的cpu直接支持CAS指令。CAS是项乐观锁技术，当多个线程尝试使用CAS同时更新同一个变量时，只有其中一个线程能更新变量的值，而其它线程都失败，失败的线程并不会被挂起，而是被告知这次竞争中失败，并可以再次尝试。<br>CAS有3个操作数，内存值V，旧的预期值A，要修改的新值B。当且仅当预期值A和内存值V相同时，将内存值V修改为B，否则什么都不做。<br>JDK1.5中引入了底层的支持，在int、long和对象的引用等类型上都公开了CAS的操作，并且JVM把它们编译为底层硬件提供的最有效的方法，在运行CAS的平台上，运行时把它们编译为相应的机器指令。在java.util.concurrent.atomic包下面的所有的原子变量类型中，比如AtomicInteger，都使用了这些底层的JVM支持为数字类型的引用类型提供一种高效的CAS操作。</p>
+<h6 id="ABA-问题"><a href="#ABA-问题" class="headerlink" title="ABA 问题"></a>ABA 问题</h6><p>在CAS操作中，会出现ABA问题。就是如果V的值先由A变成B，再由B变成A，那么仍然认为是发生了变化，并需要重新执行算法中的步骤。<br>有简单的解决方案：不是更新某个引用的值，而是更新两个值，包括一个引用和一个版本号，即使这个值由A变为B，然后为变为A，版本号也是不同的。<br>AtomicStampedReference和AtomicMarkableReference支持在两个变量上执行原子的条件更新。AtomicStampedReference更新一个“对象-引用”二元组，通过在引用上加上“版本号”，从而避免ABA问题，AtomicMarkableReference将更新一个“对象引用-布尔值”的二元组。</p>
+<h6 id="AtomicInteger的实现"><a href="#AtomicInteger的实现" class="headerlink" title="AtomicInteger的实现"></a>AtomicInteger的实现</h6><p>AtomicInteger 是一个支持原子操作的 Integer 类，就是保证对AtomicInteger类型变量的增加和减少操作是原子性的，不会出现多个线程下的数据不一致问题。如果不使用 AtomicInteger，要实现一个按顺序获取的 ID，就必须在每次获取时进行加锁操作，以避免出现并发时获取到同样的 ID 的现象。<br>接下来通过源代码来看AtomicInteger具体是如何实现的原子操作。首先看incrementAndGet() 方法，下面是具体的代码：</p>
+<figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public final <span class="keyword">int</span> incrementAndGet() &#123;  </span><br><span class="line">        <span class="keyword">for</span> (<span class="comment">;;) &#123;  </span></span><br><span class="line">            <span class="keyword">int</span> current = get()<span class="comment">;  </span></span><br><span class="line">            <span class="keyword">int</span> <span class="keyword">next</span> = current + <span class="number">1</span><span class="comment">;  </span></span><br><span class="line">            <span class="keyword">if</span> (compareAndSet(current, <span class="keyword">next</span>))  </span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">next</span><span class="comment">;  </span></span><br><span class="line">        &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过源码，可以知道，这个方法的做法为先获取到当前的 value 属性值，然后将 value 加 1，赋值给一个局部的 next 变量，然而，这两步都是非线程安全的，但是内部有一个死循环，不断去做compareAndSet操作，直到成功为止，也就是修改的根本在compareAndSet方法里面，compareAndSet()方法的代码如下：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function"><span class="keyword">boolean</span> <span class="title">compareAndSet</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;  </span><br><span class="line">        <span class="function"><span class="keyword">return</span> unsafe.<span class="title">compareAndSwapInt</span><span class="params">(<span class="keyword">this</span>, valueOffset, expect, update)</span></span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>compareAndSet()方法调用的compareAndSwapInt()方法的声明如下，是一个native方法: publicfinal native boolean compareAndSwapInt(Object var1, long var2, int var4, intvar5);<br>compareAndSet 传入的为执行方法时获取到的 value 属性值，next 为加 1 后的值， compareAndSet所做的为调用 Sun 的 UnSafe 的 compareAndSwapInt 方法来完成，此方法为 native 方法，compareAndSwapInt 基于的是CPU 的 CAS指令来实现的。所以基于 CAS 的操作可认为是无阻塞的，一个线程的失败或挂起不会引起其它线程也失败或挂起。并且由于 CAS 操作是 CPU 原语，所以性能比较好。<br>类似的，还有decrementAndGet()方法。它和incrementAndGet()的区别是将 value 减 1，赋值给next 变量。<br>AtomicInteger中还有getAndIncrement() 和getAndDecrement() 方法，他们的实现原理和上面的两个方法完全相同，区别是返回值不同，前两个方法返回的是改变之后的值，即next。而这两个方法返回的是改变之前的值，即current。还有很多的其他方法，就不列举了。<br>转载<br><strong>转载</strong></p>
+</span>
       
     </div>
 
@@ -291,16 +283,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/20/冒泡排序算法/" rel="next" title="冒泡排序算法">
-                <i class="fa fa-chevron-left"></i> 冒泡排序算法
+              <a href="/2016/07/08/Java-多线程：线程池实现原理/" rel="next" title="Java 多线程：线程池实现原理">
+                <i class="fa fa-chevron-left"></i> Java 多线程：线程池实现原理
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/04/20/选择排序算法/" rel="prev" title="选择排序算法">
-                选择排序算法 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/07/08/Java-多线程：InheritableThreadLocal-实现原理/" rel="prev" title="Java 多线程：InheritableThreadLocal 实现原理">
+                Java 多线程：InheritableThreadLocal 实现原理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -316,10 +308,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/04/20/shell排序算法/"
-     data-title="shell排序算法"
+        <div class="ds-share flat" data-thread-key="2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/"
+     data-title="Java 多线程：CAS 与 AtomicInteger（乐观锁）"
      data-content=""
-     data-url="http://luyulong.github.io/2016/04/20/shell排序算法/">
+     data-url="http://luyulong.github.io/2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -349,8 +341,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/04/20/shell排序算法/"
-                   data-title="shell排序算法" data-url="http://luyulong.github.io/2016/04/20/shell排序算法/">
+              <div class="ds-thread" data-thread-key="2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/"
+                   data-title="Java 多线程：CAS 与 AtomicInteger（乐观锁）" data-url="http://luyulong.github.io/2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/">
               </div>
             
           </div>

@@ -45,25 +45,28 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
+<meta name="description" content="前言
+我们都知道，所谓线程池，那么就是相当于有一个池子，线程就放在这个池子中进行重复利用，能够减去了线程的创建和销毁所带来的代价。但是这样并不能很好的解释线程池的原理，下面从代码的角度分析一下线程池的实现。
+线程池的相关类
+对于原理，在 Java 中，有几个接口，类 值得我们关注：
+ExecutorExecutorServiceAbstractExecutorServiceThreadPoolEx">
 <meta property="og:type" content="article">
-<meta property="og:title" content="shell排序算法">
-<meta property="og:url" content="http://luyulong.github.io/2016/04/20/shell排序算法/index.html">
+<meta property="og:title" content="Java 多线程：线程池实现原理">
+<meta property="og:url" content="http://luyulong.github.io/2016/07/08/Java-多线程：线程池实现原理/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
-<meta property="og:updated_time" content="2016-04-20T00:45:33.430Z">
+<meta property="og:description" content="前言
+我们都知道，所谓线程池，那么就是相当于有一个池子，线程就放在这个池子中进行重复利用，能够减去了线程的创建和销毁所带来的代价。但是这样并不能很好的解释线程池的原理，下面从代码的角度分析一下线程池的实现。
+线程池的相关类
+对于原理，在 Java 中，有几个接口，类 值得我们关注：
+ExecutorExecutorServiceAbstractExecutorServiceThreadPoolEx">
+<meta property="og:updated_time" content="2016-07-08T00:45:02.277Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="shell排序算法">
-<meta name="twitter:description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
+<meta name="twitter:title" content="Java 多线程：线程池实现原理">
+<meta name="twitter:description" content="前言
+我们都知道，所谓线程池，那么就是相当于有一个池子，线程就放在这个池子中进行重复利用，能够减去了线程的创建和销毁所带来的代价。但是这样并不能很好的解释线程池的原理，下面从代码的角度分析一下线程池的实现。
+线程池的相关类
+对于原理，在 Java 中，有几个接口，类 值得我们关注：
+ExecutorExecutorServiceAbstractExecutorServiceThreadPoolEx">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -75,7 +78,7 @@
 
 
 
-  <title> shell排序算法 | yl.lu Blog </title>
+  <title> Java 多线程：线程池实现原理 | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -229,7 +232,7 @@
             
             
               
-                shell排序算法
+                Java 多线程：线程池实现原理
               
             
           </h1>
@@ -238,8 +241,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
+            <time itemprop="dateCreated" datetime="2016-07-08T08:33:49+08:00" content="2016-07-08">
+              2016-07-08
             </time>
           </span>
 
@@ -249,8 +252,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/shell排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/shell排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/07/08/Java-多线程：线程池实现原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/08/Java-多线程：线程池实现原理/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -269,18 +272,88 @@
       
 
       
-        <span itemprop="articleBody"><p> shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：<br>    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对<br>    2）一次循环使每一个序列对应排好顺序<br>    3）然后，再变为n/4个序列，再次排序<br>    4）不断重复上述过程 </p>
-<pre><code>例如如下数据排序 
+        <span itemprop="articleBody"><p><strong>前言</strong></p>
+<p>我们都知道，所谓线程池，那么就是相当于有一个池子，线程就放在这个池子中进行重复利用，能够减去了线程的创建和销毁所带来的代价。但是这样并不能很好的解释线程池的原理，下面从代码的角度分析一下线程池的实现。</p>
+<p><strong>线程池的相关类</strong></p>
+<p>对于原理，在 Java 中，有几个接口，类 值得我们关注：</p>
+<p><strong>Executor</strong><br><strong>ExecutorService</strong><br><strong>AbstractExecutorService</strong><br><strong>ThreadPoolExecutor</strong><br><strong>Executor</strong></p>
+<p><pre><code><br>public interface Executor {<br>    void execute(Runnable command);<br>}<br></code></pre><br>Executor 接口只有一个 方法，execute，并且需要 传入一个 Runnable 类型的参数。那么它的作用自然是 具体的执行参数传入的任务。</p>
+<p><strong>ExecutorService</strong></p>
+<p><pre><code><br>public interface ExecutorService extends Executor {</code></pre></p>
+<pre><code>void shutdown();
 
-初始数据  127   118  105  101  112   100 
+List&lt;Runnable&gt; shutdownNow();
 
-一次排序  101   112  100  127  118   105 
+boolean isShutdown();
 
-二次排序  100   101  105  112  118   127 
+&lt;T&gt; Future&lt;T&gt; submit(Callable&lt;T&gt; task);
 
-第一次排序 首先数组分为6/2=3 3个元素一组 
-第二次排序 6/4=1(取整数) 每个逐个数据比较，采用插入算法进行 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"></span><br><span class="line">		int[] data = <span class="keyword">new</span> int[] &#123; <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span> &#125;;</span><br><span class="line">		print(data);</span><br><span class="line">		shellSort(data);</span><br><span class="line">		print(data);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> shellSort(int[] data) &#123;</span><br><span class="line">		<span class="comment">// 计算出最大的h值</span></span><br><span class="line">		int h = <span class="number">1</span>;</span><br><span class="line">		System.out.println(data.length / <span class="number">3</span>); </span><br><span class="line">		<span class="keyword">while</span> (h &lt;= data.length / <span class="number">3</span>) &#123;</span><br><span class="line">			h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (h &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int i = h; i &lt; data.length; i += h) &#123;</span><br><span class="line">				<span class="keyword">if</span> (data[i] &lt; data[i - h]) &#123;</span><br><span class="line">					int tmp = data[i];</span><br><span class="line">					int j = i - h;</span><br><span class="line">					<span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; data[j] &gt; tmp) &#123;</span><br><span class="line">						data[j + h] = data[j];</span><br><span class="line">						j -= h;</span><br><span class="line">					&#125;</span><br><span class="line">					data[j + h] = tmp;</span><br><span class="line">					print(data);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 计算出下一个h值</span></span><br><span class="line">			h = (h - <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> print(int[] data) &#123;</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">			System.out.print(data[i] + <span class="string">"\t"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
+&lt;T&gt; Future&lt;T&gt; submit(Runnable task, T result);
+
+Future&lt;?&gt; submit(Runnable task);
+
+&lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)
+    throws InterruptedException;
+......
+</code></pre><p>}<br><br>ExecutorService 接口继承了 Executor，并且提供了一些其他的方法，比如说：</p>
+<p>shutdownNow ： 关闭线程池，返回放入了线程池，但是还没开始执行的线程。<br>submit ： 执行的任务 允许拥有返回值。<br>invokeAll ： 运行把任务放进集合中，进行批量的执行，并且能有返回值<br>这三个方法也可以说是这个接口重点扩展的方法。</p>
+<p>Ps：execute 和 submit 区别：</p>
+<p>submit 有返回值，execute 没有返回值。 所以说可以根据任务有无返回值选择对应的方法。<br>submit 方便异常的处理。 如果任务可能会抛出异常，而且希望外面的调用者能够感知这些异常，那么就需要调用 submit 方法，通过捕获 Future.get 抛出的异常。<br>AbstractExecutorService</p>
+<p>AbstractExecutorService 是一个抽象类，主要完成了 对 submit 方法，invokeAll 方法 的实现。 但是其实它的内部还是调用了 execute 方法，例如：</p>
+<p><pre><code><br>public Future&lt;?&gt; submit(Runnable task) {<br>    if (task == null) throw new NullPointerException();<br>        RunnableFuture<void> ftask = newTaskFor(task, null);<br>        execute(ftask);<br>        return ftask;<br>    }<br></void></code></pre><br><strong>ThreadPoolExecutor</strong></p>
+<p>ThreadPoolExecutor 继承了 AbstractExecutorService，并且实现了最重要的 execute 方法，是我们主要需要研究的类。另外，整个线程池是如何实现的呢？<br>在该类中，有两个成员变量 非常的重要：</p>
+<p><pre><code><br>private final HashSet<worker> workers = new HashSet<worker>();<br>private final BlockingQueue<runnable> workQueue;<br></runnable></worker></worker></code></pre><br>对于 workers 变量，主要存在了线程对象 Worker，Worker 实现了 Runnable 接口。而对于 workQueue 变量，主要存放了需要执行的任务。 这样其实可以猜到， 整个线程池的实现原理应该是 workQueue 中不断的取出需要执行的任务，放在 workers 中进行处理。</p>
+<p>另外，当线程池中的线程用完了之后，多余的任务会等待，那么这个等待的过程是 怎么实现的呢？ 其实如果熟悉 BlockingQueue，那么就会马上知道，是利用了 BlockingQueue 的take 方法进行处理。</p>
+<p>下面具体代码分析：</p>
+<p><pre><code><br>   public void execute(Runnable command) {<br>        ……<br>        if (workerCountOf(c) &lt; corePoolSize) {<br>            if (addWorker(command, true))<br>                return;<br>            c = ctl.get();<br>        }<br>        if (isRunning(c) &amp;&amp; workQueue.offer(command)) {<br>            int recheck = ctl.get();<br>            if (! isRunning(recheck) &amp;&amp; remove(command))<br>                reject(command);<br>            else if (workerCountOf(recheck) == 0)<br>                addWorker(null, false);<br>        }<br>        ……<br>    }<br></code></pre><br>首先，这里需要先理解两个概念。我们在创建线程池的时候，通常会指定两个变量，一个是maximumPoolSize，另外一个是 corePoolSize。</p>
+<p>对于 maximumPoolSize：指的是 线程池中最多允许有多少个线程。<br>对于 corePoolSize： 指的是线程池中正在运行的线程。<br>在 线程池中，有这样的设定，我们加入一个任务进行执行，</p>
+<p>如果现在线程池中正在运行的线程数量大于 corePoolSize 指定的值而 小于maximumPoolSize 指定的值，那么就会创建一个线程对该任务进行执行，一旦一个线程被创建运行。<br>如果线程池中的线程数量大于corePoolSize，那么这个任务执行完毕后，该线程会被回收；如果 小于corePoolSize，那么该线程即使空闲，也不会被回收。下个任务过来，那么就使用这个空闲线程。<br>对于上述代码，首先有：</p>
+<p>if (workerCountOf(c) &lt; corePoolSize)</p>
+<p>也就是说，判断现在的线程数量是否小于corePoolSize，如果小于，那么就创建一个线程执行该任务，也就是执行</p>
+<p>addWorker(command, true)</p>
+<p>如果大于，那么就把该任务放进队列当中，即</p>
+<p>workQueue.offer(command)</p>
+<p>那么，addWorker 是干什么的呢？</p>
+<p><pre><code><br>private boolean addWorker(Runnable firstTask, boolean core) {<br>    boolean workerStarted = false;<br>    boolean workerAdded = false;<br>    Worker w = null;<br>    try {<br>        w = new Worker(firstTask);<br>        final Thread t = w.thread;<br>        if (t != null) {<br>            final ReentrantLock mainLock = this.mainLock;<br>            mainLock.lock();<br>            try {<br>                int rs = runStateOf(ctl.get());</code></pre></p>
+<pre><code>            if (rs &lt; SHUTDOWN ||
+                (rs == SHUTDOWN &amp;&amp; firstTask == null)) {
+                if (t.isAlive()) // precheck that t is startable
+                    throw new IllegalThreadStateException();
+                    workers.add(w);
+                    int s = workers.size();
+                    if (s &gt; largestPoolSize)
+                        largestPoolSize = s;
+                    workerAdded = true;
+                }
+         ......
+}
+</code></pre><p><br>在这里可以看到一些关键代码，例如 w = new Worker(firstTask)， 以及 workers.add(w); 从这里 我们就可以看到，创建 线程对象 并且加入到 线程 队列中。但是，我们现在还没有看到具体是怎么执行任务的，继续追踪 w = new Worker(firstTask)，如下代码：</p>
+<p><pre><code><br>private final class Worker<br>        extends AbstractQueuedSynchronizer<br>        implements Runnable<br>    {<br>        ……</code></pre></p>
+<pre><code>final Thread thread;
+
+Runnable firstTask;
+Worker(Runnable firstTask) {
+    setState(-1); // inhibit interrupts until runWorker
+    this.firstTask = firstTask;
+    this.thread = getThreadFactory().newThread(this);
+}
+public void run() {
+    runWorker(this);
+}
+......
+</code></pre><p><br>对于 runWorker 方法：</p>
+<p><pre><code><br>final void runWorker(Worker w) {<br>        Thread wt = Thread.currentThread();<br>        Runnable task = w.firstTask;<br>        w.firstTask = null;<br>        w.unlock(); // allow interrupts<br>        boolean completedAbruptly = true;<br>        try {<br>            while (task != null || (task = getTask()) != null) {<br>                w.lock();<br>                if ((runStateAtLeast(ctl.get(), STOP) ||<br>                     (Thread.interrupted() &amp;&amp;<br>                      runStateAtLeast(ctl.get(), STOP))) &amp;&amp;<br>                    !wt.isInterrupted())<br>                    wt.interrupt();<br>                try {<br>                    beforeExecute(wt, task);<br>                    Throwable thrown = null;<br>                    try {<br>                        task.run();<br>                    } catch (RuntimeException x) {<br>                        thrown = x; throw x;<br>                    } catch (Error x) {<br>                        thrown = x; throw x;<br>                    } catch (Throwable x) {<br>                        thrown = x; throw new Error(x);<br>                    } finally {<br>                        afterExecute(task, thrown);<br>                    }<br>                }<br>                ……<br>    }<br>    </code></pre><br>在这段代码中，就有很多关键的信息，比如说，Runnable task = w.firstTask;如果为空，那么就 执行 task = getTask()，如果不为空，那么就 进行 task.run(); 调用其方法，这里也就是具体的执行的任务。</p>
+<p>现在知道了是怎么样执行具体的任务，那么假如任务的数量 大于 线程池的数量，那么是怎么实现等待的呢，这里就需要看到getTask() 的具体实现了，如下：</p>
+<p><pre><code><br>private Runnable getTask() {<br>        for (;;) {<br>           ……<br>            try {<br>                Runnable r = timed ?<br>                    workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :<br>                    workQueue.take();<br>                if (r != null)<br>                    return r;<br>                timedOut = true;<br>            } catch (InterruptedException retry) {<br>                timedOut = false;<br>            }<br>        }<br>    }<br></code></pre><br>这里可以看到， 一个 for 死循环，以及</p>
+<p><pre><code><br>Runnable r = timed ? workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) : workQueue.take();<br></code></pre><br>而 workQueue 是 BlockingQueue 类型，也就是带有阻塞的功能。</p>
+<p>这就是 线程如何等待执行的。</p>
+<p><strong>总结</strong></p>
+<p>现在就可以知道，大致的线程池实现原理：</p>
+<p>首先，各自存放线程和任务，其中，任务带有阻塞。</p>
+<p><pre><code><br>private final HashSet<worker> workers = new HashSet<worker>();<br>private final BlockingQueue<runnable> workQueue;<br></runnable></worker></worker></code></pre><br>然后，在 execute 方法中 进行 addWorker(command，true)，也就是创建一个线程，把任务放进去执行；或者是直接把任务放入到任务队列中。</p>
+<p>接着 如果是 addWorker，那么就会 new Worker(task) -》调用其中 run() 方法，在Worker 的run() 方法中，调用 runWorker(this); 方法 -》在该方法中就会具体执行我们的任务 task.run(); 同时这个 runWorker方法相当于是个死循环，正常情况下就会一直取出 任务队列中的任务来执行，这就保证了线程 不会销毁。</p>
+<p>所以，这也是为什么常说的线程池可以避免线程的频繁创建和 销毁带来的性能消耗。</p>
+</span>
       
     </div>
 
@@ -291,16 +364,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/20/冒泡排序算法/" rel="next" title="冒泡排序算法">
-                <i class="fa fa-chevron-left"></i> 冒泡排序算法
+              <a href="/2016/07/01/Linux中查找命令总结/" rel="next" title="Linux中查找命令总结">
+                <i class="fa fa-chevron-left"></i> Linux中查找命令总结
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/04/20/选择排序算法/" rel="prev" title="选择排序算法">
-                选择排序算法 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/" rel="prev" title="Java 多线程：CAS 与 AtomicInteger（乐观锁）">
+                Java 多线程：CAS 与 AtomicInteger（乐观锁） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -316,10 +389,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/04/20/shell排序算法/"
-     data-title="shell排序算法"
+        <div class="ds-share flat" data-thread-key="2016/07/08/Java-多线程：线程池实现原理/"
+     data-title="Java 多线程：线程池实现原理"
      data-content=""
-     data-url="http://luyulong.github.io/2016/04/20/shell排序算法/">
+     data-url="http://luyulong.github.io/2016/07/08/Java-多线程：线程池实现原理/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -349,8 +422,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/04/20/shell排序算法/"
-                   data-title="shell排序算法" data-url="http://luyulong.github.io/2016/04/20/shell排序算法/">
+              <div class="ds-thread" data-thread-key="2016/07/08/Java-多线程：线程池实现原理/"
+                   data-title="Java 多线程：线程池实现原理" data-url="http://luyulong.github.io/2016/07/08/Java-多线程：线程池实现原理/">
               </div>
             
           </div>

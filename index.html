@@ -221,6 +221,576 @@
             
             
               
+                <a class="post-title-link" href="/2016/07/08/Java-多线程：InheritableThreadLocal-实现原理/" itemprop="url">
+                  Java 多线程：InheritableThreadLocal 实现原理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-07-08T08:56:04+08:00" content="2016-07-08">
+              2016-07-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/08/Java-多线程：InheritableThreadLocal-实现原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/08/Java-多线程：InheritableThreadLocal-实现原理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>介绍 InheritableThreadLocal 之前，假设对 ThreadLocal 已经有了一定的理解，比如基本概念，原理，如果没有，可以参考：Java 多线程：threadlocal关键字。<br>这里再复习下 ThreadLocal 的原理，因为会对 InheritableThreadLocal 的理解 有重大的帮助：<br>每个线程都有一个 ThreadLocalMap 类型的 threadLocals 属性。<br>ThreadLocalMap 类相当于一个Map，key 是 ThreadLocal 本身，value 就是我们的值。<br>当我们通过 threadLocal.set(new Integer(123)); ，我们就会在这个线程中的 threadLocals 属性中放入一个键值对，key 是 这个 threadLocal.set(new Integer(123)); 的 threadlocal，value 就是值。<br>当我们通过 threadlocal.get() 方法的时候，首先会根据这个线程得到这个线程的 threadLocals 属性，然后由于这个属性放的是键值对，我们就可以根据键 threadlocal 拿到值。 注意，这时候这个键 threadlocal 和 我们 set 方法的时候的那个键 threadlocal 是一样的，所以我们能够拿到相同的值。<br>Ps：如果这个原理没搞清楚，那么下文估计有比较难理解，所以建议完完全全搞懂这个原理。<br>InheritableThreadLocal 概念</p>
+<p>从上面的介绍我们可以知道，我们其实是根据 Thread.currentThread()，拿到该线程的 threadlocals，从而进一步得到我们之前预先 set 好的值。那么如果我们新开一个线程，这个时候，由于 Thread.currentThread() 已经变了，从而导致获得的 threadlocals 不一样，我们之前并没有在这个新的线程的 threadlocals 中放入值，那么我就再通过 threadlocal.get()方法 是不可能拿到值的。例如如下代码：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Test</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;Integer&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String args[]</span>)</span>&#123;</span><br><span class="line">        threadLocal.<span class="keyword">set</span>(<span class="keyword">new</span> Integer(<span class="number">123</span>));</span><br><span class="line"></span><br><span class="line">        Thread thread = <span class="keyword">new</span> MyThread();</span><br><span class="line">        thread.start();</span><br><span class="line"></span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"main = "</span> + threadLocal.<span class="keyword">get</span>());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">MyThread</span> <span class="title">extends</span> <span class="title">Thread</span>&#123;</span><br><span class="line">        @<span class="function">Override</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            System.<span class="keyword">out</span>.println(<span class="string">"MyThread = "</span> + threadLocal.<span class="keyword">get</span>());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出是：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">main</span> = <span class="number">123</span></span><br><span class="line"><span class="attr">MyThread</span> = null</span><br></pre></td></tr></table></figure>
+<p>那么这个时候怎么解决？ InheritableThreadLocal 就可以解决这个问题。 先看一个官方对它的介绍：</p>
+<ul>
+<li>This class extends <tt>ThreadLocal</tt> to provide inheritance of values</li>
+<li>from parent thread to child thread: when a child thread is created, the</li>
+<li>child receives initial values for all inheritable thread-local variables</li>
+<li>for which the parent has values.  Normally the child’s values will be</li>
+<li>identical to the parent’s; however, the child’s value can be made an</li>
+<li>arbitrary function of the parent’s by overriding the <tt>childValue</tt></li>
+<li>method in this class.<br>也就是说，我们把上面的</li>
+</ul>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;<span class="built_in">Integer</span>&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;<span class="built_in">Integer</span>&gt;();</span><br></pre></td></tr></table></figure>
+<p>改成</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;<span class="built_in">Integer</span>&gt; threadLocal = <span class="keyword">new</span> InheritableThreadLocal&lt;<span class="built_in">Integer</span>&gt;();</span><br></pre></td></tr></table></figure>
+<p>再运行，就会有结果：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">main</span> = <span class="number">123</span></span><br><span class="line"><span class="attr">MyThread</span> = <span class="number">123</span></span><br></pre></td></tr></table></figure>
+<p>也就是子线程或者说新开的线程拿到了该值。那么，这个究竟是怎么实现的呢，key 都变了，为什么还可以拿到呢？<br>InheritableThreadLocal 原理</p>
+<p>我们可以首先可以浏览下 InheritableThreadLocal 类中有什么东西：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">InheritableThreadLocal&lt;T&gt;</span> <span class="keyword">extends</span> <span class="title">ThreadLocal&lt;T&gt;</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="type">T</span> childValue(<span class="type">T</span> parentValue) &#123;</span><br><span class="line">        <span class="keyword">return</span> parentValue;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">ThreadLocalMap</span> getMap(<span class="type">Thread</span> t) &#123;</span><br><span class="line">       <span class="keyword">return</span> t.inheritableThreadLocals;</span><br><span class="line">    &#125;</span><br><span class="line">    void createMap(<span class="type">Thread</span> t, <span class="type">T</span> firstValue) &#123;</span><br><span class="line">        t.inheritableThreadLocals = <span class="keyword">new</span> <span class="type">ThreadLocalMap</span>(<span class="keyword">this</span>, firstValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实就是重写了3个方法。<br>首先，当我们调用 get 方法的时候，由于子类没有重写，所以我们调用了父类的 get 方法：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public T get() &#123;</span><br><span class="line">    <span class="type">Thread</span> t = <span class="type">Thread</span>.currentThread();</span><br><span class="line">    <span class="type">ThreadLocalMap</span> map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != null) &#123;</span><br><span class="line">        <span class="type">ThreadLocalMap</span>.<span class="type">Entry</span> e = map.getEntry(this);</span><br><span class="line">        <span class="keyword">if</span> (e != null) &#123;</span><br><span class="line">            @<span class="type">SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T <span class="literal">result</span> = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里会有一个Thread.currentThread() ， getMap(t) 方法，所以就会得到这个线程 threadlocals。 但是，由于子类 InheritableThreadLocal 重写了 getMap()方法，再看上述代码，我们可以看到： 其实不是得到 threadlocals，而是得到 inheritableThreadLocals。 inheritableThreadLocals 之前一直没提及过，其实它也是 Thread 类的一个 ThreadLocalMap 类型的 属性，如下 Thread 类的部分代码：</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal.ThreadLocalMap <span class="attr">threadLocals</span> = <span class="literal">null</span>;</span><br><span class="line">ThreadLocal.ThreadLocalMap <span class="attr">inheritableThreadLocals</span> = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<p>那么，这里看 InheritableThreadLocal 重写的方法，感觉 inheritableThreadLocals 和 threadLocals 几乎是一模一样的作用，只是换了个名字而且，那么究竟 为什么在新的 线程中 通过 threadlocal.get() 方法还能得到值呢？<br>这时候要注意 childValue 方法，我们可以看下它的官方说明：</p>
+<ul>
+<li>Computes the child’s initial value for this inheritable thread-local</li>
+<li>variable as a function of the parent’s value at the time the child</li>
+<li>thread is created.  This method is called from within the parent</li>
+<li>thread before the child is started.<br>这个时候，你明白了，是不是在 创建线程的时候做了手脚，做了一些值的传递，或者这里利用上了 inheritableThreadLocals 之类的。<br>其实，是的：<br>关键在于 Thread thread = new MyThread();<br>关键在于 Thread thread = new MyThread();<br>关键在于 Thread thread = new MyThread();<br>这不是一个简简单单的 new 操作。当我们 new 一个 线程的时候：</li>
+</ul>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Thread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    init(<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="string">"Thread-"</span> + nextThreadNum(), <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(ThreadGroup g, Runnable <span class="keyword">target</span>, String name,</span><br><span class="line">                      <span class="keyword">long</span> stackSize)</span> </span>&#123;</span><br><span class="line">    init(g, <span class="keyword">target</span>, name, stackSize, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后：</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="literal">void</span> init(ThreadGroup g, Runnable target, <span class="built_in">String</span> name,</span><br><span class="line">                      long stackSize, AccessControlContext acc) &#123;</span><br><span class="line">     <span class="attr">...</span><span class="attr">...</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">parent</span>.inheritableThreadLocals != <span class="built_in">null</span>)</span><br><span class="line">        this.inheritableThreadLocals =</span><br><span class="line">            ThreadLocal.createInheritedMap(<span class="keyword">parent</span>.inheritableThreadLocals);</span><br><span class="line">        <span class="comment">/* Stash the specified stack size in case the VM cares */</span></span><br><span class="line">        this.stackSize = stackSize;</span><br><span class="line">    <span class="attr">...</span><span class="attr">...</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这时候有一句 ‘ThreadLocal.createInheritedMap(parent.inheritableThreadLocals);’ ，然后</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="function">ThreadLocalMap <span class="title">createInheritedMap</span><span class="params">(ThreadLocalMap parentMap)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadLocalMap(parentMap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>继续跟踪：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> ThreadLocalMap(ThreadLocalMap parentMap) &#123;</span><br><span class="line">    Entry[] parentTable = parentMap.table;</span><br><span class="line">    <span class="built_in">int</span> len = parentTable.length;</span><br><span class="line">    setThreshold(len);</span><br><span class="line">    table = <span class="keyword">new</span> Entry[len];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">        Entry e = parentTable[j];</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            @SuppressWarnings(<span class="string">"unchecked"</span>)</span><br><span class="line">            ThreadLocal&lt;<span class="keyword">Object</span>&gt; <span class="built_in">key</span> = (ThreadLocal&lt;<span class="keyword">Object</span>&gt;) e.<span class="built_in">get</span>();</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">key</span> != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">Object</span> value = <span class="built_in">key</span>.childValue(e.value);</span><br><span class="line">                Entry c = <span class="keyword">new</span> Entry(<span class="built_in">key</span>, value);</span><br><span class="line">                <span class="built_in">int</span> h = <span class="built_in">key</span>.threadLocalHashCode &amp; (len - <span class="number">1</span>);</span><br><span class="line">                <span class="keyword">while</span> (table[h] != <span class="keyword">null</span>)</span><br><span class="line">                    h = nextIndex(h, len);</span><br><span class="line">                    table[h] = c;</span><br><span class="line">                    <span class="built_in">size</span>++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>当我们创建一个新的线程的时候X，X线程就会有 ThreadLocalMap 类型的 inheritableThreadLocals ，因为它是 Thread 类的一个属性。</p>
+<h2 id="然后"><a href="#然后" class="headerlink" title="然后"></a>然后</h2><p>先得到当前线程存储的这些值，例如 Entry[] parentTable = parentMap.table; 。再通过一个 for 循环，不断的把当前线程的这些值复制到我们新创建的线程X 的inheritableThreadLocals 中。就这样，就ok了。<br>那么这样会有一个什么结果呢？<br>结果就是我们创建的新线程X 的inheritableThreadLocals 变量中已经有了值了。那么我在新的线程X中调用 threadlocal.get()方法，首先会得到新线程X 的 inheritableThreadLocals，然后，再根据threadlocal.get()中的 threadlocal，就能够得到这个值。<br>这样就避免了 新线程中得到的 threadlocals 没有东西。之前就是因为没有东西，所以才拿不到值。<br>所以说 整个 InheritableThreadLocal 的实现原理就是这样的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>首先要理解 为什么 在 新线程中得不到值，是因为我们其实是根据 Thread.currentThread()，拿到该线程的 threadlocals，从而进一步得到我们之前预先 set 好的值。那么如果我们新开一个线程，这个时候，由于 Thread.currentThread() 已经变了，从而导致获得的 threadlocals 不一样，我们之前并没有在这个新的线程的 threadlocals 中放入值，那么我就再通过 threadlocal.get()方法 是不可能拿到值的。<br>那么解决办法就是 我们在新线程中，要把父线程的 threadlocals 的值 给复制到 新线程中的 threadlocals 中来。这样，我们在新线程中得到的 threadlocals 才会有东西，再通过 threadlocal.get() 中的 threadlocal，就会得到值。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>java concurrency in practice读书笔记—ThreadLocal原理<br>ThreadLocal和synchronized的区别?</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                <a class="post-title-link" href="/2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/" itemprop="url">
+                  Java 多线程：CAS 与 AtomicInteger（乐观锁）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-07-08T08:51:33+08:00" content="2016-07-08">
+              2016-07-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/08/Java-多线程：CAS-与-AtomicInteger（乐观锁）/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>Java 多线程：CAS 与 AtomicInteger（乐观锁）</p>
+<h6 id="悲观锁与乐观锁"><a href="#悲观锁与乐观锁" class="headerlink" title="悲观锁与乐观锁"></a>悲观锁与乐观锁</h6><p>我们都知道，cpu是时分复用的，也就是把cpu的时间片，分配给不同的thread/process轮流执行，时间片与时间片之间，需要进行cpu切换，也就是会发生进程的切换。切换涉及到清空寄存器，缓存数据。然后重新加载新的thread所需数据。当一个线程被挂起时，加入到阻塞队列，在一定的时间或条件下，在通过notify()，notifyAll()唤醒回来。<br>在某个资源不可用的时候，就将cpu让出，把当前等待线程切换为阻塞状态。等到资源(比如一个共享数据）可用了，那么就将线程唤醒，让他进入runnable状态等待cpu调度。这就是典型的悲观锁的实现。独占锁是一种悲观锁，synchronized就是一种独占锁，它假设最坏的情况，并且只有在确保其它线程不会造成干扰的情况下执行，会导致其它所有需要锁的线程挂起，等待持有锁的线程释放锁。<br>但是，由于在进程挂起和恢复执行过程中存在着很大的开销。当一个线程正在等待锁时，它不能做任何事，所以悲观锁有很大的缺点。举个例子，如果一个线程需要某个资源，但是这个资源的占用时间很短，当线程第一次抢占这个资源时，可能这个资源被占用，如果此时挂起这个线程，可能立刻就发现资源可用，然后又需要花费很长的时间重新抢占锁，时间代价就会非常的高。<br>所以就有了乐观锁的概念，他的核心思路就是，每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。在上面的例子中，某个线程可以不让出cpu,而是一直while循环，如果失败就重试，直到成功为止。所以，当数据争用不严重时，乐观锁效果更好。比如CAS就是一种乐观锁思想的应用。</p>
+<h6 id="Java中CAS的实现"><a href="#Java中CAS的实现" class="headerlink" title="Java中CAS的实现"></a>Java中CAS的实现</h6><p>CAS就是Compare and Swap的意思，比较并操作。很多的cpu直接支持CAS指令。CAS是项乐观锁技术，当多个线程尝试使用CAS同时更新同一个变量时，只有其中一个线程能更新变量的值，而其它线程都失败，失败的线程并不会被挂起，而是被告知这次竞争中失败，并可以再次尝试。<br>CAS有3个操作数，内存值V，旧的预期值A，要修改的新值B。当且仅当预期值A和内存值V相同时，将内存值V修改为B，否则什么都不做。<br>JDK1.5中引入了底层的支持，在int、long和对象的引用等类型上都公开了CAS的操作，并且JVM把它们编译为底层硬件提供的最有效的方法，在运行CAS的平台上，运行时把它们编译为相应的机器指令。在java.util.concurrent.atomic包下面的所有的原子变量类型中，比如AtomicInteger，都使用了这些底层的JVM支持为数字类型的引用类型提供一种高效的CAS操作。</p>
+<h6 id="ABA-问题"><a href="#ABA-问题" class="headerlink" title="ABA 问题"></a>ABA 问题</h6><p>在CAS操作中，会出现ABA问题。就是如果V的值先由A变成B，再由B变成A，那么仍然认为是发生了变化，并需要重新执行算法中的步骤。<br>有简单的解决方案：不是更新某个引用的值，而是更新两个值，包括一个引用和一个版本号，即使这个值由A变为B，然后为变为A，版本号也是不同的。<br>AtomicStampedReference和AtomicMarkableReference支持在两个变量上执行原子的条件更新。AtomicStampedReference更新一个“对象-引用”二元组，通过在引用上加上“版本号”，从而避免ABA问题，AtomicMarkableReference将更新一个“对象引用-布尔值”的二元组。</p>
+<h6 id="AtomicInteger的实现"><a href="#AtomicInteger的实现" class="headerlink" title="AtomicInteger的实现"></a>AtomicInteger的实现</h6><p>AtomicInteger 是一个支持原子操作的 Integer 类，就是保证对AtomicInteger类型变量的增加和减少操作是原子性的，不会出现多个线程下的数据不一致问题。如果不使用 AtomicInteger，要实现一个按顺序获取的 ID，就必须在每次获取时进行加锁操作，以避免出现并发时获取到同样的 ID 的现象。<br>接下来通过源代码来看AtomicInteger具体是如何实现的原子操作。首先看incrementAndGet() 方法，下面是具体的代码：</p>
+<figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public final <span class="keyword">int</span> incrementAndGet() &#123;  </span><br><span class="line">        <span class="keyword">for</span> (<span class="comment">;;) &#123;  </span></span><br><span class="line">            <span class="keyword">int</span> current = get()<span class="comment">;  </span></span><br><span class="line">            <span class="keyword">int</span> <span class="keyword">next</span> = current + <span class="number">1</span><span class="comment">;  </span></span><br><span class="line">            <span class="keyword">if</span> (compareAndSet(current, <span class="keyword">next</span>))  </span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">next</span><span class="comment">;  </span></span><br><span class="line">        &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过源码，可以知道，这个方法的做法为先获取到当前的 value 属性值，然后将 value 加 1，赋值给一个局部的 next 变量，然而，这两步都是非线程安全的，但是内部有一个死循环，不断去做compareAndSet操作，直到成功为止，也就是修改的根本在compareAndSet方法里面，compareAndSet()方法的代码如下：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function"><span class="keyword">boolean</span> <span class="title">compareAndSet</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;  </span><br><span class="line">        <span class="function"><span class="keyword">return</span> unsafe.<span class="title">compareAndSwapInt</span><span class="params">(<span class="keyword">this</span>, valueOffset, expect, update)</span></span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>compareAndSet()方法调用的compareAndSwapInt()方法的声明如下，是一个native方法: publicfinal native boolean compareAndSwapInt(Object var1, long var2, int var4, intvar5);<br>compareAndSet 传入的为执行方法时获取到的 value 属性值，next 为加 1 后的值， compareAndSet所做的为调用 Sun 的 UnSafe 的 compareAndSwapInt 方法来完成，此方法为 native 方法，compareAndSwapInt 基于的是CPU 的 CAS指令来实现的。所以基于 CAS 的操作可认为是无阻塞的，一个线程的失败或挂起不会引起其它线程也失败或挂起。并且由于 CAS 操作是 CPU 原语，所以性能比较好。<br>类似的，还有decrementAndGet()方法。它和incrementAndGet()的区别是将 value 减 1，赋值给next 变量。<br>AtomicInteger中还有getAndIncrement() 和getAndDecrement() 方法，他们的实现原理和上面的两个方法完全相同，区别是返回值不同，前两个方法返回的是改变之后的值，即next。而这两个方法返回的是改变之前的值，即current。还有很多的其他方法，就不列举了。<br>转载<br><strong>转载</strong></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                <a class="post-title-link" href="/2016/07/08/Java-多线程：线程池实现原理/" itemprop="url">
+                  Java 多线程：线程池实现原理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-07-08T08:33:49+08:00" content="2016-07-08">
+              2016-07-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/08/Java-多线程：线程池实现原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/08/Java-多线程：线程池实现原理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p><strong>前言</strong></p>
+<p>我们都知道，所谓线程池，那么就是相当于有一个池子，线程就放在这个池子中进行重复利用，能够减去了线程的创建和销毁所带来的代价。但是这样并不能很好的解释线程池的原理，下面从代码的角度分析一下线程池的实现。</p>
+<p><strong>线程池的相关类</strong></p>
+<p>对于原理，在 Java 中，有几个接口，类 值得我们关注：</p>
+<p><strong>Executor</strong><br><strong>ExecutorService</strong><br><strong>AbstractExecutorService</strong><br><strong>ThreadPoolExecutor</strong><br><strong>Executor</strong></p>
+<p><pre><code><br>public interface Executor {<br>    void execute(Runnable command);<br>}<br></code></pre><br>Executor 接口只有一个 方法，execute，并且需要 传入一个 Runnable 类型的参数。那么它的作用自然是 具体的执行参数传入的任务。</p>
+<p><strong>ExecutorService</strong></p>
+<p><pre><code><br>public interface ExecutorService extends Executor {</code></pre></p>
+<pre><code>void shutdown();
+
+List&lt;Runnable&gt; shutdownNow();
+
+boolean isShutdown();
+
+&lt;T&gt; Future&lt;T&gt; submit(Callable&lt;T&gt; task);
+
+&lt;T&gt; Future&lt;T&gt; submit(Runnable task, T result);
+
+Future&lt;?&gt; submit(Runnable task);
+
+&lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)
+    throws InterruptedException;
+......
+</code></pre><p>}<br><br>ExecutorService 接口继承了 Executor，并且提供了一些其他的方法，比如说：</p>
+<p>shutdownNow ： 关闭线程池，返回放入了线程池，但是还没开始执行的线程。<br>submit ： 执行的任务 允许拥有返回值。<br>invokeAll ： 运行把任务放进集合中，进行批量的执行，并且能有返回值<br>这三个方法也可以说是这个接口重点扩展的方法。</p>
+<p>Ps：execute 和 submit 区别：</p>
+<p>submit 有返回值，execute 没有返回值。 所以说可以根据任务有无返回值选择对应的方法。<br>submit 方便异常的处理。 如果任务可能会抛出异常，而且希望外面的调用者能够感知这些异常，那么就需要调用 submit 方法，通过捕获 Future.get 抛出的异常。<br>AbstractExecutorService</p>
+<p>AbstractExecutorService 是一个抽象类，主要完成了 对 submit 方法，invokeAll 方法 的实现。 但是其实它的内部还是调用了 execute 方法，例如：</p>
+<p><pre><code><br>public Future&lt;?&gt; submit(Runnable task) {<br>    if (task == null) throw new NullPointerException();<br>        RunnableFuture<void> ftask = newTaskFor(task, null);<br>        execute(ftask);<br>        return ftask;<br>    }<br></void></code></pre><br><strong>ThreadPoolExecutor</strong></p>
+<p>ThreadPoolExecutor 继承了 AbstractExecutorService，并且实现了最重要的 execute 方法，是我们主要需要研究的类。另外，整个线程池是如何实现的呢？<br>在该类中，有两个成员变量 非常的重要：</p>
+<p><pre><code><br>private final HashSet<worker> workers = new HashSet<worker>();<br>private final BlockingQueue<runnable> workQueue;<br></runnable></worker></worker></code></pre><br>对于 workers 变量，主要存在了线程对象 Worker，Worker 实现了 Runnable 接口。而对于 workQueue 变量，主要存放了需要执行的任务。 这样其实可以猜到， 整个线程池的实现原理应该是 workQueue 中不断的取出需要执行的任务，放在 workers 中进行处理。</p>
+<p>另外，当线程池中的线程用完了之后，多余的任务会等待，那么这个等待的过程是 怎么实现的呢？ 其实如果熟悉 BlockingQueue，那么就会马上知道，是利用了 BlockingQueue 的take 方法进行处理。</p>
+<p>下面具体代码分析：</p>
+<p><pre><code><br>   public void execute(Runnable command) {<br>        ……<br>        if (workerCountOf(c) &lt; corePoolSize) {<br>            if (addWorker(command, true))<br>                return;<br>            c = ctl.get();<br>        }<br>        if (isRunning(c) &amp;&amp; workQueue.offer(command)) {<br>            int recheck = ctl.get();<br>            if (! isRunning(recheck) &amp;&amp; remove(command))<br>                reject(command);<br>            else if (workerCountOf(recheck) == 0)<br>                addWorker(null, false);<br>        }<br>        ……<br>    }<br></code></pre><br>首先，这里需要先理解两个概念。我们在创建线程池的时候，通常会指定两个变量，一个是maximumPoolSize，另外一个是 corePoolSize。</p>
+<p>对于 maximumPoolSize：指的是 线程池中最多允许有多少个线程。<br>对于 corePoolSize： 指的是线程池中正在运行的线程。<br>在 线程池中，有这样的设定，我们加入一个任务进行执行，</p>
+<p>如果现在线程池中正在运行的线程数量大于 corePoolSize 指定的值而 小于maximumPoolSize 指定的值，那么就会创建一个线程对该任务进行执行，一旦一个线程被创建运行。<br>如果线程池中的线程数量大于corePoolSize，那么这个任务执行完毕后，该线程会被回收；如果 小于corePoolSize，那么该线程即使空闲，也不会被回收。下个任务过来，那么就使用这个空闲线程。<br>对于上述代码，首先有：</p>
+<p>if (workerCountOf(c) &lt; corePoolSize)</p>
+<p>也就是说，判断现在的线程数量是否小于corePoolSize，如果小于，那么就创建一个线程执行该任务，也就是执行</p>
+<p>addWorker(command, true)</p>
+<p>如果大于，那么就把该任务放进队列当中，即</p>
+<p>workQueue.offer(command)</p>
+<p>那么，addWorker 是干什么的呢？</p>
+<p><pre><code><br>private boolean addWorker(Runnable firstTask, boolean core) {<br>    boolean workerStarted = false;<br>    boolean workerAdded = false;<br>    Worker w = null;<br>    try {<br>        w = new Worker(firstTask);<br>        final Thread t = w.thread;<br>        if (t != null) {<br>            final ReentrantLock mainLock = this.mainLock;<br>            mainLock.lock();<br>            try {<br>                int rs = runStateOf(ctl.get());</code></pre></p>
+<pre><code>            if (rs &lt; SHUTDOWN ||
+                (rs == SHUTDOWN &amp;&amp; firstTask == null)) {
+                if (t.isAlive()) // precheck that t is startable
+                    throw new IllegalThreadStateException();
+                    workers.add(w);
+                    int s = workers.size();
+                    if (s &gt; largestPoolSize)
+                        largestPoolSize = s;
+                    workerAdded = true;
+                }
+         ......
+}
+</code></pre><p><br>在这里可以看到一些关键代码，例如 w = new Worker(firstTask)， 以及 workers.add(w); 从这里 我们就可以看到，创建 线程对象 并且加入到 线程 队列中。但是，我们现在还没有看到具体是怎么执行任务的，继续追踪 w = new Worker(firstTask)，如下代码：</p>
+<p><pre><code><br>private final class Worker<br>        extends AbstractQueuedSynchronizer<br>        implements Runnable<br>    {<br>        ……</code></pre></p>
+<pre><code>final Thread thread;
+
+Runnable firstTask;
+Worker(Runnable firstTask) {
+    setState(-1); // inhibit interrupts until runWorker
+    this.firstTask = firstTask;
+    this.thread = getThreadFactory().newThread(this);
+}
+public void run() {
+    runWorker(this);
+}
+......
+</code></pre><p><br>对于 runWorker 方法：</p>
+<p><pre><code><br>final void runWorker(Worker w) {<br>        Thread wt = Thread.currentThread();<br>        Runnable task = w.firstTask;<br>        w.firstTask = null;<br>        w.unlock(); // allow interrupts<br>        boolean completedAbruptly = true;<br>        try {<br>            while (task != null || (task = getTask()) != null) {<br>                w.lock();<br>                if ((runStateAtLeast(ctl.get(), STOP) ||<br>                     (Thread.interrupted() &amp;&amp;<br>                      runStateAtLeast(ctl.get(), STOP))) &amp;&amp;<br>                    !wt.isInterrupted())<br>                    wt.interrupt();<br>                try {<br>                    beforeExecute(wt, task);<br>                    Throwable thrown = null;<br>                    try {<br>                        task.run();<br>                    } catch (RuntimeException x) {<br>                        thrown = x; throw x;<br>                    } catch (Error x) {<br>                        thrown = x; throw x;<br>                    } catch (Throwable x) {<br>                        thrown = x; throw new Error(x);<br>                    } finally {<br>                        afterExecute(task, thrown);<br>                    }<br>                }<br>                ……<br>    }<br>    </code></pre><br>在这段代码中，就有很多关键的信息，比如说，Runnable task = w.firstTask;如果为空，那么就 执行 task = getTask()，如果不为空，那么就 进行 task.run(); 调用其方法，这里也就是具体的执行的任务。</p>
+<p>现在知道了是怎么样执行具体的任务，那么假如任务的数量 大于 线程池的数量，那么是怎么实现等待的呢，这里就需要看到getTask() 的具体实现了，如下：</p>
+<p><pre><code><br>private Runnable getTask() {<br>        for (;;) {<br>           ……<br>            try {<br>                Runnable r = timed ?<br>                    workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :<br>                    workQueue.take();<br>                if (r != null)<br>                    return r;<br>                timedOut = true;<br>            } catch (InterruptedException retry) {<br>                timedOut = false;<br>            }<br>        }<br>    }<br></code></pre><br>这里可以看到， 一个 for 死循环，以及</p>
+<p><pre><code><br>Runnable r = timed ? workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) : workQueue.take();<br></code></pre><br>而 workQueue 是 BlockingQueue 类型，也就是带有阻塞的功能。</p>
+<p>这就是 线程如何等待执行的。</p>
+<p><strong>总结</strong></p>
+<p>现在就可以知道，大致的线程池实现原理：</p>
+<p>首先，各自存放线程和任务，其中，任务带有阻塞。</p>
+<p><pre><code><br>private final HashSet<worker> workers = new HashSet<worker>();<br>private final BlockingQueue<runnable> workQueue;<br></runnable></worker></worker></code></pre><br>然后，在 execute 方法中 进行 addWorker(command，true)，也就是创建一个线程，把任务放进去执行；或者是直接把任务放入到任务队列中。</p>
+<p>接着 如果是 addWorker，那么就会 new Worker(task) -》调用其中 run() 方法，在Worker 的run() 方法中，调用 runWorker(this); 方法 -》在该方法中就会具体执行我们的任务 task.run(); 同时这个 runWorker方法相当于是个死循环，正常情况下就会一直取出 任务队列中的任务来执行，这就保证了线程 不会销毁。</p>
+<p>所以，这也是为什么常说的线程池可以避免线程的频繁创建和 销毁带来的性能消耗。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                <a class="post-title-link" href="/2016/07/01/Linux中查找命令总结/" itemprop="url">
+                  Linux中查找命令总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-07-01T08:41:34+08:00" content="2016-07-01">
+              2016-07-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/01/Linux中查找命令总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/01/Linux中查找命令总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>一 find<br>find是最常使用和最强大的查找命令，可以找到任何想查找找的文件<br>用法如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find &lt;指定目录&gt; <span class="xml"><span class="tag">&lt;<span class="name">指定条件</span>&gt;</span> <span class="tag">&lt;<span class="name">指定动作</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>如果不加参数，默认搜索当前目录及其子目录，并且不过滤任何结果（也就是返回所有文件）<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name <span class="string">'a*'</span></span><br></pre></td></tr></table></figure></p>
+<p>搜索home目录（含子目录）中所有文件名以a开头的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name <span class="string">'a*'</span> -ls</span><br></pre></td></tr></table></figure></p>
+<p>搜索home目录（含子目录）中所有文件名以a开头的文件并显示它们的详细信息。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -type f -mmin <span class="number">-10</span></span><br></pre></td></tr></table></figure></p>
+<p>搜索home目录中所有过去10分钟中更新过的普通文件,如果不加-type f参数，则搜索普通文件+特殊文件+目录。</p>
+<p>二  locate<br>locate命令实质上是”find -name”的另一种写法，但是要比后者快得多，原因在于它不搜索具体目录，而是搜索一个数据库（/var/lib/locatedb），这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，所以使用locate命令查不到最新变动过的文件。为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locate /etc/sh</span><br></pre></td></tr></table></figure></p>
+<p>搜索etc目录下所有以sh开头的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locate ~<span class="regexp">/m</span></span><br></pre></td></tr></table></figure></p>
+<p>搜索home录下，所有以m开头的文件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locate -i ~<span class="regexp">/m</span></span><br></pre></td></tr></table></figure></p>
+<p>搜索用户主目录下，所有以m开头的文件，并且忽略大小写</p>
+<p>三 whereis<br>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s），如果省略参数则返回所有信息<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ whereis grep</span><br></pre></td></tr></table></figure></p>
+<p>四 which<br>which命令是在PATH变量指定的路径中搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令就可以看到某个系统命令是否存在以及执行的到底是哪一个位置的命令<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ which grep</span><br></pre></td></tr></table></figure></p>
+<p>五 type<br>type命令其实不能算查找命令，它是用来查看某个命令是由shell自带的还是由shell外部的独立二进制文件提供的，如果一个命令是外部命令，使用-p参数会显示该命令的路径，相当于which命令<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ type cd</span><br></pre></td></tr></table></figure></p>
+<p>输出 “cd 是 shell 内建”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ type grep</span><br></pre></td></tr></table></figure></p>
+<p>输出 “grep 是 `grep –color=auto’ 的别名”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ type -p grep</span><br></pre></td></tr></table></figure></p>
+<p>加上-p参数后就相当于which命令</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                <a class="post-title-link" href="/2016/06/27/centos-linux查看memcache运行状况/" itemprop="url">
+                  centos linux查看memcache运行状况
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-06-27T16:07:36+08:00" content="2016-06-27">
+              2016-06-27
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/27/centos-linux查看memcache运行状况/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/27/centos-linux查看memcache运行状况/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>Memcache<br>Memcache是danga.com的一个开源项目，它是一个高性能的分布式的内存对象缓存系统，通过在内存里维护一个统一的巨大的Hash表，能够用来存储各种格式的数据。<br>查看当前的memcache连接数：</p>
+<p>[root@mem1 ~]# netstat -n | grep :11211 | wc -l<br>15752</p>
+<p>查看默认允许的连接数：<br>[root@mem1 ~]# cat /etc/rc.local </p>
+<p>#!/bin/sh<br>#</p>
+<h1 id="This-script-will-be-executed-after-all-the-other-init-scripts"><a href="#This-script-will-be-executed-after-all-the-other-init-scripts" class="headerlink" title="This script will be executed after all the other init scripts."></a>This script will be executed <em>after</em> all the other init scripts.</h1><h1 id="You-can-put-your-own-initialization-stuff-in-here-if-you-don’t"><a href="#You-can-put-your-own-initialization-stuff-in-here-if-you-don’t" class="headerlink" title="You can put your own initialization stuff in here if you don’t"></a>You can put your own initialization stuff in here if you don’t</h1><h1 id="want-to-do-the-full-Sys-V-style-init-stuff"><a href="#want-to-do-the-full-Sys-V-style-init-stuff" class="headerlink" title="want to do the full Sys V style init stuff."></a>want to do the full Sys V style init stuff.</h1><p>touch /var/lock/subsys/local<br>/usr/local/bin/memcached -d -m 15360 -u root -l 172.20.1.54 -p 11211 -c 40960<br>/usr/local/bin/memcached -d -m 512 -u root -l 172.20.1.54 -p 11212 -c 10000<br>这里设置的11211端口默认连接数是40960</p>
+<p>在网络上查到资料， Memcache也有自己的查看工具：<br>如何查看memcache服务器端版本:  ./memcached  -h<br>memcache的运行状态可以方便的用 stats 命令显示。</p>
+<p><img src="/uploads/1467012497.png" alt="Paste_Image.png"></p>
+<p>首先用telnet 127.0.0.1 11211这样的命令连接上memcache，然后直接输入stats就可以得到当前memcache的状态。<br>这些状态的说明如下：<br>pid    memcache服务器的进程ID<br>uptime    服务器已经运行的秒数<br>time    服务器当前的unix时间戳<br>version    memcache版本<br>pointer_size    当前操作系统的指针大小（32位系统一般是32bit）<br>rusage_user    进程的累计用户时间<br>rusage_system    进程的累计系统时间<br>curr_items    服务器当前存储的items数量<br>total_items    从服务器启动以后存储的items总数量<br>bytes    当前服务器存储items占用的字节数<br>curr_connections    当前打开着的连接数<br>total_connections    从服务器启动以后曾经打开过的连接数<br>connection_structures    服务器分配的连接构造数<br>cmd_get    get命令（获取）总请求次数<br>cmd_set    set命令（保存）总请求次数<br>get_hits    总命中次数<br>get_misses    总未命中次数<br>evictions    为获取空闲内存而删除的items数（分配给memcache的空间用满后需要删除旧的items来得到空间分配给新的items）<br>bytes_read    总读取字节数（请求字节数）<br>bytes_written    总发送字节数（结果字节数）<br>limit_maxbytes    分配给memcache的内存大小（字节）<br>threads    当前线程数</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
                 <a class="post-title-link" href="/2016/06/27/微服务、SOA-和-API对比与分析/" itemprop="url">
                   微服务、SOA 和 API对比与分析
                 </a>
@@ -744,460 +1314,11 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
 
 
     
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/04/28/java-IO和NIO类图/" itemprop="url">
-                  java IO和NIO类图
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-28T10:47:58+08:00" content="2016-04-28">
-              2016-04-28
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/28/java-IO和NIO类图/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/28/java-IO和NIO类图/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>IO和NIO类图<br><img src="/uploads/javaIO.png" alt="Paste_Image.png"><br><img src="/uploads/channel.png" alt="Paste_Image.png"></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/04/28/java集合类图/" itemprop="url">
-                  java集合类图
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-28T10:37:05+08:00" content="2016-04-28">
-              2016-04-28
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/28/java集合类图/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/28/java集合类图/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p><img src="/uploads/java集合类图.png" alt="Paste_Image.png"></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/04/26/java序列化测试性能比对/" itemprop="url">
-                  java序列化测试性能比对
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-26T08:16:11+08:00" content="2016-04-26">
-              2016-04-26
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/26/java序列化测试性能比对/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/26/java序列化测试性能比对/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>最近在做redis封装的过程中，需要使用序列化进行数据的传输，索性就把各种序列化方案都拿出来做了一个对比。<br>        序列化有两种用途：<br>                    1)把对象的字节序列永久的保存在硬盘中<br>                    2)在网络上传输对象的字节序列</p>
-<pre><code>场景：通过模拟一个普通的POJO类进行序列化和反序列化的过程
-      每种情况进行1000万次的循环
-      不同版本JDK的模拟
-序列化方案：
-         1.fst
-         2.jdk
-         3.kryo
-         4.hession
-         5.protostuff
-         6.jackson
-         7.fastjson
-</code></pre><p>测试结果：<br><img src="/uploads/序列化.png" alt="Paste_Image.png"><br>         总结：<br>                1.java版本升级到1.8后 JDK版本越高性能越好<br>                2.protostuff序列化的神器，除了kryo，远远超过了其他的序列化方式<br>                3.hession序列化性能应该是超越JDK的。但是测试结果却不尽然，目前还没发现问题所在。<br>                4.从空间上看，protostuff也远远低于其他几种序列化方案</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/04/20/冒泡排序算法/" itemprop="url">
-                  冒泡排序算法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/20/冒泡排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/冒泡排序算法/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>  冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。<br>     排序流程：<br>     1）对数组中的各个数据，一次比较相邻的二个元素的大小<br>     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好<br>     3）再用同样的方法依次进行比较 </p>
-<pre><code>例如以下数据 
-
-初始数据  118   101  105  127  112 
-
-一次排序  101   118  105  112  127 
-
-二次排序  101   105  118  112  127 
-
-三次排序  101   105  112  118  127 
-
-四次排序  101   105  112  118  127 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</span><br><span class="line">		System.out.println(<span class="string">"排序之前："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 冒泡排序</span></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; a.length - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">	        <span class="comment">// 这里-i主要是每遍历一次都把最大的i个数沉到最底下去了，没有必要再替换了</span></span><br><span class="line">				<span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>]) &#123;</span><br><span class="line">					int temp = a[j];</span><br><span class="line">					a[j] = a[j + <span class="number">1</span>];</span><br><span class="line">					a[j + <span class="number">1</span>] = temp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(<span class="string">"排序之后："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/04/20/选择排序算法/" itemprop="url">
-                  选择排序算法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/20/选择排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/选择排序算法/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>选择排序算法是比较简单的排序算法，其思路比较直观，选择排序算法在每一步中选取最小值来重新判断，从而达到排序的目的。<br>    排序流程如下：<br>    1）首先从原始数组中选择最小的一个数据，将其和位于第一个位置的数据交换<br>    2）接着从剩下的n-1个数据中选词次小的一个数据，将其和第二个位置的数据交换<br>    3）然后不断重复上述过程，直到最后二个数据完成交换 </p>
-<pre><code>例如下数据 
-
-初始数据  118   101  105  127  112 
-
-一次排序  101   118  105  127  112 
-
-二次排序  101   105  118  127  112 
-
-三次排序  101   105  112  127  118 
-
-四次排序  101   105  112  118  127 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">SelectSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</span><br><span class="line">		System.out.println(<span class="string">"排序之前："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 简单的选择排序</span></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			int min = a[i];</span><br><span class="line">			int n = i; <span class="comment">// 最小数的索引</span></span><br><span class="line">			<span class="keyword">for</span> (int j = i + <span class="number">1</span>; j &lt; a.length; j++) &#123;</span><br><span class="line">				<span class="keyword">if</span> (a[j] &lt; min) &#123; <span class="comment">// 找出最小的数</span></span><br><span class="line">					min = a[j];</span><br><span class="line">					n = j;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			a[n] = a[i];</span><br><span class="line">			a[i] = min;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(<span class="string">"排序之后："</span>);</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1235,7 +1356,7 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

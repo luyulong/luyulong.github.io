@@ -45,25 +45,24 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
+<meta name="description" content="MemcacheMemcache是danga.com的一个开源项目，它是一个高性能的分布式的内存对象缓存系统，通过在内存里维护一个统一的巨大的Hash表，能够用来存储各种格式的数据。查看当前的memcache连接数：
+[root@mem1 ~]# netstat -n | grep :11211 | wc -l15752
+查看默认允许的连接数：[root@mem1 ~]# cat /etc/rc.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="shell排序算法">
-<meta property="og:url" content="http://luyulong.github.io/2016/04/20/shell排序算法/index.html">
+<meta property="og:title" content="centos linux查看memcache运行状况">
+<meta property="og:url" content="http://luyulong.github.io/2016/06/27/centos-linux查看memcache运行状况/index.html">
 <meta property="og:site_name" content="yl.lu Blog">
-<meta property="og:description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
-<meta property="og:updated_time" content="2016-04-20T00:45:33.430Z">
+<meta property="og:description" content="MemcacheMemcache是danga.com的一个开源项目，它是一个高性能的分布式的内存对象缓存系统，通过在内存里维护一个统一的巨大的Hash表，能够用来存储各种格式的数据。查看当前的memcache连接数：
+[root@mem1 ~]# netstat -n | grep :11211 | wc -l15752
+查看默认允许的连接数：[root@mem1 ~]# cat /etc/rc.">
+<meta property="og:image" content="http://luyulong.github.io/uploads/1467012497.png">
+<meta property="og:updated_time" content="2016-06-27T08:08:41.281Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="shell排序算法">
-<meta name="twitter:description" content="shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对    2）一次循环使每一个序列对应排好顺序    3）然后，再变为n/4个序列，再次排序    4）不断重复上述过程 
-例如如下数据排序 
-
-初始数据  127   118  105  101">
+<meta name="twitter:title" content="centos linux查看memcache运行状况">
+<meta name="twitter:description" content="MemcacheMemcache是danga.com的一个开源项目，它是一个高性能的分布式的内存对象缓存系统，通过在内存里维护一个统一的巨大的Hash表，能够用来存储各种格式的数据。查看当前的memcache连接数：
+[root@mem1 ~]# netstat -n | grep :11211 | wc -l15752
+查看默认允许的连接数：[root@mem1 ~]# cat /etc/rc.">
+<meta name="twitter:image" content="http://luyulong.github.io/uploads/1467012497.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -75,7 +74,7 @@
 
 
 
-  <title> shell排序算法 | yl.lu Blog </title>
+  <title> centos linux查看memcache运行状况 | yl.lu Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -229,7 +228,7 @@
             
             
               
-                shell排序算法
+                centos linux查看memcache运行状况
               
             
           </h1>
@@ -238,8 +237,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
+            <time itemprop="dateCreated" datetime="2016-06-27T16:07:36+08:00" content="2016-06-27">
+              2016-06-27
             </time>
           </span>
 
@@ -249,8 +248,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/shell排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/shell排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/06/27/centos-linux查看memcache运行状况/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/27/centos-linux查看memcache运行状况/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -269,18 +268,15 @@
       
 
       
-        <span itemprop="articleBody"><p> shell排序算法严格来说基于插入排序的思想，其又称为希尔排序或者缩小增量排序。shell排序算法的排序流程如下：<br>    1）将n个元素的数组分为n/2个数据序列，第一个数据和第n/2+1个数据为一对<br>    2）一次循环使每一个序列对应排好顺序<br>    3）然后，再变为n/4个序列，再次排序<br>    4）不断重复上述过程 </p>
-<pre><code>例如如下数据排序 
-
-初始数据  127   118  105  101  112   100 
-
-一次排序  101   112  100  127  118   105 
-
-二次排序  100   101  105  112  118   127 
-
-第一次排序 首先数组分为6/2=3 3个元素一组 
-第二次排序 6/4=1(取整数) 每个逐个数据比较，采用插入算法进行 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"></span><br><span class="line">		int[] data = <span class="keyword">new</span> int[] &#123; <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span> &#125;;</span><br><span class="line">		print(data);</span><br><span class="line">		shellSort(data);</span><br><span class="line">		print(data);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> shellSort(int[] data) &#123;</span><br><span class="line">		<span class="comment">// 计算出最大的h值</span></span><br><span class="line">		int h = <span class="number">1</span>;</span><br><span class="line">		System.out.println(data.length / <span class="number">3</span>); </span><br><span class="line">		<span class="keyword">while</span> (h &lt;= data.length / <span class="number">3</span>) &#123;</span><br><span class="line">			h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (h &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int i = h; i &lt; data.length; i += h) &#123;</span><br><span class="line">				<span class="keyword">if</span> (data[i] &lt; data[i - h]) &#123;</span><br><span class="line">					int tmp = data[i];</span><br><span class="line">					int j = i - h;</span><br><span class="line">					<span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; data[j] &gt; tmp) &#123;</span><br><span class="line">						data[j + h] = data[j];</span><br><span class="line">						j -= h;</span><br><span class="line">					&#125;</span><br><span class="line">					data[j + h] = tmp;</span><br><span class="line">					print(data);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 计算出下一个h值</span></span><br><span class="line">			h = (h - <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> print(int[] data) &#123;</span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">			System.out.print(data[i] + <span class="string">"\t"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
+        <span itemprop="articleBody"><p>Memcache<br>Memcache是danga.com的一个开源项目，它是一个高性能的分布式的内存对象缓存系统，通过在内存里维护一个统一的巨大的Hash表，能够用来存储各种格式的数据。<br>查看当前的memcache连接数：</p>
+<p>[root@mem1 ~]# netstat -n | grep :11211 | wc -l<br>15752</p>
+<p>查看默认允许的连接数：<br>[root@mem1 ~]# cat /etc/rc.local </p>
+<p>#!/bin/sh<br>#</p>
+<h1 id="This-script-will-be-executed-after-all-the-other-init-scripts"><a href="#This-script-will-be-executed-after-all-the-other-init-scripts" class="headerlink" title="This script will be executed after all the other init scripts."></a>This script will be executed <em>after</em> all the other init scripts.</h1><h1 id="You-can-put-your-own-initialization-stuff-in-here-if-you-don’t"><a href="#You-can-put-your-own-initialization-stuff-in-here-if-you-don’t" class="headerlink" title="You can put your own initialization stuff in here if you don’t"></a>You can put your own initialization stuff in here if you don’t</h1><h1 id="want-to-do-the-full-Sys-V-style-init-stuff"><a href="#want-to-do-the-full-Sys-V-style-init-stuff" class="headerlink" title="want to do the full Sys V style init stuff."></a>want to do the full Sys V style init stuff.</h1><p>touch /var/lock/subsys/local<br>/usr/local/bin/memcached -d -m 15360 -u root -l 172.20.1.54 -p 11211 -c 40960<br>/usr/local/bin/memcached -d -m 512 -u root -l 172.20.1.54 -p 11212 -c 10000<br>这里设置的11211端口默认连接数是40960</p>
+<p>在网络上查到资料， Memcache也有自己的查看工具：<br>如何查看memcache服务器端版本:  ./memcached  -h<br>memcache的运行状态可以方便的用 stats 命令显示。</p>
+<p><img src="/uploads/1467012497.png" alt="Paste_Image.png"></p>
+<p>首先用telnet 127.0.0.1 11211这样的命令连接上memcache，然后直接输入stats就可以得到当前memcache的状态。<br>这些状态的说明如下：<br>pid    memcache服务器的进程ID<br>uptime    服务器已经运行的秒数<br>time    服务器当前的unix时间戳<br>version    memcache版本<br>pointer_size    当前操作系统的指针大小（32位系统一般是32bit）<br>rusage_user    进程的累计用户时间<br>rusage_system    进程的累计系统时间<br>curr_items    服务器当前存储的items数量<br>total_items    从服务器启动以后存储的items总数量<br>bytes    当前服务器存储items占用的字节数<br>curr_connections    当前打开着的连接数<br>total_connections    从服务器启动以后曾经打开过的连接数<br>connection_structures    服务器分配的连接构造数<br>cmd_get    get命令（获取）总请求次数<br>cmd_set    set命令（保存）总请求次数<br>get_hits    总命中次数<br>get_misses    总未命中次数<br>evictions    为获取空闲内存而删除的items数（分配给memcache的空间用满后需要删除旧的items来得到空间分配给新的items）<br>bytes_read    总读取字节数（请求字节数）<br>bytes_written    总发送字节数（结果字节数）<br>limit_maxbytes    分配给memcache的内存大小（字节）<br>threads    当前线程数</p>
+</span>
       
     </div>
 
@@ -291,16 +287,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/20/冒泡排序算法/" rel="next" title="冒泡排序算法">
-                <i class="fa fa-chevron-left"></i> 冒泡排序算法
+              <a href="/2016/06/27/微服务、SOA-和-API对比与分析/" rel="next" title="微服务、SOA 和 API对比与分析">
+                <i class="fa fa-chevron-left"></i> 微服务、SOA 和 API对比与分析
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/04/20/选择排序算法/" rel="prev" title="选择排序算法">
-                选择排序算法 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/07/01/Linux中查找命令总结/" rel="prev" title="Linux中查找命令总结">
+                Linux中查找命令总结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -316,10 +312,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/04/20/shell排序算法/"
-     data-title="shell排序算法"
+        <div class="ds-share flat" data-thread-key="2016/06/27/centos-linux查看memcache运行状况/"
+     data-title="centos linux查看memcache运行状况"
      data-content=""
-     data-url="http://luyulong.github.io/2016/04/20/shell排序算法/">
+     data-url="http://luyulong.github.io/2016/06/27/centos-linux查看memcache运行状况/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -349,8 +345,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/04/20/shell排序算法/"
-                   data-title="shell排序算法" data-url="http://luyulong.github.io/2016/04/20/shell排序算法/">
+              <div class="ds-thread" data-thread-key="2016/06/27/centos-linux查看memcache运行状况/"
+                   data-title="centos linux查看memcache运行状况" data-url="http://luyulong.github.io/2016/06/27/centos-linux查看memcache运行状况/">
               </div>
             
           </div>
