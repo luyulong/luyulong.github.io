@@ -1,0 +1,736 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link rel="stylesheet" type="text/css" href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" />
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="记录生活点滴" />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="一、介绍1、 Docker的特性：文件系统隔离：每个进程容器运行在一个完全独立的根文件系统里。资源隔离：系统资源，像CPU和内存等可以分配到不同的容器中，使用cgroup。网络隔离：每个进程容器运行在自己的网络空间，虚拟接口和IP地址。日志记录：Docker将会收集和记录每个进程容器的标准流（stdout/stderr/stdin），用于实时检索或批量检索。变更管理：容器文件系统的变更可以提交到新">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker入门">
+<meta property="og:url" content="http://luyulong.github.io/2016/09/06/docker入门/index.html">
+<meta property="og:site_name" content="yl.lu Blog">
+<meta property="og:description" content="一、介绍1、 Docker的特性：文件系统隔离：每个进程容器运行在一个完全独立的根文件系统里。资源隔离：系统资源，像CPU和内存等可以分配到不同的容器中，使用cgroup。网络隔离：每个进程容器运行在自己的网络空间，虚拟接口和IP地址。日志记录：Docker将会收集和记录每个进程容器的标准流（stdout/stderr/stdin），用于实时检索或批量检索。变更管理：容器文件系统的变更可以提交到新">
+<meta property="og:updated_time" content="2016-09-06T01:20:38.753Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker入门">
+<meta name="twitter:description" content="一、介绍1、 Docker的特性：文件系统隔离：每个进程容器运行在一个完全独立的根文件系统里。资源隔离：系统资源，像CPU和内存等可以分配到不同的容器中，使用cgroup。网络隔离：每个进程容器运行在自己的网络空间，虚拟接口和IP地址。日志记录：Docker将会收集和记录每个进程容器的标准流（stdout/stderr/stdin），用于实时检索或批量检索。变更管理：容器文件系统的变更可以提交到新">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'always'
+  };
+</script>
+
+
+
+  <title> docker入门 | yl.lu Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">yl.lu Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">day and day</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'GnNsRG1nR57vezMsPQ-W','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                docker入门
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-09-06T09:16:21+08:00" content="2016-09-06">
+              2016-09-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/06/docker入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/06/docker入门/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>一、介绍<br>1、 Docker的特性：<br>文件系统隔离：每个进程容器运行在一个完全独立的根文件系统里。<br>资源隔离：系统资源，像CPU和内存等可以分配到不同的容器中，使用cgroup。<br>网络隔离：每个进程容器运行在自己的网络空间，虚拟接口和IP地址。<br>日志记录：Docker将会收集和记录每个进程容器的标准流（stdout/stderr/stdin），用于实时检索或批量检索。<br>变更管理：容器文件系统的变更可以提交到新的映像中，并可重复使用以创建更多的容器。无需使用模板或手动配置。<br>交互式shell：Docker可以分配一个虚拟终端并关联到任何容器的标准输入上。</p>
+<p>2、docker 应用场景<br>加速本地开发：快速搭建好开发环境和运行环境。<br>自动打包和部署应用。<br>创建轻量级的私有Paas环境。<br>自动化测试和持续集成。<br>创建安全沙盒。</p>
+<p>二、环境搭建：<br>Docker对Linux环境有两个要求，一是64位系统，二是内核在3.8以上。 下面以centos 上搭建为例:</p>
+<p>docker仓库用来保存我们的images，当我们创建了自己的image之后我们就可以使用push、pull命令从公有或者私有仓库下载、上传镜像；Docker Registry私有服务器用于保存管理我们的私有镜像。</p>
+<p>需要注意的是CentOS 6.X与7.0的安装是有一点点不同的，CentOS-6上docker的安装包叫docker-io，并且来源于Fedora epel库，这个仓库维护了大量的没有包含在发行版中的软件，所以先要安装EPEL，而CentOS-7的docker直接包含在官方镜像源的Extras仓库（CentOS-Base.repo下的[extras]节enable=1启用）。前提是都需要联网，<br>centos 6.8 的具体安装启动过程如下。<br>yum -y install docker-io<br>service docker start<br>chkconfig docker on</p>
+<p>centos 7 的安装启动过程如下<br>yum -y install docker<br>systemctl start docker.service<br>systemctl enable docker.service</p>
+<p>三、基本操作&amp;命令</p>
+<p>简单查询：<br>   docker info<br>   docker search imangeName 从长款查询容器。<br>   docker inspect imageName:version  查看镜像设置</p>
+<p>镜像相关：<br>docker images 查看所有本地镜像。<br>docker pull NAME[:TAG|@DIGEST]    下载镜像<br>            eg: docker pull centos  等级   docker pull centos:latest<br>docker imi imageId  删除镜像（前提：镜像启动的容器都已经被删除。）<br>本地文件：<a href="https://docs.docker.com/engine/u" target="_blank" rel="external">https://docs.docker.com/engine/u</a> … magesandcontainers/<br>本地镜像的总描述文件<br>撒地方 centos6.8: /var/lib/docker/repositories-devicemapper.json （ 注意centos 6.8 没有var/lib/docker/image/文件夹， 在docker 1.10 后，容器的所有配置文件同意移动到了 /var/lib/docker/image文件夹中）centos7: /var/lib/docker/image/devicemapper/repositories.json</p>
+<p>本地单个镜像的文件：<br>centos  /var/lib/docker/graph/{imageid}/<br>           json -保存着关于这个镜像的元数据<br>           layersize – 一个整数，表示layer的大小。<br>           存储： 一个镜像就是的基础是一系列的layers，   一个docker 镜像就是一组制度的layer组成，</p>
+<pre><code>docker 1.7之前： docker images --tree  可以查看一个镜像包含的所有layers          1.7之后： dockviz images -d |dog -Tpng -o images.png
+</code></pre><p>  容器储存储位置 centos 6.8/7 :<br>由于目Docker支持AUFS，Btrfs，Device mapper，OverlayFS，ZFS五种存储驱动，所有各自存储的位置是不一样的 <a href="http://www.tuicool.com/articles/JrMFN3e" target="_blank" rel="external">http://www.tuicool.com/articles/JrMFN3e</a><br>命令查看 docker image   结构 ：<br>               centos 6.8 &amp;docker1.7:       docker daemon -D -s overlay  -g /varlib/docker  首先会提示内核版本过低<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@ssdpc admin]# docker -d </span><br><span class="line">WARN[0000] You are running linux kernel version 2.6.32-642.1.1.el6.x86_64, which might be unstable running docker. Please upgrade your kernel to 3.10.0. </span><br><span class="line">INFO[0000] Listening for HTTP on unix (/var/run/docker.sock) </span><br><span class="line">INFO[0000] [graphdriver] using prior storage driver "devicemapper" </span><br><span class="line">WARN[0000] Running modprobe bridge nf_nat failed with message: , error: exit status 1 </span><br><span class="line">INFO[0000] Loading containers: start.                   </span><br><span class="line"></span><br><span class="line">INFO[0000] Loading containers: done.                    </span><br><span class="line">INFO[0000] Daemon has completed initialization          </span><br><span class="line">INFO[0000] Docker daemon                                 commit=786b29d/1.7.1 execdriver=native-0.2 graphdriver=devicemapper version=1.7.1</span><br></pre></td></tr></table></figure></p>
+<p>centos 6.8 &amp;docker1.8 :    </p>
+<p>容器相关:<br>docker ps  :  查询当前启动的容器，   docker ps -a  (所有的包含停止的)<br>docker stop  xxx: 停止容器<br>docker start  containId 可以启动一个已经停止的容器<br>docker rm   xxx:   删除停止的容器<br>ducker run 启动一个容器 ， 参数说明<br>        -d  后台运行<br>        -t -i 合用， 交互模式运行<br>       -net 指定网络， 默认bridge （会使用172段的ip依次分配给启动的docker 容器）， host  模式为共享主机的网络配置和端口。<br>       -p 当net不为host 模式时， 将容器的端口 映射到宿主机器的端口上。<br>       –ip  指定容器的ip<br>        -e 环境变量设置<br>docker cp container:path hostpath  这个命令是从容器内复制文件到指定的路径上</p>
+<p>镜像保存1： 导入导出容器为镜像 export &amp; import ：<br>           docker export containId  &gt;mycontain.tar  注意导出只是容器的静态文件快照，docker file 描述将会丢失。<br>           cat mycontain.tar |docker import - tqcommontomcat:0.01   导入发布为本地的一个镜像。<br>镜像保存2：导入导出镜像为镜像 2 save &amp; load：<br>           docker  save imageName:version &gt; save.tar  或者   docker save -o save.tar imageName:version保存镜像，包含layers ，和dockerfile<br>            docker  load &lt; /home/save.tar 或  docker load -i save.tar<br>镜像保存3：   commit ，提交当前容器为一个镜像<br>         docker commit contarinId  imageName:version</p>
+<p>docker daemon<br>所谓docker damemon 即为docker server 主进程， centos 6.8 : /etc/init.d/docker start ,  centos 7 :  systemctl start docker.service</p>
+<p>Docker 1.10增加了新功能（<a href="http://geek.csdn.net/news/detail/54953），从这个版本以后，用户在Linux上跑Docker时都不必再以root权限运行了。" target="_blank" rel="external">http://geek.csdn.net/news/detail/54953），从这个版本以后，用户在Linux上跑Docker时都不必再以root权限运行了。</a><br>　　1.10之前所有容器都只能在Docker daemon下以root权限运行。<br>　　安全的命名空间. 通过命名空间，Docker 1.10将Docker daemon和容器区别开来，对二者的权限分别加以处理，同时为各个容器分配相应的权限等级。在1.10下，Docker daemon仍然要取得主机的root权限，但容器就可以不用了。<br>传统的容器管理工具 LXC 即将退出 Docker 的舞台，<br>在 Linux 内核版本 3.10+ 上，使用内嵌的 overlay 驱动来完成跨主机的网络互联</p>
+<p>在docker 1.10以前： 启动dokcer server 实际执行命令为：docker   -d $other_args<br>    设置dns使用 docker -d –dns 8.8.8.8<br>     设置dns搜索域 docker -d –dns-search example.com<br>      输出调试log   docker -d -D</p>
+<p>在docker 1.10 后：   docker daemon $other_args<br>    docker daemon -D -s overlay -g /var/lib/docker</p>
+<p>进入容器内部：<br>  docker attach 老方式<br>docker exec -ti   containId  /bin/bash</p>
+<p>容器网络<br>docker network  ls 列出所有容器的网络id ,和网络模式</p>
+<p>docker network inspect networkId 列出网络的详细信息</p>
+<p>docker network connect  –option  containId 为运行中容器创建网络</p>
+<p>dockerfile 相关<br>FROM imagename:version   时以每个镜像为基础 layer<br>ENV  key  value 设置环境变量<br>ADD hostFIle  imagePath   把宿主机器上的文件添加的镜像中， 请使用绝对路径<br>WORKDIR  xxx  容器启动时默认工作目录<br>RUN  commond   是指build 过程中随便执行的命令， 例如在镜像中创建文件等。<br>VOLUME  讲宿主本地目录挂载到容器上<br>CMD  设置容器启动的时候执行的命令<br>ENTRYPOINT   container启动时执行的命令，但是一个Dockerfile中只能有一条ENTRYPOINT命令，如果多条，则只执行最后一条ENTRYPOINT没有CMD的可替换特性<br>……</p>
+<p>四、example<br>镜像tqtestjava:2.0 制作，tqtestjava:2.0 是一个userauth 和userauthweb的运行环境，<br>  容器启动的功能包括：   1、能够在容器内部自动更新svn代码，2、自动mvn install ,自动启动两个java ，3、容器的端口自动映射。<br>1、容器打包<br>   下载一个基础的centos 镜像，docker pull centos<br>   以交互模式启动centos 容器：  docker run -d -ti  centos /bin/bash，<br>   进入容器bash后，安装yum , net ,  jdk, svn ,maven , svn co 社管代码到 /usr/local/project/zhejiange 下， 编写启动脚本/usr/local/start_zhejiang.sh<br>   （这里需要注意的是我一开始讲许多环境变量设置在/etc/profile 中，其实对docker 来说，这可能是无效的，因为docker 的许多镜像，都市linux 精简版本 ，系统启动也仅仅加载必要的资源），所以需要我们在docke run 是指定环境变量，或者在dockerfile 中指定（固定不变的话）。<br>   提交镜像： docker cmmoit   mycontainId     tqtestjava:1.0</p>
+<p>2、 tqtestjava:1.0 虽然有了我们需要自行的环境， 我们也可以以交互模式进入，启动我们的应用，但是如果要让我们的应用在容器启动的时候自动启动应用， 需要 在docker run 命令后面拼接以系列的环境变量， 换需要手动指定docker 启动的时自行的脚本, 工作目录等。<br>例如：<br>docker run -d  –net=host  -ti  -e MAVEN_HOME=/opt/maven  -e JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64 -e PATH=$PATH:$MAVEN_HOME/bin/:$JAVA_HOME/bin/:/usr/local/project/      tqtestjava:1.0  /usr/local/project/start_zhejiang.sh<br>复制代码</p>
+<p>这对使用人员来说不太方面。<br>所以我们编写dockeFile : dockerUseranthTest.txt<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">FROM tqtestjava:1.0</span><br><span class="line">ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64</span><br><span class="line">ENV MAVEN_HOME /opt/maven</span><br><span class="line">ENV PATH $PATH:$MAVEN_HOME/bin/:$JAVA_HOME/bin/:/usr/local/project/</span><br><span class="line">WORKDIR /usr/local/project/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">RUN date;sleep 100;date</span><br><span class="line">RUN echo "============end==="</span><br><span class="line">CMD ["/usr/local/project/start_zhejiang.sh", " start " , "start"]</span><br><span class="line">[root@ssdpc dockerapp]# ^C</span><br><span class="line">[root@ssdpc dockerapp]# ll</span><br><span class="line">total 8</span><br><span class="line">-rw-r--r--. 1 root root 335 Aug 31 15:48 dockerCommonTomcat</span><br><span class="line">-rw-r--r--. 1 root root 340 Aug 31 08:45 dockerUseranthTest</span><br><span class="line">[root@ssdpc dockerapp]# more dockerUseranthTest </span><br><span class="line">FROM tqtestjava:0.04</span><br><span class="line">ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64</span><br><span class="line">ENV MAVEN_HOME /opt/maven</span><br><span class="line">ENV PATH=$PATH:$MAVEN_HOME/bin/:$JAVA_HOME/bin/:/usr/local/project/</span><br><span class="line">WORKDIR /usr/local/project/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">RUN date;sleep 100;date</span><br><span class="line">RUN echo "============end==="</span><br><span class="line">CMD ["/usr/local/project/start_zhejiang.sh", " start " , "start"]</span><br></pre></td></tr></table></figure></p>
+<p>然后执行： docker build -f dockerUseranthTest.txt  -t tqtestjave:2.0 .<br>这样我们就新生成了一个 tqtestjave:2.0 镜像。<br>最后执行： docker -d  –net=host  tqtestjave:2.0   就可以实现启动容器时应用自启动了</p>
+<p>3、网络选择： 这里我们选择host 模式， 不是说host 模式好，而且线上也不建议使用host模式。  而且因为如果我们选择bridge 模式，需要在路由器上设置一个172段的路由网关，同时固定宿主机器上分配的docker 容器的ip 段。   这适合于有网络经验的人来搞。</p>
+<p>五、docker REST API</p>
+<p>docker的所有命令可以通过一系列的restful 的API ， 这对生产环境编写漂亮发布，部署脚本十分有效</p>
+<p>docker images  可以等级与：<br>echo -e “GET /images/tomcat/json HTTP/1.0\r\n” |nc -U /var/run/docker.sock</p>
+<p>docker ps 可以等级与：<br>echo -e “GET /containers/json HTTP/1.0\r\n” |nc -U /var/run/docker.sock</p>
+<p>默认情况下 Docker 的守护进程启动会生成一个 socket （/var/run/docker.sock）进程通信文件，而并没有监听端口，只能在本机操作 Docker。如果想在其它地方操作 Docker 主机，就需要让 Docker 主机监听一个端口号，这样可以通过端口号就能实现远程操作。</p>
+<p>1、对于手动启动的docker daemon :可以这样配置<br>docker -d -H unix:///var/run/docker.sock -Htcp://0.0.0.0:5678<br>2、ubuntu :<br>  vim /etc/default/docker.io :<br>         DOCKER_OPTS=” -H unix:///var/run/docker.sock” =====修改为====&gt;DOCKER_OPTS=” -H tcp://0.0.0.0:5678 -H unix:///var/run/docker.sock”<br>   service docker.io restart<br>3、Red Hat 7系列<br>     systemctl stop  docker<br>     vim /etc/sysconfig/docker<br>              修改other_args 的值<br>               other_args=” -H tcp://0.0.0.0:5678 -H unix:///var/run/docker.sock”<br>     systemctl start docker </p>
+<p>配置验证：<br>docker -H localhost:5678 version</p>
+<p>六、相关资源<br><a href="https://github.com/docker" target="_blank" rel="external">https://github.com/docker</a></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/08/Java-多线程：InheritableThreadLocal-实现原理/" rel="next" title="Java 多线程：InheritableThreadLocal 实现原理">
+                <i class="fa fa-chevron-left"></i> Java 多线程：InheritableThreadLocal 实现原理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/09/06/docker入门/"
+     data-title="docker入门"
+     data-content=""
+     data-url="http://luyulong.github.io/2016/09/06/docker入门/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+            <!-- 多说热评文章-->
+            <p>热评文章</p>
+            <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2016/09/06/docker入门/"
+                   data-title="docker入门" data-url="http://luyulong.github.io/2016/09/06/docker入门/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/uploads/avatar.jpg" alt="yl.lu" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">yl.lu</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">记录生活点滴</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/luyulong" target="_blank">
+                  <i class="fa fa-github"></i> GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/" target="_blank">
+                  <i class="fa fa-新浪微博"></i> 新浪微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yl.lu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"luyulong"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
