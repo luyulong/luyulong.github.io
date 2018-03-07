@@ -221,6 +221,93 @@
             
             
               
+                <a class="post-title-link" href="/2017/03/08/openresrty使用案例/" itemprop="url">
+                  OpenResty使用案例
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2017-03-08T14:26:39+08:00" content="2017-03-08">
+              2017-03-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/08/openresrty使用案例/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/08/openresrty使用案例/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>OpenResty：是一个基于 Nginx 与 Lua 的高性能 Web 平台，其内部集成了大量精良的 Lua 库、第三方模块以及大多数的依赖项</p>
+<p>使用 Lua 脚本语言调动 Nginx 支持的各种 C 以及 Lua 模块，快速构造出足以胜任 10K 乃至 1000K 以上单机并发连接的高性能 Web 应用系统</p>
+<p>解决什么问题呢？</p>
+<p>• 灵活的缓存<br>• IP 黑白名单<br>• 防XSS 注入和 SQL 注入<br>• 秒杀排队<br>• 恶意 IP 拦截<br>• 动态负载</p>
+<p><img src="/uploads/openresty.png" alt="Paste_Image.png"></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
                 <a class="post-title-link" href="/2016/09/06/docker入门/" itemprop="url">
                   docker入门
                 </a>
@@ -277,7 +364,7 @@
 <p>镜像相关：<br>docker images 查看所有本地镜像。<br>docker pull NAME[:TAG|@DIGEST]    下载镜像<br>            eg: docker pull centos  等级   docker pull centos:latest<br>docker imi imageId  删除镜像（前提：镜像启动的容器都已经被删除。）<br>本地文件：<a href="https://docs.docker.com/engine/u" target="_blank" rel="external">https://docs.docker.com/engine/u</a> … magesandcontainers/<br>本地镜像的总描述文件<br>撒地方 centos6.8: /var/lib/docker/repositories-devicemapper.json （ 注意centos 6.8 没有var/lib/docker/image/文件夹， 在docker 1.10 后，容器的所有配置文件同意移动到了 /var/lib/docker/image文件夹中）centos7: /var/lib/docker/image/devicemapper/repositories.json</p>
 <p>本地单个镜像的文件：<br>centos  /var/lib/docker/graph/{imageid}/<br>           json -保存着关于这个镜像的元数据<br>           layersize – 一个整数，表示layer的大小。<br>           存储： 一个镜像就是的基础是一系列的layers，   一个docker 镜像就是一组制度的layer组成，</p>
 <pre><code>docker 1.7之前： docker images --tree  可以查看一个镜像包含的所有layers          1.7之后： dockviz images -d |dog -Tpng -o images.png
-</code></pre><p>  容器储存储位置 centos 6.8/7 :<br>由于目Docker支持AUFS，Btrfs，Device mapper，OverlayFS，ZFS五种存储驱动，所有各自存储的位置是不一样的 <a href="http://www.tuicool.com/articles/JrMFN3e" target="_blank" rel="external">http://www.tuicool.com/articles/JrMFN3e</a><br>命令查看 docker image   结构 ：<br>               centos 6.8 &amp;docker1.7:       docker daemon -D -s overlay  -g /varlib/docker  首先会提示内核版本过低<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@ssdpc admin]# docker -d </span><br><span class="line">WARN[0000] You are running linux kernel version 2.6.32-642.1.1.el6.x86_64, which might be unstable running docker. Please upgrade your kernel to 3.10.0. </span><br><span class="line">INFO[0000] Listening for HTTP on unix (/var/run/docker.sock) </span><br><span class="line">INFO[0000] [graphdriver] using prior storage driver "devicemapper" </span><br><span class="line">WARN[0000] Running modprobe bridge nf_nat failed with message: , error: exit status 1 </span><br><span class="line">INFO[0000] Loading containers: start.                   </span><br><span class="line"></span><br><span class="line">INFO[0000] Loading containers: done.                    </span><br><span class="line">INFO[0000] Daemon has completed initialization          </span><br><span class="line">INFO[0000] Docker daemon                                 commit=786b29d/1.7.1 execdriver=native-0.2 graphdriver=devicemapper version=1.7.1</span><br></pre></td></tr></table></figure></p>
+</code></pre><p>  容器储存储位置 centos 6.8/7 :<br>由于目Docker支持AUFS，Btrfs，Device mapper，OverlayFS，ZFS五种存储驱动，所有各自存储的位置是不一样的 <a href="http://www.tuicool.com/articles/JrMFN3e" target="_blank" rel="external">http://www.tuicool.com/articles/JrMFN3e</a><br>命令查看 docker image   结构 ：<br>               centos 6.8 &amp;docker1.7:       docker daemon -D -s overlay  -g /varlib/docker  首先会提示内核版本过低<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">root@ssdpc admin]# docker -d </div><div class="line">WARN[0000] You are running linux kernel version 2.6.32-642.1.1.el6.x86_64, which might be unstable running docker. Please upgrade your kernel to 3.10.0. </div><div class="line">INFO[0000] Listening for HTTP on unix (/var/run/docker.sock) </div><div class="line">INFO[0000] [graphdriver] using prior storage driver "devicemapper" </div><div class="line">WARN[0000] Running modprobe bridge nf_nat failed with message: , error: exit status 1 </div><div class="line">INFO[0000] Loading containers: start.                   </div><div class="line"></div><div class="line">INFO[0000] Loading containers: done.                    </div><div class="line">INFO[0000] Daemon has completed initialization          </div><div class="line">INFO[0000] Docker daemon                                 commit=786b29d/1.7.1 execdriver=native-0.2 graphdriver=devicemapper version=1.7.1</div></pre></td></tr></table></figure></p>
 <p>centos 6.8 &amp;docker1.8 :    </p>
 <p>容器相关:<br>docker ps  :  查询当前启动的容器，   docker ps -a  (所有的包含停止的)<br>docker stop  xxx: 停止容器<br>docker start  containId 可以启动一个已经停止的容器<br>docker rm   xxx:   删除停止的容器<br>ducker run 启动一个容器 ， 参数说明<br>        -d  后台运行<br>        -t -i 合用， 交互模式运行<br>       -net 指定网络， 默认bridge （会使用172段的ip依次分配给启动的docker 容器）， host  模式为共享主机的网络配置和端口。<br>       -p 当net不为host 模式时， 将容器的端口 映射到宿主机器的端口上。<br>       –ip  指定容器的ip<br>        -e 环境变量设置<br>docker cp container:path hostpath  这个命令是从容器内复制文件到指定的路径上</p>
 <p>镜像保存1： 导入导出容器为镜像 export &amp; import ：<br>           docker export containId  &gt;mycontain.tar  注意导出只是容器的静态文件快照，docker file 描述将会丢失。<br>           cat mycontain.tar |docker import - tqcommontomcat:0.01   导入发布为本地的一个镜像。<br>镜像保存2：导入导出镜像为镜像 2 save &amp; load：<br>           docker  save imageName:version &gt; save.tar  或者   docker save -o save.tar imageName:version保存镜像，包含layers ，和dockerfile<br>            docker  load &lt; /home/save.tar 或  docker load -i save.tar<br>镜像保存3：   commit ，提交当前容器为一个镜像<br>         docker commit contarinId  imageName:version</p>
@@ -292,7 +379,7 @@
 <p>dockerfile 相关<br>FROM imagename:version   时以每个镜像为基础 layer<br>ENV  key  value 设置环境变量<br>ADD hostFIle  imagePath   把宿主机器上的文件添加的镜像中， 请使用绝对路径<br>WORKDIR  xxx  容器启动时默认工作目录<br>RUN  commond   是指build 过程中随便执行的命令， 例如在镜像中创建文件等。<br>VOLUME  讲宿主本地目录挂载到容器上<br>CMD  设置容器启动的时候执行的命令<br>ENTRYPOINT   container启动时执行的命令，但是一个Dockerfile中只能有一条ENTRYPOINT命令，如果多条，则只执行最后一条ENTRYPOINT没有CMD的可替换特性<br>……</p>
 <p>四、example<br>镜像tqtestjava:2.0 制作，tqtestjava:2.0 是一个userauth 和userauthweb的运行环境，<br>  容器启动的功能包括：   1、能够在容器内部自动更新svn代码，2、自动mvn install ,自动启动两个java ，3、容器的端口自动映射。<br>1、容器打包<br>   下载一个基础的centos 镜像，docker pull centos<br>   以交互模式启动centos 容器：  docker run -d -ti  centos /bin/bash，<br>   进入容器bash后，安装yum , net ,  jdk, svn ,maven , svn co 社管代码到 /usr/local/project/zhejiange 下， 编写启动脚本/usr/local/start_zhejiang.sh<br>   （这里需要注意的是我一开始讲许多环境变量设置在/etc/profile 中，其实对docker 来说，这可能是无效的，因为docker 的许多镜像，都市linux 精简版本 ，系统启动也仅仅加载必要的资源），所以需要我们在docke run 是指定环境变量，或者在dockerfile 中指定（固定不变的话）。<br>   提交镜像： docker cmmoit   mycontainId     tqtestjava:1.0</p>
 <p>2、 tqtestjava:1.0 虽然有了我们需要自行的环境， 我们也可以以交互模式进入，启动我们的应用，但是如果要让我们的应用在容器启动的时候自动启动应用， 需要 在docker run 命令后面拼接以系列的环境变量， 换需要手动指定docker 启动的时自行的脚本, 工作目录等。<br>例如：<br>docker run -d  –net=host  -ti  -e MAVEN_HOME=/opt/maven  -e JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64 -e PATH=$PATH:$MAVEN_HOME/bin/:$JAVA_HOME/bin/:/usr/local/project/      tqtestjava:1.0  /usr/local/project/start_zhejiang.sh<br>复制代码</p>
-<p>这对使用人员来说不太方面。<br>所以我们编写dockeFile : dockerUseranthTest.txt<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">FROM tqtestjava:1.0</span><br><span class="line">ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64</span><br><span class="line">ENV MAVEN_HOME /opt/maven</span><br><span class="line">ENV PATH $PATH:$MAVEN_HOME/bin/:$JAVA_HOME/bin/:/usr/local/project/</span><br><span class="line">WORKDIR /usr/local/project/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">RUN date;sleep 100;date</span><br><span class="line">RUN echo "============end==="</span><br><span class="line">CMD ["/usr/local/project/start_zhejiang.sh", " start " , "start"]</span><br><span class="line">[root@ssdpc dockerapp]# ^C</span><br><span class="line">[root@ssdpc dockerapp]# ll</span><br><span class="line">total 8</span><br><span class="line">-rw-r--r--. 1 root root 335 Aug 31 15:48 dockerCommonTomcat</span><br><span class="line">-rw-r--r--. 1 root root 340 Aug 31 08:45 dockerUseranthTest</span><br><span class="line">[root@ssdpc dockerapp]# more dockerUseranthTest </span><br><span class="line">FROM tqtestjava:0.04</span><br><span class="line">ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64</span><br><span class="line">ENV MAVEN_HOME /opt/maven</span><br><span class="line">ENV PATH=$PATH:$MAVEN_HOME/bin/:$JAVA_HOME/bin/:/usr/local/project/</span><br><span class="line">WORKDIR /usr/local/project/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">RUN date;sleep 100;date</span><br><span class="line">RUN echo "============end==="</span><br><span class="line">CMD ["/usr/local/project/start_zhejiang.sh", " start " , "start"]</span><br></pre></td></tr></table></figure></p>
+<p>这对使用人员来说不太方面。<br>所以我们编写dockeFile : dockerUseranthTest.txt<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">FROM tqtestjava:1.0</div><div class="line">ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64</div><div class="line">ENV MAVEN_HOME /opt/maven</div><div class="line">ENV PATH $PATH:$MAVEN_HOME/bin/:$JAVA_HOME/bin/:/usr/local/project/</div><div class="line">WORKDIR /usr/local/project/</div><div class="line"></div><div class="line"></div><div class="line">RUN date;sleep 100;date</div><div class="line">RUN echo "============end==="</div><div class="line">CMD ["/usr/local/project/start_zhejiang.sh", " start " , "start"]</div><div class="line">[root@ssdpc dockerapp]# ^C</div><div class="line">[root@ssdpc dockerapp]# ll</div><div class="line">total 8</div><div class="line">-rw-r--r--. 1 root root 335 Aug 31 15:48 dockerCommonTomcat</div><div class="line">-rw-r--r--. 1 root root 340 Aug 31 08:45 dockerUseranthTest</div><div class="line">[root@ssdpc dockerapp]# more dockerUseranthTest </div><div class="line">FROM tqtestjava:0.04</div><div class="line">ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64</div><div class="line">ENV MAVEN_HOME /opt/maven</div><div class="line">ENV PATH=$PATH:$MAVEN_HOME/bin/:$JAVA_HOME/bin/:/usr/local/project/</div><div class="line">WORKDIR /usr/local/project/</div><div class="line"></div><div class="line"></div><div class="line">RUN date;sleep 100;date</div><div class="line">RUN echo "============end==="</div><div class="line">CMD ["/usr/local/project/start_zhejiang.sh", " start " , "start"]</div></pre></td></tr></table></figure></p>
 <p>然后执行： docker build -f dockerUseranthTest.txt  -t tqtestjave:2.0 .<br>这样我们就新生成了一个 tqtestjave:2.0 镜像。<br>最后执行： docker -d  –net=host  tqtestjave:2.0   就可以实现启动容器时应用自启动了</p>
 <p>3、网络选择： 这里我们选择host 模式， 不是说host 模式好，而且线上也不建议使用host模式。  而且因为如果我们选择bridge 模式，需要在路由器上设置一个172段的路由网关，同时固定宿主机器上分配的docker 容器的ip 段。   这适合于有网络经验的人来搞。</p>
 <p>五、docker REST API</p>
@@ -387,9 +474,9 @@
             
               <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>介绍 InheritableThreadLocal 之前，假设对 ThreadLocal 已经有了一定的理解，比如基本概念，原理，如果没有，可以参考：Java 多线程：threadlocal关键字。<br>这里再复习下 ThreadLocal 的原理，因为会对 InheritableThreadLocal 的理解 有重大的帮助：<br>每个线程都有一个 ThreadLocalMap 类型的 threadLocals 属性。<br>ThreadLocalMap 类相当于一个Map，key 是 ThreadLocal 本身，value 就是我们的值。<br>当我们通过 threadLocal.set(new Integer(123)); ，我们就会在这个线程中的 threadLocals 属性中放入一个键值对，key 是 这个 threadLocal.set(new Integer(123)); 的 threadlocal，value 就是值。<br>当我们通过 threadlocal.get() 方法的时候，首先会根据这个线程得到这个线程的 threadLocals 属性，然后由于这个属性放的是键值对，我们就可以根据键 threadlocal 拿到值。 注意，这时候这个键 threadlocal 和 我们 set 方法的时候的那个键 threadlocal 是一样的，所以我们能够拿到相同的值。<br>Ps：如果这个原理没搞清楚，那么下文估计有比较难理解，所以建议完完全全搞懂这个原理。<br>InheritableThreadLocal 概念</p>
 <p>从上面的介绍我们可以知道，我们其实是根据 Thread.currentThread()，拿到该线程的 threadlocals，从而进一步得到我们之前预先 set 好的值。那么如果我们新开一个线程，这个时候，由于 Thread.currentThread() 已经变了，从而导致获得的 threadlocals 不一样，我们之前并没有在这个新的线程的 threadlocals 中放入值，那么我就再通过 threadlocal.get()方法 是不可能拿到值的。例如如下代码：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Test</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;Integer&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String args[]</span>)</span>&#123;</span><br><span class="line">        threadLocal.<span class="keyword">set</span>(<span class="keyword">new</span> Integer(<span class="number">123</span>));</span><br><span class="line"></span><br><span class="line">        Thread thread = <span class="keyword">new</span> MyThread();</span><br><span class="line">        thread.start();</span><br><span class="line"></span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"main = "</span> + threadLocal.<span class="keyword">get</span>());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">MyThread</span> <span class="title">extends</span> <span class="title">Thread</span>&#123;</span><br><span class="line">        @<span class="function">Override</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            System.<span class="keyword">out</span>.println(<span class="string">"MyThread = "</span> + threadLocal.<span class="keyword">get</span>());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Test</span> &#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;Integer&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;Integer&gt;();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String args[]</span>)</span>&#123;</div><div class="line">        threadLocal.<span class="keyword">set</span>(<span class="keyword">new</span> Integer(<span class="number">123</span>));</div><div class="line"></div><div class="line">        Thread thread = <span class="keyword">new</span> MyThread();</div><div class="line">        thread.start();</div><div class="line"></div><div class="line">        System.<span class="keyword">out</span>.println(<span class="string">"main = "</span> + threadLocal.<span class="keyword">get</span>());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">MyThread</span> <span class="title">extends</span> <span class="title">Thread</span>&#123;</div><div class="line">        @<span class="function">Override</span></div><div class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>(<span class="params"></span>)&#123;</div><div class="line">            System.<span class="keyword">out</span>.println(<span class="string">"MyThread = "</span> + threadLocal.<span class="keyword">get</span>());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>输出是：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">main</span> = <span class="number">123</span></span><br><span class="line"><span class="attr">MyThread</span> = null</span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">main</span> = <span class="number">123</span></div><div class="line"><span class="attr">MyThread</span> = null</div></pre></td></tr></table></figure>
 <p>那么这个时候怎么解决？ InheritableThreadLocal 就可以解决这个问题。 先看一个官方对它的介绍：</p>
 <ul>
 <li>This class extends <tt>ThreadLocal</tt> to provide inheritance of values</li>
@@ -400,18 +487,18 @@
 <li>arbitrary function of the parent’s by overriding the <tt>childValue</tt></li>
 <li>method in this class.<br>也就是说，我们把上面的</li>
 </ul>
-<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;<span class="built_in">Integer</span>&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;<span class="built_in">Integer</span>&gt;();</span><br></pre></td></tr></table></figure>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;<span class="built_in">Integer</span>&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;<span class="built_in">Integer</span>&gt;();</div></pre></td></tr></table></figure>
 <p>改成</p>
-<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;<span class="built_in">Integer</span>&gt; threadLocal = <span class="keyword">new</span> InheritableThreadLocal&lt;<span class="built_in">Integer</span>&gt;();</span><br></pre></td></tr></table></figure>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;<span class="built_in">Integer</span>&gt; threadLocal = <span class="keyword">new</span> InheritableThreadLocal&lt;<span class="built_in">Integer</span>&gt;();</div></pre></td></tr></table></figure>
 <p>再运行，就会有结果：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">main</span> = <span class="number">123</span></span><br><span class="line"><span class="attr">MyThread</span> = <span class="number">123</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">main</span> = <span class="number">123</span></div><div class="line"><span class="attr">MyThread</span> = <span class="number">123</span></div></pre></td></tr></table></figure>
 <p>也就是子线程或者说新开的线程拿到了该值。那么，这个究竟是怎么实现的呢，key 都变了，为什么还可以拿到呢？<br>InheritableThreadLocal 原理</p>
 <p>我们可以首先可以浏览下 InheritableThreadLocal 类中有什么东西：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">InheritableThreadLocal&lt;T&gt;</span> <span class="keyword">extends</span> <span class="title">ThreadLocal&lt;T&gt;</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="type">T</span> childValue(<span class="type">T</span> parentValue) &#123;</span><br><span class="line">        <span class="keyword">return</span> parentValue;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">ThreadLocalMap</span> getMap(<span class="type">Thread</span> t) &#123;</span><br><span class="line">       <span class="keyword">return</span> t.inheritableThreadLocals;</span><br><span class="line">    &#125;</span><br><span class="line">    void createMap(<span class="type">Thread</span> t, <span class="type">T</span> firstValue) &#123;</span><br><span class="line">        t.inheritableThreadLocals = <span class="keyword">new</span> <span class="type">ThreadLocalMap</span>(<span class="keyword">this</span>, firstValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">InheritableThreadLocal&lt;T&gt;</span> <span class="keyword">extends</span> <span class="title">ThreadLocal&lt;T&gt;</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> <span class="type">T</span> childValue(<span class="type">T</span> parentValue) &#123;</div><div class="line">        <span class="keyword">return</span> parentValue;</div><div class="line">    &#125;</div><div class="line">    <span class="type">ThreadLocalMap</span> getMap(<span class="type">Thread</span> t) &#123;</div><div class="line">       <span class="keyword">return</span> t.inheritableThreadLocals;</div><div class="line">    &#125;</div><div class="line">    void createMap(<span class="type">Thread</span> t, <span class="type">T</span> firstValue) &#123;</div><div class="line">        t.inheritableThreadLocals = <span class="keyword">new</span> <span class="type">ThreadLocalMap</span>(<span class="keyword">this</span>, firstValue);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>其实就是重写了3个方法。<br>首先，当我们调用 get 方法的时候，由于子类没有重写，所以我们调用了父类的 get 方法：</p>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public T get() &#123;</span><br><span class="line">    <span class="type">Thread</span> t = <span class="type">Thread</span>.currentThread();</span><br><span class="line">    <span class="type">ThreadLocalMap</span> map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != null) &#123;</span><br><span class="line">        <span class="type">ThreadLocalMap</span>.<span class="type">Entry</span> e = map.getEntry(this);</span><br><span class="line">        <span class="keyword">if</span> (e != null) &#123;</span><br><span class="line">            @<span class="type">SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T <span class="literal">result</span> = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> T <span class="keyword">get</span>() &#123;</div><div class="line">    Thread t = Thread.currentThread();</div><div class="line">    ThreadLocalMap map = getMap(t);</div><div class="line">    <span class="keyword">if</span> (map != <span class="literal">null</span>) &#123;</div><div class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</div><div class="line">        <span class="keyword">if</span> (e != <span class="literal">null</span>) &#123;</div><div class="line">            <span class="meta">@SuppressWarnings(<span class="meta-string">"unchecked"</span>)</span></div><div class="line">            T result = (T)e.value;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> setInitialValue();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这里会有一个Thread.currentThread() ， getMap(t) 方法，所以就会得到这个线程 threadlocals。 但是，由于子类 InheritableThreadLocal 重写了 getMap()方法，再看上述代码，我们可以看到： 其实不是得到 threadlocals，而是得到 inheritableThreadLocals。 inheritableThreadLocals 之前一直没提及过，其实它也是 Thread 类的一个 ThreadLocalMap 类型的 属性，如下 Thread 类的部分代码：</p>
-<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal.ThreadLocalMap <span class="attr">threadLocals</span> = <span class="literal">null</span>;</span><br><span class="line">ThreadLocal.ThreadLocalMap <span class="attr">inheritableThreadLocals</span> = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ThreadLocal.ThreadLocalMap <span class="attr">threadLocals</span> = <span class="literal">null</span>;</div><div class="line">ThreadLocal.ThreadLocalMap <span class="attr">inheritableThreadLocals</span> = <span class="literal">null</span>;</div></pre></td></tr></table></figure>
 <p>那么，这里看 InheritableThreadLocal 重写的方法，感觉 inheritableThreadLocals 和 threadLocals 几乎是一模一样的作用，只是换了个名字而且，那么究竟 为什么在新的 线程中 通过 threadlocal.get() 方法还能得到值呢？<br>这时候要注意 childValue 方法，我们可以看下它的官方说明：</p>
 <ul>
 <li>Computes the child’s initial value for this inheritable thread-local</li>
@@ -419,15 +506,15 @@
 <li>thread is created.  This method is called from within the parent</li>
 <li>thread before the child is started.<br>这个时候，你明白了，是不是在 创建线程的时候做了手脚，做了一些值的传递，或者这里利用上了 inheritableThreadLocals 之类的。<br>其实，是的：<br>关键在于 Thread thread = new MyThread();<br>关键在于 Thread thread = new MyThread();<br>关键在于 Thread thread = new MyThread();<br>这不是一个简简单单的 new 操作。当我们 new 一个 线程的时候：</li>
 </ul>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Thread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    init(<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="string">"Thread-"</span> + nextThreadNum(), <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">Thread</span><span class="params">()</span> </span>&#123;</div><div class="line">    init(<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="string">"Thread-"</span> + nextThreadNum(), <span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>然后：</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(ThreadGroup g, Runnable <span class="keyword">target</span>, String name,</span><br><span class="line">                      <span class="keyword">long</span> stackSize)</span> </span>&#123;</span><br><span class="line">    init(g, <span class="keyword">target</span>, name, stackSize, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(ThreadGroup g, Runnable <span class="keyword">target</span>, String name,</span></span></div><div class="line">                      <span class="keyword">long</span> stackSize) &#123;</div><div class="line">    init(g, <span class="keyword">target</span>, name, stackSize, <span class="keyword">null</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>然后：</p>
-<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="literal">void</span> init(ThreadGroup g, Runnable target, <span class="built_in">String</span> name,</span><br><span class="line">                      long stackSize, AccessControlContext acc) &#123;</span><br><span class="line">     <span class="attr">...</span><span class="attr">...</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">parent</span>.inheritableThreadLocals != <span class="built_in">null</span>)</span><br><span class="line">        this.inheritableThreadLocals =</span><br><span class="line">            ThreadLocal.createInheritedMap(<span class="keyword">parent</span>.inheritableThreadLocals);</span><br><span class="line">        <span class="comment">/* Stash the specified stack size in case the VM cares */</span></span><br><span class="line">        this.stackSize = stackSize;</span><br><span class="line">    <span class="attr">...</span><span class="attr">...</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="literal">void</span> init(ThreadGroup g, Runnable target, <span class="built_in">String</span> name,</div><div class="line">                      long stackSize, AccessControlContext acc) &#123;</div><div class="line">     <span class="params">...</span><span class="params">...</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">parent</span>.inheritableThreadLocals != <span class="built_in">null</span>)</div><div class="line">        this.inheritableThreadLocals =</div><div class="line">            ThreadLocal.createInheritedMap(<span class="keyword">parent</span>.inheritableThreadLocals);</div><div class="line">        <span class="comment">/* Stash the specified stack size in case the VM cares */</span></div><div class="line">        this.stackSize = stackSize;</div><div class="line">    <span class="params">...</span><span class="params">...</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>这时候有一句 ‘ThreadLocal.createInheritedMap(parent.inheritableThreadLocals);’ ，然后</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="function">ThreadLocalMap <span class="title">createInheritedMap</span><span class="params">(ThreadLocalMap parentMap)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadLocalMap(parentMap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> ThreadLocalMap <span class="title">createInheritedMap</span><span class="params">(ThreadLocalMap parentMap)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadLocalMap(parentMap);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>继续跟踪：</p>
-<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> ThreadLocalMap(ThreadLocalMap parentMap) &#123;</span><br><span class="line">    Entry[] parentTable = parentMap.table;</span><br><span class="line">    <span class="built_in">int</span> len = parentTable.length;</span><br><span class="line">    setThreshold(len);</span><br><span class="line">    table = <span class="keyword">new</span> Entry[len];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">        Entry e = parentTable[j];</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            @SuppressWarnings(<span class="string">"unchecked"</span>)</span><br><span class="line">            ThreadLocal&lt;<span class="keyword">Object</span>&gt; <span class="built_in">key</span> = (ThreadLocal&lt;<span class="keyword">Object</span>&gt;) e.<span class="built_in">get</span>();</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">key</span> != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">Object</span> value = <span class="built_in">key</span>.childValue(e.value);</span><br><span class="line">                Entry c = <span class="keyword">new</span> Entry(<span class="built_in">key</span>, value);</span><br><span class="line">                <span class="built_in">int</span> h = <span class="built_in">key</span>.threadLocalHashCode &amp; (len - <span class="number">1</span>);</span><br><span class="line">                <span class="keyword">while</span> (table[h] != <span class="keyword">null</span>)</span><br><span class="line">                    h = nextIndex(h, len);</span><br><span class="line">                    table[h] = c;</span><br><span class="line">                    <span class="built_in">size</span>++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> ThreadLocalMap(ThreadLocalMap parentMap) &#123;</div><div class="line">    Entry[] parentTable = parentMap.table;</div><div class="line">    <span class="built_in">int</span> len = parentTable.length;</div><div class="line">    setThreshold(len);</div><div class="line">    table = <span class="keyword">new</span> Entry[len];</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</div><div class="line">        Entry e = parentTable[j];</div><div class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</div><div class="line">            @SuppressWarnings(<span class="string">"unchecked"</span>)</div><div class="line">            ThreadLocal&lt;<span class="keyword">Object</span>&gt; <span class="built_in">key</span> = (ThreadLocal&lt;<span class="keyword">Object</span>&gt;) e.<span class="built_in">get</span>();</div><div class="line">            <span class="keyword">if</span> (<span class="built_in">key</span> != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">Object</span> value = <span class="built_in">key</span>.childValue(e.value);</div><div class="line">                Entry c = <span class="keyword">new</span> Entry(<span class="built_in">key</span>, value);</div><div class="line">                <span class="built_in">int</span> h = <span class="built_in">key</span>.threadLocalHashCode &amp; (len - <span class="number">1</span>);</div><div class="line">                <span class="keyword">while</span> (table[h] != <span class="keyword">null</span>)</div><div class="line">                    h = nextIndex(h, len);</div><div class="line">                    table[h] = c;</div><div class="line">                    <span class="built_in">size</span>++;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>当我们创建一个新的线程的时候X，X线程就会有 ThreadLocalMap 类型的 inheritableThreadLocals ，因为它是 Thread 类的一个属性。</p>
 <h2 id="然后"><a href="#然后" class="headerlink" title="然后"></a>然后</h2><p>先得到当前线程存储的这些值，例如 Entry[] parentTable = parentMap.table; 。再通过一个 for 循环，不断的把当前线程的这些值复制到我们新创建的线程X 的inheritableThreadLocals 中。就这样，就ok了。<br>那么这样会有一个什么结果呢？<br>结果就是我们创建的新线程X 的inheritableThreadLocals 变量中已经有了值了。那么我在新的线程X中调用 threadlocal.get()方法，首先会得到新线程X 的 inheritableThreadLocals，然后，再根据threadlocal.get()中的 threadlocal，就能够得到这个值。<br>这样就避免了 新线程中得到的 threadlocals 没有东西。之前就是因为没有东西，所以才拿不到值。<br>所以说 整个 InheritableThreadLocal 的实现原理就是这样的。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>首先要理解 为什么 在 新线程中得不到值，是因为我们其实是根据 Thread.currentThread()，拿到该线程的 threadlocals，从而进一步得到我们之前预先 set 好的值。那么如果我们新开一个线程，这个时候，由于 Thread.currentThread() 已经变了，从而导致获得的 threadlocals 不一样，我们之前并没有在这个新的线程的 threadlocals 中放入值，那么我就再通过 threadlocal.get()方法 是不可能拿到值的。<br>那么解决办法就是 我们在新线程中，要把父线程的 threadlocals 的值 给复制到 新线程中的 threadlocals 中来。这样，我们在新线程中得到的 threadlocals 才会有东西，再通过 threadlocal.get() 中的 threadlocal，就会得到值。</p>
@@ -519,9 +606,9 @@
 <h6 id="Java中CAS的实现"><a href="#Java中CAS的实现" class="headerlink" title="Java中CAS的实现"></a>Java中CAS的实现</h6><p>CAS就是Compare and Swap的意思，比较并操作。很多的cpu直接支持CAS指令。CAS是项乐观锁技术，当多个线程尝试使用CAS同时更新同一个变量时，只有其中一个线程能更新变量的值，而其它线程都失败，失败的线程并不会被挂起，而是被告知这次竞争中失败，并可以再次尝试。<br>CAS有3个操作数，内存值V，旧的预期值A，要修改的新值B。当且仅当预期值A和内存值V相同时，将内存值V修改为B，否则什么都不做。<br>JDK1.5中引入了底层的支持，在int、long和对象的引用等类型上都公开了CAS的操作，并且JVM把它们编译为底层硬件提供的最有效的方法，在运行CAS的平台上，运行时把它们编译为相应的机器指令。在java.util.concurrent.atomic包下面的所有的原子变量类型中，比如AtomicInteger，都使用了这些底层的JVM支持为数字类型的引用类型提供一种高效的CAS操作。</p>
 <h6 id="ABA-问题"><a href="#ABA-问题" class="headerlink" title="ABA 问题"></a>ABA 问题</h6><p>在CAS操作中，会出现ABA问题。就是如果V的值先由A变成B，再由B变成A，那么仍然认为是发生了变化，并需要重新执行算法中的步骤。<br>有简单的解决方案：不是更新某个引用的值，而是更新两个值，包括一个引用和一个版本号，即使这个值由A变为B，然后为变为A，版本号也是不同的。<br>AtomicStampedReference和AtomicMarkableReference支持在两个变量上执行原子的条件更新。AtomicStampedReference更新一个“对象-引用”二元组，通过在引用上加上“版本号”，从而避免ABA问题，AtomicMarkableReference将更新一个“对象引用-布尔值”的二元组。</p>
 <h6 id="AtomicInteger的实现"><a href="#AtomicInteger的实现" class="headerlink" title="AtomicInteger的实现"></a>AtomicInteger的实现</h6><p>AtomicInteger 是一个支持原子操作的 Integer 类，就是保证对AtomicInteger类型变量的增加和减少操作是原子性的，不会出现多个线程下的数据不一致问题。如果不使用 AtomicInteger，要实现一个按顺序获取的 ID，就必须在每次获取时进行加锁操作，以避免出现并发时获取到同样的 ID 的现象。<br>接下来通过源代码来看AtomicInteger具体是如何实现的原子操作。首先看incrementAndGet() 方法，下面是具体的代码：</p>
-<figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public final <span class="keyword">int</span> incrementAndGet() &#123;  </span><br><span class="line">        <span class="keyword">for</span> (<span class="comment">;;) &#123;  </span></span><br><span class="line">            <span class="keyword">int</span> current = get()<span class="comment">;  </span></span><br><span class="line">            <span class="keyword">int</span> <span class="keyword">next</span> = current + <span class="number">1</span><span class="comment">;  </span></span><br><span class="line">            <span class="keyword">if</span> (compareAndSet(current, <span class="keyword">next</span>))  </span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">next</span><span class="comment">;  </span></span><br><span class="line">        &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> incrementAndGet() &#123;  </div><div class="line">        <span class="keyword">for</span> (;;) &#123;  </div><div class="line">            <span class="keyword">int</span> current = get();  </div><div class="line">            <span class="keyword">int</span> <span class="keyword">next</span> = current + <span class="number">1</span>;  </div><div class="line">            <span class="keyword">if</span> (compareAndSet(current, <span class="keyword">next</span>))  </div><div class="line">                <span class="keyword">return</span> <span class="keyword">next</span>;  </div><div class="line">        &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>通过源码，可以知道，这个方法的做法为先获取到当前的 value 属性值，然后将 value 加 1，赋值给一个局部的 next 变量，然而，这两步都是非线程安全的，但是内部有一个死循环，不断去做compareAndSet操作，直到成功为止，也就是修改的根本在compareAndSet方法里面，compareAndSet()方法的代码如下：</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function"><span class="keyword">boolean</span> <span class="title">compareAndSet</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;  </span><br><span class="line">        <span class="function"><span class="keyword">return</span> unsafe.<span class="title">compareAndSwapInt</span><span class="params">(<span class="keyword">this</span>, valueOffset, expect, update)</span></span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function"><span class="keyword">boolean</span> <span class="title">compareAndSet</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;  </div><div class="line">        <span class="function"><span class="keyword">return</span> unsafe.<span class="title">compareAndSwapInt</span><span class="params">(<span class="keyword">this</span>, valueOffset, expect, update)</span></span>;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>compareAndSet()方法调用的compareAndSwapInt()方法的声明如下，是一个native方法: publicfinal native boolean compareAndSwapInt(Object var1, long var2, int var4, intvar5);<br>compareAndSet 传入的为执行方法时获取到的 value 属性值，next 为加 1 后的值， compareAndSet所做的为调用 Sun 的 UnSafe 的 compareAndSwapInt 方法来完成，此方法为 native 方法，compareAndSwapInt 基于的是CPU 的 CAS指令来实现的。所以基于 CAS 的操作可认为是无阻塞的，一个线程的失败或挂起不会引起其它线程也失败或挂起。并且由于 CAS 操作是 CPU 原语，所以性能比较好。<br>类似的，还有decrementAndGet()方法。它和incrementAndGet()的区别是将 value 减 1，赋值给next 变量。<br>AtomicInteger中还有getAndIncrement() 和getAndDecrement() 方法，他们的实现原理和上面的两个方法完全相同，区别是返回值不同，前两个方法返回的是改变之后的值，即next。而这两个方法返回的是改变之前的值，即current。还有很多的其他方法，就不列举了。<br>转载<br><strong>转载</strong></p>
 
             
@@ -768,20 +855,20 @@ public void run() {
         
           <span itemprop="articleBody">
             
-              <p>一 find<br>find是最常使用和最强大的查找命令，可以找到任何想查找找的文件<br>用法如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find &lt;指定目录&gt; <span class="xml"><span class="tag">&lt;<span class="name">指定条件</span>&gt;</span> <span class="tag">&lt;<span class="name">指定动作</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
-<p>如果不加参数，默认搜索当前目录及其子目录，并且不过滤任何结果（也就是返回所有文件）<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name <span class="string">'a*'</span></span><br></pre></td></tr></table></figure></p>
-<p>搜索home目录（含子目录）中所有文件名以a开头的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name <span class="string">'a*'</span> -ls</span><br></pre></td></tr></table></figure></p>
-<p>搜索home目录（含子目录）中所有文件名以a开头的文件并显示它们的详细信息。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -type f -mmin <span class="number">-10</span></span><br></pre></td></tr></table></figure></p>
+              <p>一 find<br>find是最常使用和最强大的查找命令，可以找到任何想查找找的文件<br>用法如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find &lt;指定目录&gt; <span class="xml"><span class="tag">&lt;<span class="name">指定条件</span>&gt;</span> <span class="tag">&lt;<span class="name">指定动作</span>&gt;</span></span></div></pre></td></tr></table></figure></p>
+<p>如果不加参数，默认搜索当前目录及其子目录，并且不过滤任何结果（也就是返回所有文件）<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find /home -name <span class="string">'a*'</span></div></pre></td></tr></table></figure></p>
+<p>搜索home目录（含子目录）中所有文件名以a开头的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find /home -name <span class="string">'a*'</span> -ls</div></pre></td></tr></table></figure></p>
+<p>搜索home目录（含子目录）中所有文件名以a开头的文件并显示它们的详细信息。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find /home -type f -mmin <span class="number">-10</span></div></pre></td></tr></table></figure></p>
 <p>搜索home目录中所有过去10分钟中更新过的普通文件,如果不加-type f参数，则搜索普通文件+特殊文件+目录。</p>
-<p>二  locate<br>locate命令实质上是”find -name”的另一种写法，但是要比后者快得多，原因在于它不搜索具体目录，而是搜索一个数据库（/var/lib/locatedb），这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，所以使用locate命令查不到最新变动过的文件。为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locate /etc/sh</span><br></pre></td></tr></table></figure></p>
-<p>搜索etc目录下所有以sh开头的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locate ~<span class="regexp">/m</span></span><br></pre></td></tr></table></figure></p>
-<p>搜索home录下，所有以m开头的文件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locate -i ~<span class="regexp">/m</span></span><br></pre></td></tr></table></figure></p>
+<p>二  locate<br>locate命令实质上是”find -name”的另一种写法，但是要比后者快得多，原因在于它不搜索具体目录，而是搜索一个数据库（/var/lib/locatedb），这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，所以使用locate命令查不到最新变动过的文件。为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ locate /etc/sh</div></pre></td></tr></table></figure></p>
+<p>搜索etc目录下所有以sh开头的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ locate ~<span class="regexp">/m</span></div></pre></td></tr></table></figure></p>
+<p>搜索home录下，所有以m开头的文件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ locate -i ~<span class="regexp">/m</span></div></pre></td></tr></table></figure></p>
 <p>搜索用户主目录下，所有以m开头的文件，并且忽略大小写</p>
-<p>三 whereis<br>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s），如果省略参数则返回所有信息<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ whereis grep</span><br></pre></td></tr></table></figure></p>
-<p>四 which<br>which命令是在PATH变量指定的路径中搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令就可以看到某个系统命令是否存在以及执行的到底是哪一个位置的命令<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ which grep</span><br></pre></td></tr></table></figure></p>
-<p>五 type<br>type命令其实不能算查找命令，它是用来查看某个命令是由shell自带的还是由shell外部的独立二进制文件提供的，如果一个命令是外部命令，使用-p参数会显示该命令的路径，相当于which命令<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ type cd</span><br></pre></td></tr></table></figure></p>
-<p>输出 “cd 是 shell 内建”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ type grep</span><br></pre></td></tr></table></figure></p>
-<p>输出 “grep 是 `grep –color=auto’ 的别名”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ type -p grep</span><br></pre></td></tr></table></figure></p>
+<p>三 whereis<br>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s），如果省略参数则返回所有信息<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ whereis grep</div></pre></td></tr></table></figure></p>
+<p>四 which<br>which命令是在PATH变量指定的路径中搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令就可以看到某个系统命令是否存在以及执行的到底是哪一个位置的命令<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ which grep</div></pre></td></tr></table></figure></p>
+<p>五 type<br>type命令其实不能算查找命令，它是用来查看某个命令是由shell自带的还是由shell外部的独立二进制文件提供的，如果一个命令是外部命令，使用-p参数会显示该命令的路径，相当于which命令<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ type cd</div></pre></td></tr></table></figure></p>
+<p>输出 “cd 是 shell 内建”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ type grep</div></pre></td></tr></table></figure></p>
+<p>输出 “grep 是 `grep –color=auto’ 的别名”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ type -p grep</div></pre></td></tr></table></figure></p>
 <p>加上-p参数后就相当于which命令</p>
 
             
@@ -1236,120 +1323,6 @@ https://robomongo.org
 
 
     
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/04/29/业务层面缓存穿透的方案/" itemprop="url">
-                  业务层面缓存穿透的方案
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-29T14:29:10+08:00" content="2016-04-29">
-              2016-04-29
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/29/业务层面缓存穿透的方案/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/29/业务层面缓存穿透的方案/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>网上有一些关于缓存穿透和缓存雪崩的解决方案，无非是：</p>
-<pre><code>1.如果查询数据为null，则把null进行缓存
-
-2.使用布隆过滤器
-</code></pre><p>先来说说缓存穿透的概念：我们在项目中使用缓存通常都是APP先检查缓存中是否存在，如果存在直接返回缓存内容，如果不存在就直接查询数据库然后再缓存查询结果返回。这个时候如果我们查询的某一个数据在缓存中一直不存在，就会造成每一次请求都查询DB，这样缓存就失去了意义，在流量大时，可能DB就挂掉了。</p>
-<p>再来讲讲我们的业务场景：</p>
-<pre><code> 1.通常我们是首页，或是统计页，用户请求较多，首页进入系统必定会加载，统计页（针对一些准实时的统计结果）查询的SQL或是结果比较复杂。
-
- 2.时效性一般，基本上小时级别
-
- 3.数据量较大，一般是亿级或是千万级别
-
- 4.业务逻辑比较复杂，可能需要进行各种表的关联
-
- 5.如果请求过多，有可能数据库奔溃，即使在进行分库分表之后还是有可能占用一大部分的数据库IO和CPU资源
-
- 6.统计的维度较多，每个用户请求的维度可能是不一样的。
-
- 针对上述情况我们一般的做法，就是加一层缓存，请求过来先去访问缓存，可以使用memcached或是redis，如果缓存不存在或是缓存失效的情况下，再去load DB。大部分的情况下，这是非常好的，但是某一天如果你需要重启缓存，或是缓存在某一时刻失效很大一部分，这就会导致我们之前所说的缓存穿透。
-
-ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来解释
-</code></pre><p><img src="/uploads/缓存穿透.png" alt="Paste_Image.png"></p>
-<pre><code>1.更具业务统计的维度或是场景，建立一张以JSON格式为模板的表
-
-2.通过调度平台，定时的把任务统计完成并保存至模板表中和缓存集群中
-
-3.不断对2进行轮询，保持数据的热度
-
-4.用户请求过来，先访问我们的缓存，一旦缓存失效或是重启，直接从数据库模板表中获取最新的热度数据并缓存，这样我们就能有效的减轻数据库的压力。
-
-5.这也是一种缓存预热的方案
-</code></pre><p> 技术交流：534368042</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1392,7 +1365,7 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1457,7 +1430,7 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
 <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>

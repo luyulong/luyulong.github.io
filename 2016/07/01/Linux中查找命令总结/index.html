@@ -266,20 +266,20 @@
       
 
       
-        <span itemprop="articleBody"><p>一 find<br>find是最常使用和最强大的查找命令，可以找到任何想查找找的文件<br>用法如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find &lt;指定目录&gt; <span class="xml"><span class="tag">&lt;<span class="name">指定条件</span>&gt;</span> <span class="tag">&lt;<span class="name">指定动作</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
-<p>如果不加参数，默认搜索当前目录及其子目录，并且不过滤任何结果（也就是返回所有文件）<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name <span class="string">'a*'</span></span><br></pre></td></tr></table></figure></p>
-<p>搜索home目录（含子目录）中所有文件名以a开头的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name <span class="string">'a*'</span> -ls</span><br></pre></td></tr></table></figure></p>
-<p>搜索home目录（含子目录）中所有文件名以a开头的文件并显示它们的详细信息。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -type f -mmin <span class="number">-10</span></span><br></pre></td></tr></table></figure></p>
+        <span itemprop="articleBody"><p>一 find<br>find是最常使用和最强大的查找命令，可以找到任何想查找找的文件<br>用法如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find &lt;指定目录&gt; <span class="xml"><span class="tag">&lt;<span class="name">指定条件</span>&gt;</span> <span class="tag">&lt;<span class="name">指定动作</span>&gt;</span></span></div></pre></td></tr></table></figure></p>
+<p>如果不加参数，默认搜索当前目录及其子目录，并且不过滤任何结果（也就是返回所有文件）<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find /home -name <span class="string">'a*'</span></div></pre></td></tr></table></figure></p>
+<p>搜索home目录（含子目录）中所有文件名以a开头的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find /home -name <span class="string">'a*'</span> -ls</div></pre></td></tr></table></figure></p>
+<p>搜索home目录（含子目录）中所有文件名以a开头的文件并显示它们的详细信息。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find /home -type f -mmin <span class="number">-10</span></div></pre></td></tr></table></figure></p>
 <p>搜索home目录中所有过去10分钟中更新过的普通文件,如果不加-type f参数，则搜索普通文件+特殊文件+目录。</p>
-<p>二  locate<br>locate命令实质上是”find -name”的另一种写法，但是要比后者快得多，原因在于它不搜索具体目录，而是搜索一个数据库（/var/lib/locatedb），这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，所以使用locate命令查不到最新变动过的文件。为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locate /etc/sh</span><br></pre></td></tr></table></figure></p>
-<p>搜索etc目录下所有以sh开头的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locate ~<span class="regexp">/m</span></span><br></pre></td></tr></table></figure></p>
-<p>搜索home录下，所有以m开头的文件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locate -i ~<span class="regexp">/m</span></span><br></pre></td></tr></table></figure></p>
+<p>二  locate<br>locate命令实质上是”find -name”的另一种写法，但是要比后者快得多，原因在于它不搜索具体目录，而是搜索一个数据库（/var/lib/locatedb），这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，所以使用locate命令查不到最新变动过的文件。为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ locate /etc/sh</div></pre></td></tr></table></figure></p>
+<p>搜索etc目录下所有以sh开头的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ locate ~<span class="regexp">/m</span></div></pre></td></tr></table></figure></p>
+<p>搜索home录下，所有以m开头的文件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ locate -i ~<span class="regexp">/m</span></div></pre></td></tr></table></figure></p>
 <p>搜索用户主目录下，所有以m开头的文件，并且忽略大小写</p>
-<p>三 whereis<br>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s），如果省略参数则返回所有信息<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ whereis grep</span><br></pre></td></tr></table></figure></p>
-<p>四 which<br>which命令是在PATH变量指定的路径中搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令就可以看到某个系统命令是否存在以及执行的到底是哪一个位置的命令<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ which grep</span><br></pre></td></tr></table></figure></p>
-<p>五 type<br>type命令其实不能算查找命令，它是用来查看某个命令是由shell自带的还是由shell外部的独立二进制文件提供的，如果一个命令是外部命令，使用-p参数会显示该命令的路径，相当于which命令<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ type cd</span><br></pre></td></tr></table></figure></p>
-<p>输出 “cd 是 shell 内建”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ type grep</span><br></pre></td></tr></table></figure></p>
-<p>输出 “grep 是 `grep –color=auto’ 的别名”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ type -p grep</span><br></pre></td></tr></table></figure></p>
+<p>三 whereis<br>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s），如果省略参数则返回所有信息<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ whereis grep</div></pre></td></tr></table></figure></p>
+<p>四 which<br>which命令是在PATH变量指定的路径中搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令就可以看到某个系统命令是否存在以及执行的到底是哪一个位置的命令<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ which grep</div></pre></td></tr></table></figure></p>
+<p>五 type<br>type命令其实不能算查找命令，它是用来查看某个命令是由shell自带的还是由shell外部的独立二进制文件提供的，如果一个命令是外部命令，使用-p参数会显示该命令的路径，相当于which命令<br>实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ type cd</div></pre></td></tr></table></figure></p>
+<p>输出 “cd 是 shell 内建”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ type grep</div></pre></td></tr></table></figure></p>
+<p>输出 “grep 是 `grep –color=auto’ 的别名”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ type -p grep</div></pre></td></tr></table></figure></p>
 <p>加上-p参数后就相当于which命令</p>
 </span>
       
@@ -385,7 +385,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -450,7 +450,7 @@
 <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>

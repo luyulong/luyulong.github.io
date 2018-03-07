@@ -260,7 +260,7 @@
       
 
       
-        <span itemprop="articleBody"><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ReverseLinkedList</span> </span>&#123;    </span><br><span class="line">    public ListNode reverseList(ListNode head) &#123;     </span><br><span class="line">          <span class="keyword">if</span> (head == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;       </span><br><span class="line">          <span class="keyword">if</span> (head.next == <span class="literal">null</span>) <span class="keyword">return</span> head;       </span><br><span class="line">          ListNode p = head.next;       </span><br><span class="line">          ListNode n = reverseList(p);        </span><br><span class="line">          head.next = <span class="literal">null</span>;        </span><br><span class="line">          p.next = head;        </span><br><span class="line">          <span class="keyword">return</span> n;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
+        <span itemprop="articleBody"><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ReverseLinkedList</span> </span>&#123;    </div><div class="line">    public ListNode reverseList(ListNode head) &#123;     </div><div class="line">          <span class="keyword">if</span> (head == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;       </div><div class="line">          <span class="keyword">if</span> (head.next == <span class="literal">null</span>) <span class="keyword">return</span> head;       </div><div class="line">          ListNode p = head.next;       </div><div class="line">          ListNode n = reverseList(p);        </div><div class="line">          head.next = <span class="literal">null</span>;        </div><div class="line">          p.next = head;        </div><div class="line">          <span class="keyword">return</span> n;    </div><div class="line">&#125;</div></pre></td></tr></table></figure></span>
       
     </div>
 
@@ -364,7 +364,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -429,7 +429,7 @@
 <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>

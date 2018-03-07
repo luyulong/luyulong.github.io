@@ -221,6 +221,103 @@
             
             
               
+                <a class="post-title-link" href="/2016/04/20/oracle监控参数/" itemprop="url">
+                  oracle监控参数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-20T08:35:24+08:00" content="2016-04-20">
+              2016-04-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/20/oracle监控参数/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/oracle监控参数/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>Sar –u 检查CPU的繁忙程度<br>列<br>说明<br>Usr<br>用户模式下cpu运行所占的百分比<br>Sys<br>系统模式下cpu运行所占的百分比<br>Wio<br>因为有进程等待块I/O而使cpu处于闲置状态所占百分比<br>Idle<br>Cpu为闲置状态所占百分比 </p>
+<p>sar –u 10 8 第一个数字展示二次相邻的sar读取之间隔了多少秒，第二数字是打算好了让sar运行的次数。 </p>
+<p>较低的idel时间可能说明有些进程正消耗大量的cpu时间，或是说明cpu的处理能力不足。请使用ps或是top命令去找出cpu密集型的作业吧 写得很差，需要大量磁盘访问的查询，同样能够消耗大量的cpu资源<br>值得关注wio返回的高额数值与cpu的沉重负荷<br>展示的高额wio，即io等待时间，表明有磁盘争用的问题。可以用iostate命令来准确定位磁盘争用究竟发生在哪里 </p>
+<p>需要检查输出结果<br>较低的cpu空闲时间值<br>高比例的io等待时间 或是用wio&gt;10来判断<br>Sys&gt;15的瓶颈，这表明交换，调页或备份可能造成了瓶颈<br>异常高的usr 这可能是由于没有好好的给应用程序调过优，或是由于过度使用了cpu </p>
+<p>Sar –d命令找出io问题 </p>
+<p>需要注意<br>Busy大于50%的设备<br>如果avwait大于avserv<br>不均衡的磁盘io负载 </p>
+<p>Busy和avque取值高表明存在着磁盘io瓶颈。 </p>
+<p>Sar –d 5 2<br>第一个相邻二次sar运行间所隔的秒数 第二个是运行sar的总次数（5是5秒的时间间隔 2表示重复二次） </p>
+<p>Sar –b命令 检查缓冲区高速缓存 </p>
+<p>读缓存：rcache》90 表明有糟糕磁盘的io可能<br>写缓存：wcache《70，同样表明有糟糕磁盘io的可能 </p>
+<p>Sar –q命令检查运行队列和交换队列的长度<br>如果发现有runq-sz大于4或是swpocc大于5之处，就可能有问题 </p>
+<p>使用uptime’命令监控cpu负载<br>平均队列长度为2-3的系统是尚可接受的 </p>
+<p>使用mpstat命令辨认cpu瓶颈<br>如果在mpstat的输出结果中smtx列的值大于200，系统就正在朝cpu瓶颈问题的方向蛮近着 </p>
+<p>Ps  -e –o pcpu,pid,user,args | sort –k 3 –r | tail 使用top命令找出系统上最差的用户<br>把从ps命令获得的系统pid传进下面的程序里：<br>–ps_view.sql </p>
+<p>使用iostat命令辨认磁盘io瓶颈<br>Iostat –d sd15 sd16 5 5<br>-d 选项报告每秒内读的次数，写的次数以及磁盘使用的百分比</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
                 <a class="post-title-link" href="/2016/03/31/LinkedList/" itemprop="url">
                   letcode Reverse LinkedList
                 </a>
@@ -266,7 +363,7 @@
         
           <span itemprop="articleBody">
             
-              <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ReverseLinkedList</span> </span>&#123;    </span><br><span class="line">    public ListNode reverseList(ListNode head) &#123;     </span><br><span class="line">          <span class="keyword">if</span> (head == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;       </span><br><span class="line">          <span class="keyword">if</span> (head.next == <span class="literal">null</span>) <span class="keyword">return</span> head;       </span><br><span class="line">          ListNode p = head.next;       </span><br><span class="line">          ListNode n = reverseList(p);        </span><br><span class="line">          head.next = <span class="literal">null</span>;        </span><br><span class="line">          p.next = head;        </span><br><span class="line">          <span class="keyword">return</span> n;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+              <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ReverseLinkedList</span> </span>&#123;    </div><div class="line">    public ListNode reverseList(ListNode head) &#123;     </div><div class="line">          <span class="keyword">if</span> (head == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;       </div><div class="line">          <span class="keyword">if</span> (head.next == <span class="literal">null</span>) <span class="keyword">return</span> head;       </div><div class="line">          ListNode p = head.next;       </div><div class="line">          ListNode n = reverseList(p);        </div><div class="line">          head.next = <span class="literal">null</span>;        </div><div class="line">          p.next = head;        </div><div class="line">          <span class="keyword">return</span> n;    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
             
           </span>
         
@@ -546,7 +643,7 @@
 <p>起因：项目在服务化之后，开辟了一个新的专有云机房A，在原有物理机房B系统不迁移的情况下，需要A的系统调用B的各种dubbo服务，且A到B之间不能直接访问需要通过交换机做网络映射，现有B内部的网段是192.168.1.X  A网段59.10.59.X  映射后A访问B的网段是10.59.10.X，造成A消费者无法直接注册到B的zookeeper集群注册中心，访问B的服务。</p>
 <p>方案：通过dubbo的双注册中心的模式，A机房访问B机房服务通过修改A机房机器的hosts<br>例如B机房服务内网地址192.168.1.120 机器名app1  这在A机房机器消费者hosts配置app1 192.168.1.120服务注册是dubbo://app1:20880/XXX/XXX,B机房消费者保持不变，网络架构如下：</p>
 <p><img src="/uploads/1756347-ee6a7da058906d5d.png" alt="Paste_Image.png"></p>
-<p>1.dubbo在A机房zookeeper注册中心通过app1模式，在B机房192.168.1.X 配置如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 多注册中心配置 --&gt;</span><br><span class="line">   &lt;dubbo:registry id="hangzhouRegistry" address="192.168.1.110:20880" /&gt;</span><br><span class="line">   &lt;dubbo:registry id="qingdaoRegistry" address="app1:20880" default="false" /&gt;</span><br><span class="line"></span><br><span class="line">   &lt;!-- 向多个注册中心注册 --&gt;</span><br><span class="line">   &lt;dubbo:service interface="com.alibaba.hello.api.HelloService" version="1.0.0" ref="helloService" registry="hangzhouRegistry,qingdaoRegistry" /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>1.dubbo在A机房zookeeper注册中心通过app1模式，在B机房192.168.1.X 配置如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 多注册中心配置 --&gt;</div><div class="line">   &lt;dubbo:registry id="hangzhouRegistry" address="192.168.1.110:20880" /&gt;</div><div class="line">   &lt;dubbo:registry id="qingdaoRegistry" address="app1:20880" default="false" /&gt;</div><div class="line"></div><div class="line">   &lt;!-- 向多个注册中心注册 --&gt;</div><div class="line">   &lt;dubbo:service interface="com.alibaba.hello.api.HelloService" version="1.0.0" ref="helloService" registry="hangzhouRegistry,qingdaoRegistry" /&gt;</div></pre></td></tr></table></figure></p>
 <p>2.修改dubbo包的的AbstractServer类构造函数</p>
 <p><img src="/uploads/1756347-7f6deb8c0830f666.png" alt="Paste_Image.png"></p>
 
@@ -695,7 +792,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -760,7 +857,7 @@
 <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>
