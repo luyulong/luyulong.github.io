@@ -221,6 +221,113 @@
             
             
               
+                <a class="post-title-link" href="/2016/04/20/mysql-5-6-25-winx64免安装配置/" itemprop="url">
+                  mysql-5.6.25-winx64免安装配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-20T08:36:58+08:00" content="2016-04-20">
+              2016-04-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/20/mysql-5-6-25-winx64免安装配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/mysql-5-6-25-winx64免安装配置/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>1.下载mysql免安装包 </p>
+<ol>
+<li>解压MySQL压缩包 </li>
+</ol>
+<p>将以下载的MySQL压缩包解压到自定义目录下。 </p>
+<ol>
+<li>添加环境变量 </li>
+</ol>
+<p>变量名：MYSQL_HOME<br>变量值：D:\Program Files\mysql-5.6.25-winx64<br>即为mysql的自定义解压目录。<br>再在Path中添加  %MYSQL_HOME%\bin </p>
+<ol>
+<li>注册windows系统服务 </li>
+</ol>
+<p>将mysql注册为windows系统服务<br>操作如下：<br>1）新建一个my.ini文件并把my.ini文件拷贝到c:\windows目录下，my.ini内容如下：<br>[client]<br>port=3306<br>default-character-set=utf8 </p>
+<p>[mysqld] </p>
+<h1 id="设置为MYSQL的安装目录"><a href="#设置为MYSQL的安装目录" class="headerlink" title="设置为MYSQL的安装目录"></a>设置为MYSQL的安装目录</h1><p>basedir=D:\Program Files\mysql-5.6.25-winx64 </p>
+<h1 id="设置为MYSQL的数据目录"><a href="#设置为MYSQL的数据目录" class="headerlink" title="设置为MYSQL的数据目录"></a>设置为MYSQL的数据目录</h1><p>datadir=D:\Program Files\mysql-5.6.25-winx64/data<br>port=3306<br>character_set_server=utf8<br>sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES<br>2）从控制台进入到MySQL解压目录下的 bin 目录下。<br>3）输入服务安装命令：<br>mysqld.exe -install<br>如果出现Install/Remove of the Service Denied!<br>是因为WINDOW 7 跟 vista 的权限更严格<br>进入 C:\Window\System32  找到CMD.EXE 右键选择 以管理员身份 进行，再进入相应目录执行命令，一切就OK了。 </p>
+<p>安装成功后会提示服务安装成功。<br>注：my-default.ini文件在MySQL解压后的根目录下，如果没有，可从其他地方中获取。<br>移除服务命令为：mysqld remove </p>
+<ol>
+<li>启动MySQL服务 </li>
+</ol>
+<p>方法一：<br>启动服务命令为：net start mysql<br>方法二：<br>打开管理工具 服务，找到MySQL服务。<br>通过右键选择启动或者直接点击左边的启动来启动服务。 </p>
+<ol>
+<li>修改 root 账号的密码 </li>
+</ol>
+<p>刚安装完成时root账号默认密码为空，此时可以将密码修改为指定的密码。如：root<br>方法一：<br>c:&gt;mysql –uroot<br>mysql&gt;show databases;<br>mysql&gt;use mysql;<br>mysql&gt;UPDATE user SET password=PASSWORD(“root”) WHERE user=’root’;<br>mysql&gt;FLUSH PRIVILEGES;<br>mysql&gt;QUIT</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
                 <a class="post-title-link" href="/2016/04/20/oracle监控参数/" itemprop="url">
                   oracle监控参数
                 </a>
@@ -792,21 +899,21 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-count">1</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
