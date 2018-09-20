@@ -777,8 +777,8 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
             
             
               
-                <a class="post-title-link" href="/2016/04/20/选择排序算法/" itemprop="url">
-                  选择排序算法
+                <a class="post-title-link" href="/2016/04/20/冒泡排序算法/" itemprop="url">
+                  冒泡排序算法
                 </a>
               
             
@@ -799,8 +799,8 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/选择排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/选择排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/04/20/冒泡排序算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/冒泡排序算法/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -822,109 +822,19 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
         
           <span itemprop="articleBody">
             
-              <p>选择排序算法是比较简单的排序算法，其思路比较直观，选择排序算法在每一步中选取最小值来重新判断，从而达到排序的目的。<br>    排序流程如下：<br>    1）首先从原始数组中选择最小的一个数据，将其和位于第一个位置的数据交换<br>    2）接着从剩下的n-1个数据中选词次小的一个数据，将其和第二个位置的数据交换<br>    3）然后不断重复上述过程，直到最后二个数据完成交换 </p>
-<pre><code>例如下数据 
+              <p>  冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。<br>     排序流程：<br>     1）对数组中的各个数据，一次比较相邻的二个元素的大小<br>     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好<br>     3）再用同样的方法依次进行比较 </p>
+<pre><code>例如以下数据 
 
 初始数据  118   101  105  127  112 
 
-一次排序  101   118  105  127  112 
+一次排序  101   118  105  112  127 
 
-二次排序  101   105  118  127  112 
+二次排序  101   105  118  112  127 
 
-三次排序  101   105  112  127  118 
+三次排序  101   105  112  118  127 
 
 四次排序  101   105  112  118  127 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">SelectSort</span> </span>&#123;</div><div class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</div><div class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</div><div class="line">		System.out.println(<span class="string">"排序之前："</span>);</div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			System.out.print(a[i] + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 简单的选择排序</span></div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			int min = a[i];</div><div class="line">			int n = i; <span class="comment">// 最小数的索引</span></div><div class="line">			<span class="keyword">for</span> (int j = i + <span class="number">1</span>; j &lt; a.length; j++) &#123;</div><div class="line">				<span class="keyword">if</span> (a[j] &lt; min) &#123; <span class="comment">// 找出最小的数</span></div><div class="line">					min = a[j];</div><div class="line">					n = j;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			a[n] = a[i];</div><div class="line">			a[i] = min;</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">		System.out.println(<span class="string">"排序之后："</span>);</div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			System.out.print(a[i] + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/04/20/快速排序算法/" itemprop="url">
-                  快速排序算法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
-              2016-04-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/20/快速排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/快速排序算法/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>快速排序算法和冒泡排序算法类似，都是基于交换排序思想的，快速排序算法对冒泡排序算法进行了改进，从而具有更高的执行效率<br>    通过多次比较和交换来实现排序，流程如下：<br>    1）首先设定一个分界值，通过该分界值将数组分成左右两部分<br>    2）将大于等于分界值得数据集中到数组右边，小于分界值得数据集中到数组的左边。此时，左边部分中各元素都小于等于分界值，而右边部分中各元素都大于等于分界值<br>    3）然后，左边和右边的数据可以独立排序。对于左侧的数组数据，又可以取一个分界值，将该部分数据分成左右两部分，同样将左边放置较小值，右边放置较大值。右侧的数组数据也可以做类似处理<br>    4）重复上述过程，可以看出，这是一个递归定义。 </p>
-<pre><code>例如：选择8个整型数据69、62、89、37、97、17、28、49是一组无序数据 
-1）首先选取一个分界值，这里选择第一个数据69作为分界值。在变量left中保存数组的最小的序号0，在变量right中保存数据的最大序号7，在变量base中保存分界值69 
-2）从数组右侧开始，逐个取出数据与分界值69比较，直到找到比base小的数据为止，数组最右侧的元素A[right]的值49比base变量保存的值69小。 
-3）将右侧比基准base小的数保存到A[left]元素中。 
-4）接下来，从数组左侧开始，逐个取出元素与分界值69比较，直到找到比分界值69大的数据为止。数组最左侧的元素A[left]的值为49，比base的值小，将left自增1再取A[left]的值62与base的值69比较，62小于69，继续将left自增1.再取A[left]的值89与base比较，89大于69，结束查找 
-5）将左侧比分界值69大的数保存到A[right]元素中。 
-6）将分界值69中的值保存到A[left]中，最后得到结果 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> final int SIZE=<span class="number">18</span>;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">void</span> quickSort(int[] arr,int left,int right)			<span class="comment">//快速排序算法</span></div><div class="line">	&#123;</div><div class="line">	    int f,t;</div><div class="line">		int rtemp,ltemp;</div><div class="line"></div><div class="line">	    ltemp=left;</div><div class="line">	    rtemp=right;</div><div class="line">	    f=arr[(left+right)/<span class="number">2</span>];						<span class="comment">//分界值</span></div><div class="line">		<span class="keyword">while</span>(ltemp&lt;rtemp)</div><div class="line">		&#123;</div><div class="line">	        <span class="keyword">while</span>(arr[ltemp]&lt;f)</div><div class="line">			&#123;</div><div class="line">				++ltemp;</div><div class="line">			&#125;</div><div class="line">	        <span class="keyword">while</span>(arr[rtemp]&gt;f) </div><div class="line">			&#123;</div><div class="line">				--rtemp;</div><div class="line">			&#125;</div><div class="line">	        <span class="keyword">if</span>(ltemp&lt;=rtemp)</div><div class="line">	        &#123;</div><div class="line">				t=arr[ltemp];</div><div class="line">		        arr[ltemp]=arr[rtemp];</div><div class="line">	    	    arr[rtemp]=t;</div><div class="line">				--rtemp;</div><div class="line">	        	++ltemp;</div><div class="line">			&#125;</div><div class="line">	    &#125;</div><div class="line">	    <span class="keyword">if</span>(ltemp==rtemp) </div><div class="line">		&#123;</div><div class="line">			ltemp++;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	    <span class="keyword">if</span>(left&lt;rtemp) </div><div class="line">		&#123;</div><div class="line">			quickSort(arr,left,ltemp<span class="number">-1</span>);			<span class="comment">//递归调用</span></div><div class="line">		&#125;</div><div class="line">	    <span class="keyword">if</span>(ltemp&lt;right) </div><div class="line">		&#123;</div><div class="line">			quickSort(arr,rtemp+<span class="number">1</span>,right);			<span class="comment">//递归调用</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) </div><div class="line">	&#123;</div><div class="line">		int[] shuzu=<span class="keyword">new</span> int[SIZE];</div><div class="line">		int i;</div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</div><div class="line">		&#123;</div><div class="line">			shuzu[i]=(int)(<span class="number">100</span>+<span class="built_in">Math</span>.random()*(<span class="number">100</span>+<span class="number">1</span>));			<span class="comment">//初始化数组</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		System.out.print(<span class="string">"排序前的数组为：\n"</span>);				<span class="comment">//输出排序前的数组</span></div><div class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</div><div class="line">		&#123;</div><div class="line">			System.out.print(shuzu[i]+<span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		System.out.print(<span class="string">"\n"</span>);</div><div class="line">		</div><div class="line">		quickSort(shuzu,<span class="number">0</span>,SIZE<span class="number">-1</span>);					<span class="comment">//排序操作</span></div><div class="line">		</div><div class="line">		System.out.print(<span class="string">"排序后的数组为：\n"</span>);</div><div class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</div><div class="line">		&#123;</div><div class="line">			System.out.print(shuzu[i]+<span class="string">" "</span>);					<span class="comment">//输出排序后的数组</span></div><div class="line">		&#125;</div><div class="line">		System.out.print(<span class="string">"\n"</span>);</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;</div><div class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</div><div class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</div><div class="line">		System.out.println(<span class="string">"排序之前："</span>);</div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			System.out.print(a[i] + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 冒泡排序</span></div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; a.length - i - <span class="number">1</span>; j++) &#123;</div><div class="line">	        <span class="comment">// 这里-i主要是每遍历一次都把最大的i个数沉到最底下去了，没有必要再替换了</span></div><div class="line">				<span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>]) &#123;</div><div class="line">					int temp = a[j];</div><div class="line">					a[j] = a[j + <span class="number">1</span>];</div><div class="line">					a[j + <span class="number">1</span>] = temp;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">		System.out.println(<span class="string">"排序之后："</span>);</div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			System.out.print(a[i] + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
             
           </span>
         
@@ -1054,8 +964,8 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
             
             
               
-                <a class="post-title-link" href="/2016/04/20/冒泡排序算法/" itemprop="url">
-                  冒泡排序算法
+                <a class="post-title-link" href="/2016/04/20/快速排序算法/" itemprop="url">
+                  快速排序算法
                 </a>
               
             
@@ -1076,8 +986,8 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/20/冒泡排序算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/冒泡排序算法/" itemprop="commentsCount"></span>
+                <a href="/2016/04/20/快速排序算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/快速排序算法/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -1099,19 +1009,109 @@ ok，来说下我们在缓存穿透的优化吧：先来看个架构图，在来
         
           <span itemprop="articleBody">
             
-              <p>  冒泡排序算法是所有排序算法中最简单、最基本的一种。冒泡排序算法的思路就是交换排序，通过相邻数据的交换来达到排序的目的。<br>     排序流程：<br>     1）对数组中的各个数据，一次比较相邻的二个元素的大小<br>     2）如果前面的数据大于后面的数据，就交换这两个数据的。经过第一轮的多次比较排序后，便可将最小的数据排好<br>     3）再用同样的方法依次进行比较 </p>
-<pre><code>例如以下数据 
+              <p>快速排序算法和冒泡排序算法类似，都是基于交换排序思想的，快速排序算法对冒泡排序算法进行了改进，从而具有更高的执行效率<br>    通过多次比较和交换来实现排序，流程如下：<br>    1）首先设定一个分界值，通过该分界值将数组分成左右两部分<br>    2）将大于等于分界值得数据集中到数组右边，小于分界值得数据集中到数组的左边。此时，左边部分中各元素都小于等于分界值，而右边部分中各元素都大于等于分界值<br>    3）然后，左边和右边的数据可以独立排序。对于左侧的数组数据，又可以取一个分界值，将该部分数据分成左右两部分，同样将左边放置较小值，右边放置较大值。右侧的数组数据也可以做类似处理<br>    4）重复上述过程，可以看出，这是一个递归定义。 </p>
+<pre><code>例如：选择8个整型数据69、62、89、37、97、17、28、49是一组无序数据 
+1）首先选取一个分界值，这里选择第一个数据69作为分界值。在变量left中保存数组的最小的序号0，在变量right中保存数据的最大序号7，在变量base中保存分界值69 
+2）从数组右侧开始，逐个取出数据与分界值69比较，直到找到比base小的数据为止，数组最右侧的元素A[right]的值49比base变量保存的值69小。 
+3）将右侧比基准base小的数保存到A[left]元素中。 
+4）接下来，从数组左侧开始，逐个取出元素与分界值69比较，直到找到比分界值69大的数据为止。数组最左侧的元素A[left]的值为49，比base的值小，将left自增1再取A[left]的值62与base的值69比较，62小于69，继续将left自增1.再取A[left]的值89与base比较，89大于69，结束查找 
+5）将左侧比分界值69大的数保存到A[right]元素中。 
+6）将分界值69中的值保存到A[left]中，最后得到结果 
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> final int SIZE=<span class="number">18</span>;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">void</span> quickSort(int[] arr,int left,int right)			<span class="comment">//快速排序算法</span></div><div class="line">	&#123;</div><div class="line">	    int f,t;</div><div class="line">		int rtemp,ltemp;</div><div class="line"></div><div class="line">	    ltemp=left;</div><div class="line">	    rtemp=right;</div><div class="line">	    f=arr[(left+right)/<span class="number">2</span>];						<span class="comment">//分界值</span></div><div class="line">		<span class="keyword">while</span>(ltemp&lt;rtemp)</div><div class="line">		&#123;</div><div class="line">	        <span class="keyword">while</span>(arr[ltemp]&lt;f)</div><div class="line">			&#123;</div><div class="line">				++ltemp;</div><div class="line">			&#125;</div><div class="line">	        <span class="keyword">while</span>(arr[rtemp]&gt;f) </div><div class="line">			&#123;</div><div class="line">				--rtemp;</div><div class="line">			&#125;</div><div class="line">	        <span class="keyword">if</span>(ltemp&lt;=rtemp)</div><div class="line">	        &#123;</div><div class="line">				t=arr[ltemp];</div><div class="line">		        arr[ltemp]=arr[rtemp];</div><div class="line">	    	    arr[rtemp]=t;</div><div class="line">				--rtemp;</div><div class="line">	        	++ltemp;</div><div class="line">			&#125;</div><div class="line">	    &#125;</div><div class="line">	    <span class="keyword">if</span>(ltemp==rtemp) </div><div class="line">		&#123;</div><div class="line">			ltemp++;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	    <span class="keyword">if</span>(left&lt;rtemp) </div><div class="line">		&#123;</div><div class="line">			quickSort(arr,left,ltemp<span class="number">-1</span>);			<span class="comment">//递归调用</span></div><div class="line">		&#125;</div><div class="line">	    <span class="keyword">if</span>(ltemp&lt;right) </div><div class="line">		&#123;</div><div class="line">			quickSort(arr,rtemp+<span class="number">1</span>,right);			<span class="comment">//递归调用</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) </div><div class="line">	&#123;</div><div class="line">		int[] shuzu=<span class="keyword">new</span> int[SIZE];</div><div class="line">		int i;</div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</div><div class="line">		&#123;</div><div class="line">			shuzu[i]=(int)(<span class="number">100</span>+<span class="built_in">Math</span>.random()*(<span class="number">100</span>+<span class="number">1</span>));			<span class="comment">//初始化数组</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		System.out.print(<span class="string">"排序前的数组为：\n"</span>);				<span class="comment">//输出排序前的数组</span></div><div class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</div><div class="line">		&#123;</div><div class="line">			System.out.print(shuzu[i]+<span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		System.out.print(<span class="string">"\n"</span>);</div><div class="line">		</div><div class="line">		quickSort(shuzu,<span class="number">0</span>,SIZE<span class="number">-1</span>);					<span class="comment">//排序操作</span></div><div class="line">		</div><div class="line">		System.out.print(<span class="string">"排序后的数组为：\n"</span>);</div><div class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;SIZE;i++)</div><div class="line">		&#123;</div><div class="line">			System.out.print(shuzu[i]+<span class="string">" "</span>);					<span class="comment">//输出排序后的数组</span></div><div class="line">		&#125;</div><div class="line">		System.out.print(<span class="string">"\n"</span>);</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                <a class="post-title-link" href="/2016/04/20/选择排序算法/" itemprop="url">
+                  选择排序算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-20T08:40:00+08:00" content="2016-04-20">
+              2016-04-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/20/选择排序算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/选择排序算法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>选择排序算法是比较简单的排序算法，其思路比较直观，选择排序算法在每一步中选取最小值来重新判断，从而达到排序的目的。<br>    排序流程如下：<br>    1）首先从原始数组中选择最小的一个数据，将其和位于第一个位置的数据交换<br>    2）接着从剩下的n-1个数据中选词次小的一个数据，将其和第二个位置的数据交换<br>    3）然后不断重复上述过程，直到最后二个数据完成交换 </p>
+<pre><code>例如下数据 
 
 初始数据  118   101  105  127  112 
 
-一次排序  101   118  105  112  127 
+一次排序  101   118  105  127  112 
 
-二次排序  101   105  118  112  127 
+二次排序  101   105  118  127  112 
 
-三次排序  101   105  112  118  127 
+三次排序  101   105  112  127  118 
 
 四次排序  101   105  112  118  127 
-</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;</div><div class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</div><div class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</div><div class="line">		System.out.println(<span class="string">"排序之前："</span>);</div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			System.out.print(a[i] + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 冒泡排序</span></div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; a.length - i - <span class="number">1</span>; j++) &#123;</div><div class="line">	        <span class="comment">// 这里-i主要是每遍历一次都把最大的i个数沉到最底下去了，没有必要再替换了</span></div><div class="line">				<span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>]) &#123;</div><div class="line">					int temp = a[j];</div><div class="line">					a[j] = a[j + <span class="number">1</span>];</div><div class="line">					a[j + <span class="number">1</span>] = temp;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">		System.out.println(<span class="string">"排序之后："</span>);</div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			System.out.print(a[i] + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">SelectSort</span> </span>&#123;</div><div class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</div><div class="line">		int[] a = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">1</span>, <span class="number">8</span> &#125;;</div><div class="line">		System.out.println(<span class="string">"排序之前："</span>);</div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			System.out.print(a[i] + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 简单的选择排序</span></div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			int min = a[i];</div><div class="line">			int n = i; <span class="comment">// 最小数的索引</span></div><div class="line">			<span class="keyword">for</span> (int j = i + <span class="number">1</span>; j &lt; a.length; j++) &#123;</div><div class="line">				<span class="keyword">if</span> (a[j] &lt; min) &#123; <span class="comment">// 找出最小的数</span></div><div class="line">					min = a[j];</div><div class="line">					n = j;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			a[n] = a[i];</div><div class="line">			a[i] = min;</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">		System.out.println(<span class="string">"排序之后："</span>);</div><div class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</div><div class="line">			System.out.print(a[i] + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
             
           </span>
         
