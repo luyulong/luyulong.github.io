@@ -221,6 +221,180 @@
             
             
               
+                <a class="post-title-link" href="/2018/10/11/多级缓存/" itemprop="url">
+                  多级缓存
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2018-10-11T16:54:06+08:00" content="2018-10-11">
+              2018-10-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/10/11/多级缓存/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/11/多级缓存/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="多级缓存方案"><a href="#多级缓存方案" class="headerlink" title="多级缓存方案"></a>多级缓存方案</h1><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
+<li>localcache可以采用ehcache|guava cache 等</li>
+<li>分布式缓存选择memcached|redis|tair</li>
+<li>缓存同步策略activemq订阅 redis队列订阅 zookeeper监听订阅</li>
+<li>缓存管理zookeeper或是数据库DB</li>
+</ul>
+<h2 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h2><p><img src="/uploads/01-1.png" alt="Paste_Image.png"></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>省平台系统经服务化改造以后，把系统管理模块完全剥离，导致所有对系统管理的访问，以及一些基础信息的访问，现在要用dubbo远程调用的方式进行。</p>
+<ul>
+<li>增加开销</li>
+<li>网络通信</li>
+<li>序列化与反序列化</li>
+</ul>
+<p>导致结果：系统压力变大，系统变慢</p>
+<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>减少dubbo请求，减少分布式缓存的远程请求，把一些不易改变且访问量巨大的数据缓存在本地，从而提升系统性能。</p>
+<p>需要解决的问题</p>
+<ul>
+<li>如何管理本地缓存数据</li>
+<li>如何同步各节点间的数据</li>
+<li>如何监控本地缓存使用情况</li>
+</ul>
+<h2 id="EhCache"><a href="#EhCache" class="headerlink" title="EhCache"></a>EhCache</h2><p>EhCache 是一个纯Java的进程内缓存框架，具有快速、精干等特点，是一种广泛使用的开源Java分布式缓存。主要面向通用缓存,Java EE和轻量级容器，支持REST和SOAP api等特点。</p>
+<p>主要特性</p>
+<ul>
+<li>简单快速，支持spring</li>
+<li>多种缓存策略</li>
+<li>缓存数据有两级：内存和磁盘，因此无需担心容量问题</li>
+<li>缓存数据会在虚拟机重启的过程中写入磁盘</li>
+<li>可以通过RMI、可插入API等方式进行分布式缓存</li>
+<li>具有缓存和缓存管理器的侦听接口</li>
+<li>支持多缓存管理器实例，以及一个实例的多个缓存区域</li>
+</ul>
+<h2 id="ActiveMQ"><a href="#ActiveMQ" class="headerlink" title="ActiveMQ"></a>ActiveMQ</h2><p>ActiveMQ 是Apache出品，最流行的，能力强劲的开源消息总线，是一个完全支持JMS1.1和J2EE 1.4规范的 JMS Provider实现。</p>
+<ul>
+<li>点对点消息传递<br>每个消息只能有一个消费者（Point-to-Point）<br>消息的生产者和消费者之间没有时间上的相关性。无论消费者在生产者发送消息的时候是否处于运行状态，它都可以提取消息。</li>
+<li>发布/订阅消息传递（Publisher/Subscriber）<br>每个消息能有多个消费者<br>消息的生产者和消费者之间有时间上的相关性。订阅一个主题的消费者只能消费自它订阅之后发布的消息。JMS规范允许客户创建持久订阅，这在一定程度上放松了时间上的相关性要求。持久订阅允许消费者消费在它未处于激活状态时发送的消息。</li>
+</ul>
+<h2 id="ZooKeeper"><a href="#ZooKeeper" class="headerlink" title="ZooKeeper"></a>ZooKeeper</h2><p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、域名服务、分布式同步、组服务等。</p>
+<ul>
+<li>Zookeeper Client<br>简化ZooKeeper的api（封装session，watcher的繁琐处理）<br>基本操作：读取数据、写入数据、创建节点、删除节点、查询节点<br>订阅事件：连接状态的改变、节点数据的改变、子节点数据的改变</li>
+</ul>
+<h2 id="具体方式"><a href="#具体方式" class="headerlink" title="具体方式"></a>具体方式</h2><ul>
+<li>使用EhCache结合Spring作为本地缓存</li>
+<li>使用activeMQ同步各个节点的本地缓存</li>
+<li>使用zooKeeper查看各个节点本地缓存使用情况</li>
+</ul>
+<h2 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h2><table>
+<thead>
+<tr>
+<th>元素数量</th>
+<th>方法名称</th>
+<th>访问次数</th>
+<th>原耗时 ms/次</th>
+<th>现耗时ms/次</th>
+<th>性能提升</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2007</td>
+<td>getSimpleOrgById</td>
+<td>1000</td>
+<td>1.242</td>
+<td>0.006</td>
+<td>207倍</td>
+</tr>
+<tr>
+<td>16177</td>
+<td>getSimpleOrgById</td>
+<td>10000</td>
+<td>0.9947</td>
+<td>0.004</td>
+<td>249倍</td>
+</tr>
+<tr>
+<td>27453</td>
+<td>getSimpleUserById</td>
+<td>10000</td>
+<td>1.4345</td>
+<td>0.0036</td>
+<td>398倍</td>
+</tr>
+<tr>
+<td>6532</td>
+<td>findPermissionsEnameByUserId</td>
+<td>10000</td>
+<td>2.6347</td>
+<td>0.2144</td>
+<td>12倍</td>
+</tr>
+</tbody>
+</table>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
                 <a class="post-title-link" href="/2018/09/17/pass/" itemprop="url">
                   中间件规划
                 </a>
@@ -1239,90 +1413,6 @@ public void run() {
 
 
     
-      
-
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                <a class="post-title-link" href="/2016/06/21/推荐一个mongdb管理工具/" itemprop="url">
-                  推荐一个mongdb管理工具
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-06-21T13:53:53+08:00" content="2016-06-21">
-              2016-06-21
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/21/推荐一个mongdb管理工具/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/21/推荐一个mongdb管理工具/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <pre><code>Robomongo 是一个基于 Shell 的跨平台开源 MongoDB 管理工具。嵌入了 JavaScript 引擎和 MongoDB mogo 。只要你会使用 mongo shell ，你就会使用 Robomongo。提供语法高亮、自动完成、差别视图等。
-https://robomongo.org
-</code></pre>
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1365,7 +1455,7 @@ https://robomongo.org
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
